@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 20:46:51 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/11 21:43:17 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_dl_list	*g_envlst;
 void		error_exit(size_t error_code, char *error_text);
 t_dl_list	*parsing(char *line);
 t_dl_list	*find_env(char *name);
+t_env		*create_env(char *str);
+t_env		*free_env(t_env *env);
 
 void		ms_echo(char *param);
 void		ms_cd(char *param);

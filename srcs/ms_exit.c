@@ -6,19 +6,19 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 20:30:02 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/11 23:00:05 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_exit(t_list *params)
-{
-	if (params)
-		ft_putendl_fd(ERROR_PARAMS_MANY, 2);
-	else
-		exit(0);
-}
+// void	ms_exit(t_list *params)
+// {
+// 	if (params)
+// 		ft_putendl_fd(ERROR_PARAMS_MANY, 2);
+// 	else
+// 		exit(0);
+// }
 
 static void		exit_error(int n, char *argv)
 {
@@ -26,9 +26,9 @@ static void		exit_error(int n, char *argv)
 		ft_putstr_fd("minishell: exit: too many arguments\n", 1);
 	if (n == 2)
 	{
-		ft_putstr_fd;
-		ft_putstr_fd;
-		ft_putstr_fd;
+		ft_putstr_fd("minishell: exit:", 1);
+		ft_putstr_fd(argv[1], 1);
+		ft_putstr_fd(": numeric argument required\n", 1);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 20:05:12 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/11 22:09:46 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,7 @@ void		init_env(char **env)
 		// error_exit(ERROR_NUM_ENV, ERROR_ENV); FIXME нужно ли?
 	while (*env)
 	{
-		if (!(data = malloc(sizeof(t_env))))
-			error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-		count = -1;
-		while ((*env)[++count])
-			if (ft_strchr("=", (*env)[count]))
-			{
-				data->val = &((*env)[count + 1]);
-				(*env)[count] = 0;
-				data->name = *env;
-				break ;
-			}
+		data = create_env(*env);
 		ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(data));
 		data = 0;
 		env++;
@@ -100,12 +90,6 @@ int			main(int argc, char **argv, char **env)
 	g_name = argv[0];
 	g_envlst = NULL;
 	init_env(env);
-	// FIXME debug env
-	// while (g_envlst)
-	// {
-	// 	printf("%s=%s\n", ((t_env *)g_envlst->content)->name, ((t_env *)g_envlst->content)->val);
-	// 	g_envlst = g_envlst->next;
-	// }
 	printf("%s\n", line);
 	while (TRUE)
 	{
