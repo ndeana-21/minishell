@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 17:56:41 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/11 20:46:51 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_dl_list	*g_envlst;
 
 void		error_exit(size_t error_code, char *error_text);
 t_dl_list	*parsing(char *line);
-t_env		*find_env(char *name);
+t_dl_list	*find_env(char *name);
 
 void		ms_echo(char *param);
 void		ms_cd(char *param);

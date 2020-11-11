@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 20:05:07 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/11 21:00:18 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ms_env(char *env)
+void		ms_env(char *str)
 {
-
+	
+	if (find_env())
 }

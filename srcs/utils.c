@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 17:57:58 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/11 20:46:40 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	error_exit(size_t error_code, char *error_text)
 	exit(error_code);
 }
 
-t_env	*find_env(char *name)
+t_dl_list	*find_env(char *name)
 {
 	t_dl_list	*tmp_env;
 
@@ -27,7 +27,7 @@ t_env	*find_env(char *name)
 	while (tmp_env)
 	{
 		if (ft_strsame(((t_env *)tmp_env->content)->name, name))
-			return ((t_env *)tmp_env->content);
+			return (tmp_env);
 		tmp_env = (t_dl_list *)tmp_env->next;
 	}
 	return (NULL);
