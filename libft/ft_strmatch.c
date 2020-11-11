@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_strmatch.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/24 01:23:15 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/07 14:25:33 by ndeana           ###   ########.fr       */
+/*   Created: 2020/11/04 10:23:48 by ndeana            #+#    #+#             */
+/*   Updated: 2020/11/04 10:26:13 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+int	ft_strmatch(char *s1, char *s2)
 {
-	if (!lst || !f)
-		return ;
-	while (lst)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
-}
-
-void	ft_dl_lstiter(t_dl_list *lst, void (*f)(void *))
-{
-	if (!lst || !f)
-		return ;
-	while (lst)
-	{
-		f(lst->content);
-		lst = (t_dl_list*)lst->next;
-	}
+	if (*s1 && *s2 == '*')
+		return (ft_strmatch(s1, s2 + 1) || ft_strmatch(s1 + 1, s2));
+	else if (!(*s1) && *s2 == '*')
+		return (ft_strmatch(s1, s2 + 1));
+	else if (*s1 && *s2 && (*s1 == *s2))
+		return (ft_strmatch(s1 + 1, s2 + 1));
+	else if (!(*s1) && !(*s2))
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/02 14:32:17 by ndeana            #+#    #+#              #
-#    Updated: 2020/10/08 00:33:08 by ndeana           ###   ########.fr        #
+#    Updated: 2020/11/04 13:55:09 by ndeana           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,11 @@ SRC 	=	ft_memset.c			ft_bzero.c			ft_memcpy.c			ft_memccpy.c	\
 			ft_toupper.c		ft_tolower.c		ft_calloc.c			ft_strdup.c		\
 			ft_substr.c			ft_strjoin.c		ft_strtrim.c		ft_split.c		\
 			ft_itoa.c			ft_strmapi.c		ft_putchar_fd.c		ft_putstr_fd.c	\
-			ft_putendl_fd.c		ft_putnbr_fd.c		ft_get_next_line.c					\
+			ft_putendl_fd.c		ft_putnbr_fd.c		ft_get_next_line.c	ft_math.c		\
 			ft_lstadd_back.c	ft_lstclear.c		ft_lstiter.c		ft_lstmap.c		\
 			ft_lstsize.c		ft_lstadd_front.c	ft_lstdelone.c		ft_lstlast.c	\
-			ft_lstnew.c			ft_double_arr.c		ft_math.c			
+			ft_lstnew.c			ft_double_arr.c		ft_read_fd.c		ft_strmatch.c	\
+			
 
 NAME	= libft.a
 OBJ_DIR	= obj
@@ -35,23 +36,24 @@ RM		= rm -rf
 
 .c.o:
 	@${CC} ${CF} -g -c $< -o ${<:.c=.o}
+	@$(PRINT) "\r$(FGREEN)COMPILE: $<            $(PNULL)"
 
-$(NAME): ${OBJ}
+$(NAME): ${OBJ} libft.h
 	@ar rcs ${NAME} ${OBJ}
+	@$(PRINT) "\r$(FGREEN)MAKE: ${NAME}              $(PNULL)\n"
 
 all:	${NAME}
-	@$(PRINT) "$(FGREEN)make libft$(PNULL)"
 
 clean:
 	@${RM} ${OBJ}
-	@$(PRINT) "$(FYELLOW)remove objs of libft$(PNULL)"
+	@$(PRINT) "$(addprefix \n$(FRED)REMOVE: $(FYELLOW), $(SRC:.c=.o))$(PNULL)"
 
 fclean:	clean
 	@${RM} ${NAME}
-	@$(PRINT) "$(FYELLOW)remove libft$(PNULL)"
+	@$(PRINT) "\n$(FRED)REMOVE: $(FYELLOW)$(NAME)$(PNULL)"
 
 norme:
-	@norminette $(SRC) libft.h
+	@norminette $(SRC) libft.h | awk '{sub(/Norme/,"$(FGREEN)Norme$(PNULL)")}1' | awk '{sub(/Error/,"$(FRED)Error$(PNULL)")}1'
 
 re:		fclean all
 
@@ -89,4 +91,4 @@ PBLINK		= \033[5m#	мигание
 PINVERSE	= \033[7m#	инверсия
 PNULL		= \033[0m#	отмена
 
-PRINT		= echo 
+PRINT		= printf 

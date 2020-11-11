@@ -6,13 +6,13 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 18:03:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/10/12 00:47:46 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/03 05:35:17 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void			ft_fda(void **double_arr, size_t hight)
+void			ft_free_da(void **double_arr, size_t hight)
 {
 	size_t i;
 
@@ -27,7 +27,7 @@ void			ft_fda(void **double_arr, size_t hight)
 	double_arr = NULL;
 }
 
-void			**ft_mda(size_t size, size_t wide, size_t hight)
+void			**ft_make_da(size_t size, size_t wide, size_t hight)
 {
 	size_t	i;
 	void	**double_arr;
@@ -40,7 +40,7 @@ void			**ft_mda(size_t size, size_t wide, size_t hight)
 	{
 		if (!(double_arr[i] = ft_calloc(wide, size)))
 		{
-			ft_fda(double_arr, i);
+			ft_free_da(double_arr, i);
 			return (NULL);
 		}
 		ft_bzero(double_arr[i], size * wide);

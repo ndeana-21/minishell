@@ -6,13 +6,13 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 00:34:09 by ndeana            #+#    #+#             */
-/*   Updated: 2020/10/14 16:48:58 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/10 16:44:17 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t size, size_t count)
 {
 	unsigned char	*ptr;
 
