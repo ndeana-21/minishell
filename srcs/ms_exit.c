@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 23:00:05 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/12 15:44:56 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ms_exit(char **argv)
 			if (ft_isalpha(argv[1][++i]))
 			{
 				exit_error(2, argv[1]);
-				return (1);
+				//return (1);
 			}
 			else
 				exit(ft_atoi(argv[1]));

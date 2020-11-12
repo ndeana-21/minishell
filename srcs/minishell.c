@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 22:09:46 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/12 18:26:50 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int			main(int argc, char **argv, char **env)
 	g_envlst = NULL;
 	init_env(env);
 	printf("%s\n", line);
+	set_signal();
 	while (TRUE)
 	{
 		line = NULL;
