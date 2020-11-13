@@ -6,19 +6,21 @@
 /*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/12 15:44:56 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/12 20:05:18 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	ms_exit(t_list *params)
-// {
-// 	if (params)
-// 		ft_putendl_fd(ERROR_PARAMS_MANY, 2);
-// 	else
-// 		exit(0);
-// }
+#if 0
+void	ms_exit(t_list *params)
+{
+	if (params)
+		ft_putendl_fd(ERROR_PARAMS_MANY, 2);
+	else
+		exit(0);
+}
+#endif
 
 static void		exit_error(int n, char *argv)
 {
