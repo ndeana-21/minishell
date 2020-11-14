@@ -39,6 +39,7 @@
 
 char		*g_name;
 char		*g_ret;
+char		*g_exit;
 t_dl_list	*g_envlst;
 int			g_error;
 
