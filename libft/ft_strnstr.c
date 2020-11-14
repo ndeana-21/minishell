@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:55 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/10 17:25:44 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/14 01:21:53 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_strncut(char *s, size_t n)
 	return (ret);
 }
 
-char					*ft_strinsert(char *str, char *target, size_t to)
+char	*ft_strinsert(char *str, char *target, size_t to)
 {
 	size_t	str_count;
 	size_t	count;

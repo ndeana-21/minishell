@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 02:03:23 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/10 20:09:46 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/14 03:54:03 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 # define FD_SIZE		65535
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE	255
+#  define BUFFER_SIZE	65535
 # endif
 # include <unistd.h>
 # include <stdlib.h>

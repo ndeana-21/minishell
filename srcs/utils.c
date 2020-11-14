@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 22:55:01 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/14 04:15:27 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,82 @@ t_env		*create_env(char *str)
 			break ;
 		}
 	return (data);
+}
+
+/*
+** NEW
+*/
+
+
+/*
+**	where	- place where it will insert sample
+**	insted	- count of letters that will erase after "where"
+*/
+char	*ft_strreplace(char *str, char *sample, size_t where, size_t insted)
+{
+	char	*new;
+	ssize_t	count;
+
+	if (!(new = ft_calloc(sizeof(char),
+		ft_strlen(str) + ft_strlen(sample) - insted)))
+		return (NULL);
+	count = -1;
+	while ((++count < where) && *str)
+	{
+		new[count] = *str;
+		str++;
+	}
+	while (*sample)
+	{
+		new[count++] = *sample;
+		sample++;
+	}
+	while (insted-- && *str)
+		str++;
+	while (*str)
+	{
+		new[count++] = *str;
+		str++;
+	}
+	return (new);
+}
+
+char	*make_dollar(char *str, size_t *insted)//FIXME нужно протестить
+{
+	char	*buf;
+	char	*ret;
+	size_t	count;
+
+	if (!str)
+		return (NULL);
+	count = 0;
+	*insted = count;
+	if (str[count] == '?')
+		return (ft_itoa(g_error));
+	while (str[++count])
+		if (!(ft_isalnum(str[count])))
+			break ;
+	buf = ft_strncut(str + 1, count - 1);
+	ret = ((t_env *)(find_env(buf)->content))->val;
+	free (buf);
+	*insted = count;
+	return (ret);
+}
+
+void	ms_dollar(char **str)
+{
+	char	*chr;
+	char	*buff;
+	char	*new;
+	size_t	insted;
+
+	while (chr = ft_strchr(*str, '$'))
+	{
+		insted = 0;
+		buff = make_dollar(chr, &insted);
+		if (!(new = ft_strreplace(*str, buff, (chr - *str), insted)))
+			error_exit (ERROR_NUM_MALLOC, ERROR_MALLOC);
+		free (*str);
+		*str = new;
+	}
 }
