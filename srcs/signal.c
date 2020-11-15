@@ -11,6 +11,27 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+/*
+void	promt(void)
+{
+	char *path;
+	char *pwd[2];
+	char *set;
+
+	pwd[0] = getcwd(NULL, 0);
+	set = !(ft_strncmp(pwd[0], "/Users/", 7)) ? ft_strjoin("/Users/", g_ret) : ft_strdup("/");
+	pwd[1] = ft_strtrim(pwd[0], set);
+	path = !(ft_strncmp(pwd[0], "/Users/", 7)) ? ft_strjoin("~/", pwd[1]) : ft_strjoin("/", pwd[1]);
+	ft_putstr("\033[32;7m▓▒░ ");
+	ft_putstr(g_ret);
+	ft_putstr(" ░▒▓\033[0;1;34m ");
+	ft_putstr(path);
+	ft_putstr(" \033[0;32m❱▶\033[0m ");
+	free(pwd[0]);
+	free(pwd[1]);
+	free(path);
+}
+*/
 
 void	signal_handler(int signum)
 {
@@ -19,9 +40,9 @@ void	signal_handler(int signum)
 	if (signum == SIGQUIT)
 	{
 		signum = wait(&status);
-		g_ret = status / 256;
+		g_exit = status / 256;
 		ft_putstr_fd("\b\b  \b\b", 1);
-		g_ret = 3;
+		g_exit = 3;
 		if (signum != -1)
 			ft_putstr_fd("Quit: 3\n", 1);
 	}
@@ -30,7 +51,7 @@ void	signal_handler(int signum)
 		ft_putstr_fd("\b\b  \b\b", 1);
 		write(1, '\n', 1);
 		promt();
-		g_ret = 1;
+		g_exit = 1;
 	}
 }
 
