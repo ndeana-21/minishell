@@ -6,25 +6,48 @@
 /*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/13 21:53:28 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/15 17:18:44 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		search_pipe()
+int		search_pipe(char **argv)
 {
-	
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (argv[i])
+	{
+		if (ft_strpass(argv[i], "|" ))
+			count++;
+		i++;
+	}
+	return (count);
 }
 
-void		pipe_parent()
+void		pipe_parent(int fd[2], pid_t pid, int status)
 {
-
+		if (pid != 0)
+		{
+			dup2(fd[0], 0);
+			close(fd[1]);
+			wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
+			close(fd[0]);
+		}
 }
 
-void		pipe_child()
+void		pipe_child(int fd[2], pid_t	pid)
 {
-	
+	if (pid == 0) // дочерний процесс
+		{
+			dup2(fd[1], 1);
+			close(fd[0]);
+			execve("/bin/ls", 1, 2);
+			close(fd[1]);
+		}
 }
 
 void		ms_pipe(char *argv)
