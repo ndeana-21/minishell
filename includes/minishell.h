@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/14 02:31:55 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/16 18:13:53 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ void		ms_export(char *param);
 void		ms_unset(char *param);
 void		ms_env(char *param);
 void		ms_exit(char *param);
+//void		ms_exit(t_list *params);
 void		ms_exec(t_dl_list *param);
+void		set_signal(void);
+void		signal_handler(int signum);
+void		promt(void);
 
 #endif

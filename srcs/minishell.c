@@ -6,7 +6,7 @@
 /*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/12 18:26:50 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/16 18:13:38 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,21 @@ void	minishell(char *line)
 	while (param)
 	{
 		if (check_shell_command(&param, MS_ECHO, ms_echo))
-			continue ;
-		else if (check_shell_command(&param, MS_CD, ms_cd))
-			continue ;
+			break ;
+		///else if (check_shell_command(&param, MS_CD, ms_cd))
+			//continue ;
 		else if (check_shell_command(&param, MS_PWD, ms_pwd))
-			continue ;
-		else if (check_shell_command(&param, MS_EXPORT, ms_export))
-			continue ;
-		else if (check_shell_command(&param, MS_UNSET, ms_unset))
-			continue ;
+			break ;
+		//else if (check_shell_command(&param, MS_EXPORT, ms_export))
+			//continue ;
+		//else if (check_shell_command(&param, MS_UNSET, ms_unset))
+			//continue ;
 		else if (check_shell_command(&param, MS_ENV, ms_env))
-			continue ;
+			break ;
 		else if (check_shell_command(&param, MS_EXIT, ms_exit))
-			continue ;
-		else
-			ms_exec(&param);
+			break ;
+		//else
+			//ms_exec(&param);
 		param = param->next;
 	}
 	param = ft_dl_lstclear(param, free);
@@ -87,6 +87,7 @@ int			main(int argc, char **argv, char **env)
 	char	*line;
 
 	(void)argc;
+	g_exit = 0;
 	g_name = argv[0];
 	g_envlst = NULL;
 	init_env(env);

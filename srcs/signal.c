@@ -6,12 +6,29 @@
 /*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/13 17:07:40 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/16 18:39:47 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
+
+static void ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+static void	ft_putstr(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
+}
+
 void	promt(void)
 {
 	char *path;
@@ -31,7 +48,7 @@ void	promt(void)
 	free(pwd[1]);
 	free(path);
 }
-*/
+
 
 void	signal_handler(int signum)
 {
@@ -48,18 +65,51 @@ void	signal_handler(int signum)
 	}
 	else if (signum == SIGINT)
 	{
-		ft_putstr_fd("\b\b  \b\b", 1);
+		//ft_putstr_fd("\b\b  \b\b", 1);
 		write(1, '\n', 1);
-		promt();
+		//promt();
 		g_exit = 1;
 	}
+	return ;
 }
 
 void	set_signal(void)
 {
 	signal(SIGQUIT, (void *)signal_handler);
 	signal(SIGINT, (void *)signal_handler);
+	g_exit = 0;
 }
+/*
+void	input_ctrld()
+{
+
+}
+
+int 	input(char **line)
+{
+	int ctrld;
+	char *tmp;
+
+	ctrld = 0;
+	input_ctrld(ctrld, line);
+	if (**line == '\n')
+	{
+		free(*line);
+		return (0);
+	}
+	if (*line != NULL)
+	{
+		tmp = ft_strtrim(*line, " ");
+		if (*line)
+		{
+			free(*line);
+			*line = NULL;
+		}
+		*line = tmp;
+	}
+	return (1);
+}
+*/
 
 #if 0
 void  type_prompt(void)

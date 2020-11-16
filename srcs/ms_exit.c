@@ -6,13 +6,14 @@
 /*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/12 20:05:18 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/16 18:03:57 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #if 0
+
 void	ms_exit(t_list *params)
 {
 	if (params)
@@ -21,6 +22,8 @@ void	ms_exit(t_list *params)
 		exit(0);
 }
 #endif
+
+//#if 0
 
 static void		exit_error(int n, char *argv)
 {
@@ -34,13 +37,13 @@ static void		exit_error(int n, char *argv)
 	}
 }
 
-void	ms_exit(char **argv)
+void	ms_exit(char *param)
 {
 	int i;
 	int len;
 
 	i = 0;
-	len = ft_strlen(argv);
+	len = ft_strlen(param);
 	if (len == 1)
 		exit(EXIT_SUCCESS);
 	else if (len > 2)
@@ -49,15 +52,17 @@ void	ms_exit(char **argv)
 	}
 	else
 	{
-		while (argv[1])
+		while (param[1])
 		{
-			if (ft_isalpha(argv[1][++i]))
+			if (ft_isalpha(param[++i]))
 			{
-				exit_error(2, argv[1]);
+				exit_error(2, param[1]);
 				//return (1);
 			}
 			else
-				exit(ft_atoi(argv[1]));
+				exit(ft_atoi(param[1]));
 		}
 	}
 }
+
+//#endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
+#    By: gselyse <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/01 16:51:38 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/10 21:07:48 by ndeana           ###   ########.fr        #
+#    Updated: 2020/11/16 17:26:17 by gselyse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,8 @@ DIR			=	./srcs
 LFT_DIR		=	./libft
 HEAD_DIR	=	./includes
 
-FILES		=	ms_cd.c			ms_exit.c		ms_pwd.c		ms_unset.c		\
-				ms_env.c		ms_export.c		parser.c		minishell.c		\
-				utils.c			
+FILES		=	parser.c minishell.c ms_pwd.c ms_exit.c	\
+				utils.c	signal.c ms_echo.c ms_env.c
 
 HEAD_FILE	=	minishell.h		error.h			struct.h			
 
