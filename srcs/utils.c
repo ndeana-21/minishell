@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/15 16:10:53 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/17 08:04:57 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,63 +65,27 @@ t_env		*create_env(char *str)
 	return (data);
 }
 
-/*
-** NEW
-*/
-
-
-/*
-**	where	- place where it will insert sample
-**	insted	- count of letters that will erase after "where"
-*/
-char	*ft_strreplace(char *str, char *sample, size_t where, size_t insted)
-{
-	char	*new;
-	ssize_t	count;
-
-	if (!(new = ft_calloc(sizeof(char),
-		ft_strlen(str) + ft_strlen(sample) - insted)))
-		return (NULL);
-	count = -1;
-	while ((++count < where) && *str)
-	{
-		new[count] = *str;
-		str++;
-	}
-	while (*sample)
-	{
-		new[count++] = *sample;
-		sample++;
-	}
-	while (insted-- && *str)
-		str++;
-	while (*str)
-	{
-		new[count++] = *str;
-		str++;
-	}
-	return (new);
-}
-
-char	*make_dollar(char *str, size_t *insted)//FIXME нужно протестить
+char	*make_dollar(char *str, size_t *insted)
 {
 	char	*buf;
 	char	*ret;
 	size_t	count;
+	t_dl_list	*tmp;
 
 	if (!str)
-		return (NULL);
+		return (ft_strdup(""));
 	count = 0;
-	*insted = count;
 	if (str[count] == '?')
 		return (ft_itoa(g_error));
 	while (str[++count])
 		if (!(ft_isalnum(str[count])))
 			break ;
 	buf = ft_strncut(str + 1, count - 1);
-	ret = ((t_env *)(find_env(buf)->content))->val;
-	free (buf);
 	*insted = count;
+	if (!(tmp = find_env(buf)))
+		return (ft_strdup(""));
+	ret = ((t_env *)tmp->content)->val;
+	free (buf);
 	return (ret);
 }
 
@@ -132,7 +96,7 @@ void	ms_dollar(char **str)
 	char	*new;
 	size_t	insted;
 
-	while (chr = ft_strchr(*str, '$'))
+	while ((chr = ft_strchr(*str, '$')))
 	{
 		insted = 0;
 		buff = make_dollar(chr, &insted);

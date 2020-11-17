@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:16:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/10 21:02:17 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/17 05:17:18 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_strsame(const char *str1, const char *str2)
 
 	count = 0;
 	if (!str1 || !str2)
-		return (0);		
+		return (0);
 	if (ft_strlen(str1) == ft_strlen(str2))
 	{
 		while (str1[count] && str2[count])

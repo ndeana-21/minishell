@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gselyse <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/01 16:51:38 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/16 17:26:17 by gselyse          ###   ########.fr        #
+#    Updated: 2020/11/17 04:50:36 by ndeana           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,14 @@ all: $(NAME)
 
 %.o: %.c $(HEADERS)
 	@$(CC) $(CFLAGS) -c $< $(LIBS) -o $@
-	@$(PRINT) "\r$(FGREEN)COMPILE: $<            $(PNULL)"
+	@$(PRINT) "\r$(FGREEN)COMPILE: $<                   $(PNULL)"
 
 lib:
 	@make $(M_FLAGS) -C $(LFT_DIR)
 
 $(NAME): lib $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-	@$(PRINT) "\r$(FGREEN)MAKE: ${NAME}      $(PNULL)\n"
+	@$(PRINT) "\r$(FGREEN)MAKE: ${NAME}                 $(PNULL)\n"
 
 clean:
 	@$(PRINT) "$(addprefix \n$(FRED)REMOVE: $(FYELLOW), $(FILES:.c=.o))$(PNULL)"
