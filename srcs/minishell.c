@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/17 08:06:40 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/18 20:58:11 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,39 @@
 //TODO echo cd pwd export unset env exit
 //TODO ' " ; < > >> | $
 
+int		pipe_handler(t_dl_list *lst)
+{
+	if (!lst)
+		return (0);
+	else if (!(ft_strsame((char *)lst->content, "|")))
+		return (0);
+}
+
+int		append_fd_handler(t_dl_list *lst)
+{
+	if (!lst)
+		return (0);
+	else if (!(ft_strsame((char *)lst->content, ">>")))
+		return (0);
+	
+}
+
+int		fd_handler(t_dl_list *lst)
+{
+	if (!lst)
+		return (0);
+	else if (!(ft_strsame((char *)lst->content, ">")) &&
+			!(ft_strsame((char *)lst->content, "<")))
+		return (0);
+}
+
 char	*prepare_param(char *param, char *command)
 {
 	char	*buf;
 
-
+	buf = ft_strreplace(param, "", 0, ft_strlen(command));
+	buf = ft_strpass_rev(buf, " ");
+	return (buf);
 }
 
 int		check_shell_command(t_dl_list **lst, char *command, void (*func)(char *))
@@ -31,7 +59,8 @@ int		check_shell_command(t_dl_list **lst, char *command, void (*func)(char *))
 	if (ft_strlen(command) == ft_strcmp((char *)(*lst)->content, command))
 	{
 		buff = prepare_param((char *)(*lst)->content, command);
-		func(buff);
+		func(ft_strpass(buff, " "));
+		free (buff);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -90,8 +119,8 @@ int			main(int argc, char **argv, char **env)
 	g_exit = 0;
 	g_name = argv[0];
 	g_envlst = NULL;
+	g_ret = NULL;
 	init_env(env);
-	printf("%s\n", line);
 	set_signal();
 	while (TRUE)
 	{
