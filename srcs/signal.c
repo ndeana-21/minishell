@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/16 18:39:47 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/18 20:34:02 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	ft_putstr(char *str)
 {
 	int i;
 
+	if (!str)
+		return ;
 	i = 0;
 	while (str[i] != '\0')
 	{
@@ -41,7 +43,7 @@ void	promt(void)
 	path = !(ft_strncmp(pwd[0], "/Users/", 7)) ? ft_strjoin("~/", pwd[1]) : ft_strjoin("/", pwd[1]);
 	ft_putstr("\033[32;7m▓▒░ ");
 	ft_putstr(g_ret);
-	ft_putstr(" ░▒▓\033[0;1;34m ");
+	ft_putstr(" ░▒▓\033[0;1;34m \n");
 	ft_putstr(path);
 	ft_putstr(" \033[0;32m❱▶\033[0m ");
 	free(pwd[0]);
@@ -65,9 +67,8 @@ void	signal_handler(int signum)
 	}
 	else if (signum == SIGINT)
 	{
-		//ft_putstr_fd("\b\b  \b\b", 1);
-		write(1, '\n', 1);
-		//promt();
+		write(1, "\n", 1);
+		promt();
 		g_exit = 1;
 	}
 	return ;
@@ -75,8 +76,8 @@ void	signal_handler(int signum)
 
 void	set_signal(void)
 {
-	signal(SIGQUIT, (void *)signal_handler);
-	signal(SIGINT, (void *)signal_handler);
+	signal(SIGQUIT, signal_handler);
+	signal(SIGINT, signal_handler);
 	g_exit = 0;
 }
 /*
