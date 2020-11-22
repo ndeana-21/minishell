@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/17 08:04:57 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/22 11:57:18 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*get_env_pwd(char *argv)
 {
-	int i;
 	t_dl_list	*tmp;
 
 	if (!(tmp = find_env("PWD")))

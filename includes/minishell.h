@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/17 04:47:09 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/22 07:01:20 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@
 
 # define TRUE		1
 # define FALSE		0
-# define MS_ECHO	"echo"
-# define MS_CD		"cd"
+# define MS_ECHO	"echo "
+# define MS_CD		"cd "
 # define MS_PWD		"pwd"
-# define MS_EXPORT	"export"
-# define MS_UNSET	"unset"
+# define MS_EXPORT	"export "
+# define MS_UNSET	"unset "
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
 
@@ -56,8 +56,7 @@ void		ms_export(char *param);
 void		ms_unset(char *param);
 void		ms_env(char *param);
 void		ms_exit(char *param);
-//void		ms_exit(t_list *params);
-void		ms_exec(t_dl_list *param);
+void		ms_exec(char *param);
 void		set_signal(void);
 void		signal_handler(int signum);
 void		promt(void);

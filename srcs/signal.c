@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/19 16:13:38 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/22 11:59:11 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-static void ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-static void	ft_putstr(char *str)
-{
-	int i;
-
-	if (!str)
-		return ;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		ft_putchar(str[i]);
-		i++;
-	}
-}
+#include "minishell.h"
 
 void	promt(void)
 {
@@ -41,11 +22,12 @@ void	promt(void)
 	set = !(ft_strncmp(pwd[0], "/Users/", 7)) ? ft_strjoin("/Users/", g_ret) : ft_strdup("/");
 	pwd[1] = ft_strtrim(pwd[0], set);
 	path = !(ft_strncmp(pwd[0], "/Users/", 7)) ? ft_strjoin("~/", pwd[1]) : ft_strjoin("/", pwd[1]);
-	ft_putstr("\033[32;7m▓▒░ ");
-	ft_putstr(g_ret);
-	ft_putstr(" ░▒▓\033[0;1;34m \n");
-	ft_putstr(path);
-	ft_putstr(" \033[0;32m❱▶\033[0m ");
+	// ft_putstr_fd("\033[32;7m▓▒░ ", 1);
+	// ft_putstr_fd(g_ret, 1);
+	// ft_putstr_fd(" ░▒▓\033[0;1;34m \n", 1);
+	ft_putstr_fd("\033[0;1;34m", 1);
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd(" \033[0;32m❱▶\033[0m ", 1);
 	free(pwd[0]);
 	free(pwd[1]);
 	free(path);

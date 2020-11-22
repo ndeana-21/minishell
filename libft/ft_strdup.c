@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 00:35:06 by ndeana            #+#    #+#             */
-/*   Updated: 2020/10/14 17:10:33 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/22 07:24:23 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,18 @@ char	*ft_strdup(const char *s)
 		dub[i] = s[i];
 	dub[i] = '\0';
 	return (dub);
+}
+
+void	ft_strappend(char *str, char *from, size_t size)
+{
+	size_t	count;
+
+	if (!str || !from)
+		return ;
+	count = ft_strlen(str) - 1;
+	while (*from && (++count < size))
+	{
+		str[count] = *from;
+		from++;
+	}
 }

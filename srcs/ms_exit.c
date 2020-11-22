@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/16 18:03:57 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/22 11:34:18 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void		exit_error(int n, char *argv)
 	if (n == 2)
 	{
 		ft_putstr_fd("minishell: exit:", 1);
-		ft_putstr_fd(argv[1], 1);
+		ft_putstr_fd(&argv[1], 1);
 		ft_putstr_fd(": numeric argument required\n", 1);
 	}
 }
@@ -56,11 +56,11 @@ void	ms_exit(char *param)
 		{
 			if (ft_isalpha(param[++i]))
 			{
-				exit_error(2, param[1]);
+				exit_error(2, &param[1]);
 				//return (1);
 			}
 			else
-				exit(ft_atoi(param[1]));
+				exit(ft_atoi(&param[1]));
 		}
 	}
 }

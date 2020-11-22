@@ -6,7 +6,7 @@
 #    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/01 16:51:38 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/17 04:50:36 by ndeana           ###   ########.fr        #
+#    Updated: 2020/11/22 11:47:56 by ndeana           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,13 @@ HEAD_FILE	=	minishell.h		error.h			struct.h
 
 LFT			=	-L$(LFT_DIR) -lft
 SRCS		=	$(addprefix $(DIR)/, $(FILES))
-HEAD		=	$(addprefix $(HEAD_DIR)/, $(HEAD_FILE))
+HEADERS		=	$(addprefix $(HEAD_DIR)/, $(HEAD_FILE))
 INCLUDES	=	-I$(HEAD_DIR) -I$(LFT_DIR)
 OBJS		=	$(SRCS:.c=.o)
 
 M_FLAGS		=	--no-print-directory
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -g -O0 $(INCLUDES) 
+CFLAGS		=	-Wall -Wextra -mcmodel=medium -g -O0 $(INCLUDES) 
 LIBS		=	-lm $(LFT)
 
 all: $(NAME)

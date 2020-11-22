@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 02:03:23 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/17 04:49:33 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/22 11:30:14 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char					*ft_strncut(char *str, size_t n);
 char					*ft_strinsert(char *str, char *target, size_t to);
 char					*ft_strreplace(char *str, char *sample,
 							ssize_t where, ssize_t insted);
+void					ft_strappend(char *str, char *from, size_t size);
 char					*ft_strchr(const char *str, int c);
 char					*ft_strnstr(const char *str, const char *find, size_t n);
 char					*ft_strrchr(const char *s, int c);
@@ -45,6 +46,7 @@ int						ft_strmatch(char *s1, char *s2);
 int						ft_strsame(const char *str1, const char *str2);
 int						ft_strsample(const char *str, const char *sample);
 int						ft_atoi(char *s);
+int						ft_strcmp_reg(const char *s1, const char *s2);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 int						ft_strcmp(const char *s1, const char *s2);
 size_t					ft_strlcat(char *to, const char *from, size_t n);
