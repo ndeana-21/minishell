@@ -3,10 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/01 22:56:19 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/12 13:02:41 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/minishell.h"
+/*
+void		ms_cd(char *argv)
+{
+		char *path;
+
+		if (argv[1])
+		{
+			path = get_env_pwd()
+			if (chdir(path) == -1)
+				ft_putendl_fd();
+		}
+
+
+
+}
+*/

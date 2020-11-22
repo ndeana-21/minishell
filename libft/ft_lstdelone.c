@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 01:22:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/04 15:27:38 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/11 21:00:53 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ t_dl_list	*ft_dl_lstdelone(t_dl_list *lst, void (*del)(void*))
 		del(lst->content);
 	else
 		return (lst);
+	if (lst->prev)
+		((t_dl_list *)lst->prev)->next = lst->next;
+	if (lst->next)
+		((t_dl_list *)lst->next)->prev = lst->prev;
 	free(lst);
 	return (NULL);
 }

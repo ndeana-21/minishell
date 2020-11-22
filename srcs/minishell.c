@@ -6,61 +6,91 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/11 20:05:12 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/22 12:00:30 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//TODO при $? должен выдаваться номер последней ошибки
 //TODO Search and launch the right executable
-//TODO echo cd pwd export unset env exit
+//TODO cd pwd export unset exit
 //TODO ' " ; < > >> | $
+
+// int		pipe_handler(t_dl_list *lst)
+// {
+// 	return (0);
+// }
+
+// int		append_fd_handler(t_dl_list *lst)
+// {
+// 	return (0);
+// }
+
+// int		fd_handler(t_dl_list *lst)
+// {
+// 	return (0);
+// }
 
 char	*prepare_param(char *param, char *command)
 {
 	char	*buf;
 
-
+	buf = ft_strreplace(param, "", 0, ft_strlen(command));
+	buf = ft_strpass_rev(buf, " ");
+	return (buf);
 }
 
-int		check_shell_command(t_dl_list **lst, char *command, void (*func)(char *))
+int		check_shell_command(char *content, char *command, void (*func)(char *))
 {
 	char	*buff;
 
-	if (ft_strlen(command) == ft_strcmp((char *)(*lst)->content, command))
+	if (ft_strlen(command) == (size_t)ft_strcmp_reg(content, command))
 	{
-		buff = prepare_param((char *)(*lst)->content, command);
-		func(buff);
+		buff = prepare_param(content, command);
+		func(ft_strpass(buff, " "));
+		free (buff);
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
+void	shell_brach_command(char *content)
+{
+	if (check_shell_command(content, MS_ECHO, ms_echo))
+		return ;
+	// else if (check_shell_command(content, MS_CD, ms_cd))
+	// 	return ;
+	else if (check_shell_command(content, MS_PWD, ms_pwd))
+		return ;
+	// else if (check_shell_command(content, MS_EXPORT, ms_export))
+	// 	return ;
+	// else if (check_shell_command(content, MS_UNSET, ms_unset))
+	// 	return ;
+	else if (check_shell_command(content, MS_ENV, ms_env))
+		return ;
+	else if (check_shell_command(content, MS_EXIT, ms_exit))
+		return ;
+	// else
+	// 	ms_exec(content);
+	return ;
+}
+
+// void	shell_brach_sep(t_dl_list *param)
+// {
+	
+// }
+
 void	minishell(char *line)
 {
 	t_dl_list	*param;
 
+	ft_strdel(g_ret);
 	param = parsing(line);
 	while (param)
 	{
-		if (check_shell_command(&param, MS_ECHO, ms_echo))
-			continue ;
-		else if (check_shell_command(&param, MS_CD, ms_cd))
-			continue ;
-		else if (check_shell_command(&param, MS_PWD, ms_pwd))
-			continue ;
-		else if (check_shell_command(&param, MS_EXPORT, ms_export))
-			continue ;
-		else if (check_shell_command(&param, MS_UNSET, ms_unset))
-			continue ;
-		else if (check_shell_command(&param, MS_ENV, ms_env))
-			continue ;
-		else if (check_shell_command(&param, MS_EXIT, ms_exit))
-			continue ;
-		else
-			ms_exec(&param);
-		param = param->next;
+		printf ("|%s|\n", (char *)param->content);
+		shell_brach_command((char *)param->content);
+		param = (t_dl_list *)param->next;
 	}
 	param = ft_dl_lstclear(param, free);
 }
@@ -68,24 +98,14 @@ void	minishell(char *line)
 void		init_env(char **env)
 {
 	t_env	*data;
-	size_t	count;
+	// size_t	count;
 
 	if (!env)
 		return ;
 		// error_exit(ERROR_NUM_ENV, ERROR_ENV); FIXME нужно ли?
 	while (*env)
 	{
-		if (!(data = malloc(sizeof(t_env))))
-			error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-		count = -1;
-		while ((*env)[++count])
-			if (ft_strchr("=", (*env)[count]))
-			{
-				data->val = &((*env)[count + 1]);
-				(*env)[count] = 0;
-				data->name = *env;
-				break ;
-			}
+		data = create_env(*env);
 		ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(data));
 		data = 0;
 		env++;
@@ -97,18 +117,15 @@ int			main(int argc, char **argv, char **env)
 	char	*line;
 
 	(void)argc;
+	g_exit = 0;
 	g_name = argv[0];
 	g_envlst = NULL;
+	g_ret = NULL;
 	init_env(env);
-	// FIXME debug env
-	// while (g_envlst)
-	// {
-	// 	printf("%s=%s\n", ((t_env *)g_envlst->content)->name, ((t_env *)g_envlst->content)->val);
-	// 	g_envlst = g_envlst->next;
-	// }
-	printf("%s\n", line);
+	set_signal();
 	while (TRUE)
 	{
+		promt();
 		line = NULL;
 		if (0 > (ft_read_fd(0, &line)))
 			ft_putendl_fd(ERROR_READ, 2);

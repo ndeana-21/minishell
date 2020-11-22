@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 18:21:45 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/16 17:20:55 by gselyse          ###   ########.fr       */
+/*   Created: 2020/11/15 15:25:18 by gselyse           #+#    #+#             */
+/*   Updated: 2020/11/15 15:39:27 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-/*
-void	ms_pwd(char *param)
-{
-	ft_putendl_fd(find_env("PWD"), 1);
-}
-*/
-void	ms_pwd(char *param)
-{
-	char	*pwd;
+#include "../includes/minishell.h"
 
-	(void)param;
-	pwd = getcwd(NULL, 0);
-	ft_putendl_fd(pwd, 1);
-	free(pwd);
-	//free(param);
-	//return (1);
+int		search_redir(char **argv)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (argv[i])
+	{
+		if ((ft_strpass(argv[i], ">") || (ft_strpass(argv[i], ">>") || (ft_strpass(argv[i], "<")))))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int		type_redir(char *argv)
+{
+
+	if (ft_strpass(argv, ">"))
+		return ();
+	else if (ft_strpass(argv, ">>"))
+		return ();
+	else
+		return ();
 }

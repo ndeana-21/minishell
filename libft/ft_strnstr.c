@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:55 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/10 17:25:44 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/17 08:03:05 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ char	*ft_strncut(char *s, size_t n)
 	if (!(ret = (char *)ft_calloc(n + 1, sizeof(char))))
 		return (0);
 	i = -1;
-	while (s[++i] && (n >= i))
+	while (s[++i] && (n > i))
 		ret[i] = s[i];
 	return (ret);
 }
 
-char					*ft_strinsert(char *str, char *target, size_t to)
+char	*ft_strinsert(char *str, char *target, size_t to)
 {
 	size_t	str_count;
 	size_t	count;
@@ -72,4 +72,37 @@ char					*ft_strinsert(char *str, char *target, size_t to)
 		ret[count++] = str[str_count++];
 	free (str);
 	return (ret);
+}
+
+/*
+**	where	- place where it will insert sample
+**	insted	- count of letters that will erase after "where"
+*/
+char	*ft_strreplace(char *str, char *sample, ssize_t where, ssize_t insted)
+{
+	char	*new;
+	ssize_t	count;
+
+	if (!(new = ft_calloc(sizeof(char),
+		ft_strlen(str) + ft_strlen(sample) - insted + 1)))
+		return (NULL);
+	count = -1;
+	while ((++count < where) && *str)
+	{
+		new[count] = *str;
+		str++;
+	}
+	while (*sample)
+	{
+		new[count++] = *sample;
+		sample++;
+	}
+	while (insted-- && *str)
+		str++;
+	while (*str)
+	{
+		new[count++] = *str;
+		str++;
+	}
+	return (new);
 }
