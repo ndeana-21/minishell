@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/22 06:34:04 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/23 00:19:20 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_sep(char *c)
 	if (!c || !(*c))
 		return (0);
 	if (*c == ';')
-		return (ft_strchr(";|<>", *(c + 1)) ? "-" : ";");
+		return (ft_strchr(";|<>", *(c + 1)) ? "-" : "; ");
 	else if (*c == '|')
 		return (ft_strchr(";|<>", *(c + 1)) ? "-" : "|");
 	else if (*c == '<')
@@ -70,7 +70,7 @@ t_dl_list	*parsing(char *line)//FIXME слишком много строк
 				{
 					if (*sep_res == '-')
 					{
-						ft_putendl_fd("invalid syntax", 2);
+						ft_putendl_fd(ERROR_SYNTAX, 2);
 						lst = ft_dl_lstclear(lst, free);
 						return (lst);
 					}

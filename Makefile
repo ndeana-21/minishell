@@ -6,7 +6,7 @@
 #    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/01 16:51:38 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/22 11:47:56 by ndeana           ###   ########.fr        #
+#    Updated: 2020/11/22 23:41:49 by ndeana           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@ DIR			=	./srcs
 LFT_DIR		=	./libft
 HEAD_DIR	=	./includes
 
-FILES		=	parser.c minishell.c ms_pwd.c ms_exit.c	\
-				utils.c	signal.c ms_echo.c ms_env.c
+FILES		=	parser.c	minishell.c		utils.c		signal.c		\
+				ms_pwd.c	ms_exit.c		ms_echo.c	ms_env.c		\
+				ms_unset.c	ms_export.c
 
 HEAD_FILE	=	minishell.h		error.h			struct.h			
 

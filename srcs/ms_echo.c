@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/22 11:52:40 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/22 23:50:06 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ void		ms_echo(char *param)
 	ft_strappend(g_ret, param, sizeof(char) * size);
 	if (flag)
 		ft_strappend(g_ret, "\n", sizeof(char) * size);
-	ft_putstr_fd(g_ret, 1);
+	ft_putstr_fd(g_ret, 1);//FIXME это временно
 }

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/22 11:38:27 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/22 23:49:37 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,18 @@ void		ms_env(char *str)
 		ft_strappend(g_ret, "\n", size * sizeof(char));
 		tmp = (t_dl_list *)tmp->next;
 	}
+}
+
+t_dl_list	*find_env(char *name)
+{
+	t_dl_list	*tmp_env;
+
+	tmp_env = g_envlst;
+	while (tmp_env)
+	{
+		if (ft_strsame(((t_env *)tmp_env->content)->name, name))
+			return (tmp_env);
+		tmp_env = (t_dl_list *)tmp_env->next;
+	}
+	return (NULL);
 }
