@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/19 16:40:54 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/23 19:52:35 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,38 +36,42 @@ void		pipe_parent(int fd[2], pid_t pid, int status)
 			close(fd[1]);
 			wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
 			close(fd[0]);
-			exit();
+			exit(EXIT_SUCCESS);
 		}
 }
 
-void		pipe_child(int fd[2], pid_t	pid)
+void		pipe_child(int child[2], int fd[2], char **s)
 {
-	if (pid == 0) // дочерний процесс
+	if (child == 0) // дочерний процесс
 		{
-			dup2(fd[1], 1);
+			dup2(fd[1], STDIN_FILENO);
 			close(fd[0]);
 			execve("/bin/ls", 1, 2);
 			close(fd[1]);
-			exit()
+			exit(EXIT_SUCCESS);
 		}
 }
 
-void		msh_pipe(char **com)
+void		msh_pipe(char **s)
 {
 	int		i;
-	char 	**com_parent;
+	char 	**s_parent;
 	int		fd[2];
 	int		child[2];
 	int		status[2];
 
 	i = 0;
-	while (!ft_strpass(com[i], "|"))
+	while (!ft_strpass(s[i], "|"))
 		i++;
-	pipe(fd);
+	if (pipe(fd) == -1)
+		{
+			printf("An error occured with openning to pipe\n");
+			return ;
+		}
 	child[0] = fork();
-	pipe_parent(child[0], fd, com_parent);
+	pipe_parent(child[0], fd, s);
 	child[1] = fork();
-	pipe_child(child[1], fd, com);
+	pipe_child(child[1], fd, s);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(child[1], &status[1], 0);
@@ -81,7 +85,20 @@ void		msh_pipe(char **com)
 // Если встретил пайп на этапе парсинга
 // ls | grep ; cat
 // редирект это один фдшник либо нулевой либо первый
-int main();
+
+void	ms_exec(char **param)
 {
-	int temp_0_fd = dup(0);
+	int		status;
+	char	*path;
+	pid_t	pid;
+
+	path = find_env("PATH");
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(path, param, g_envlst);
+	}
+	wait(&status);
+	free(path);
+	g_exit = status / 256;
 }

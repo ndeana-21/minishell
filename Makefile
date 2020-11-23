@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
+#    By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/01 16:51:38 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/22 11:47:56 by ndeana           ###   ########.fr        #
+#    Updated: 2020/11/23 19:52:07 by gselyse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LFT_DIR		=	./libft
 HEAD_DIR	=	./includes
 
 FILES		=	parser.c minishell.c ms_pwd.c ms_exit.c	\
-				utils.c	signal.c ms_echo.c ms_env.c
+				utils.c	signal.c ms_echo.c ms_env.c ms_pipe.c \
 
 HEAD_FILE	=	minishell.h		error.h			struct.h			
 
