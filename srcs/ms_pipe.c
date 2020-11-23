@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/23 19:52:35 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/23 21:48:43 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	ms_exec(char **param)
 	if (pid == 0)
 	{
 		execve(path, param, g_envlst);
+		exit(126);
 	}
 	wait(&status);
 	free(path);
