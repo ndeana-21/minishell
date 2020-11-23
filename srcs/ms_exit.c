@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/22 11:34:18 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/23 21:14:59 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,26 @@ void	ms_exit(t_list *params)
 static void		exit_error(int n, char *argv)
 {
 	if (n == 1)
+	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 1);
+		exit(EXIT_FAILURE);
+	}
 	if (n == 2)
 	{
 		ft_putstr_fd("minishell: exit:", 1);
 		ft_putstr_fd(&argv[1], 1);
 		ft_putstr_fd(": numeric argument required\n", 1);
+		exit(EXIT_FAILURE);
 	}
+}
+
+static int	ft_strln(char **s)
+{
+	int i = 0;
+
+	while (s[i])
+		i++;
+	return (i);
 }
 
 void	ms_exit(char *param)
@@ -43,8 +56,8 @@ void	ms_exit(char *param)
 	int len;
 
 	i = 0;
-	len = ft_strlen(param);
-	if (len == 1)
+	len = ft_strln(param);
+	if (len == 0)
 		exit(EXIT_SUCCESS);
 	else if (len > 2)
 	{
@@ -57,7 +70,7 @@ void	ms_exit(char *param)
 			if (ft_isalpha(param[++i]))
 			{
 				exit_error(2, &param[1]);
-				//return (1);
+				return ;
 			}
 			else
 				exit(ft_atoi(&param[1]));

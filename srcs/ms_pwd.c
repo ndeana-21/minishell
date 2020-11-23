@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:45 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/16 17:20:55 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/23 19:20:50 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ms_pwd(char *param)
 	ft_putendl_fd(find_env("PWD"), 1);
 }
 */
-void	ms_pwd(char *param)
+void	ms_pwd(char **param)
 {
 	char	*pwd;
 
