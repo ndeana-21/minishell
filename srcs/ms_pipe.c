@@ -32,7 +32,7 @@ void		pipe_parent(int fd[2], pid_t pid, int status)
 {
 		if (pid != 0)
 		{
-			dup2(fd[0], 0);
+			dup2(fd[0], 0); 
 			close(fd[1]);
 			wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
 			close(fd[0]);
@@ -44,8 +44,8 @@ void		pipe_child(int child[2], int fd[2], char **s)
 {
 	if (child == 0) // дочерний процесс
 		{
-			dup2(fd[1], STDIN_FILENO);
-			close(fd[0]);
+			dup2(fd[1], STDIN_FILENO); // Дублируем входную сторону трубы в стандартный ввод
+			close(fd[0]); // Закрываем стандартный ввод дочернего элемента
 			execve("/bin/ls", 1, 2);
 			close(fd[1]);
 			exit(EXIT_SUCCESS);
