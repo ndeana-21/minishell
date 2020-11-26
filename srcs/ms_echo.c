@@ -6,11 +6,34 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/22 23:50:06 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/26 16:06:44 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			flag_echo(char **str)
+{
+	char	*buf;
+	int		count;
+
+	buf = *str;
+	buf = ft_strpass(buf, " ");
+	count = 0;
+	if ((*buf) == '-')
+	{
+		while (*(++buf) == 'n')
+			++count;
+		if (!count || (*buf && ((*buf) != ' ')))
+			return (FALSE);
+		buf = ft_strpass(buf, " ");
+		(*str) = buf;
+		flag_echo(str);
+		return (TRUE);
+	}
+	(*str) = buf;
+	return (FALSE);
+}
 
 void		ms_echo(char *param)
 {
@@ -19,18 +42,13 @@ void		ms_echo(char *param)
 
 	flag = 1;
 	ft_strdel(&g_ret);
-	if (ft_strlen("-n") == (size_t)ft_strcmp(param, "-n"))
+	if ((flag = (1 - flag_echo(&param))))
 	{
-		flag = 0;
-		param += 2;
 		if (!(*param))
 		{
 			g_ret = ft_strdup("");
 			return ;
 		}
-		if (*param != ' ')
-			param -= 2;
-		param = ft_strpass(param, " ");
 	}
 	size = ft_strlen(param) + 1 + flag;
 	if (!(g_ret = ft_calloc(sizeof(char), size)))
