@@ -6,7 +6,7 @@
 #    By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/01 16:51:38 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/25 16:05:57 by gselyse          ###   ########.fr        #
+#    Updated: 2020/11/26 14:58:57 by gselyse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ HEAD_DIR	=	./includes
 
 FILES		=	parser.c	minishell.c		utils.c		signal.c		\
 				ms_pwd.c	ms_exit.c		ms_echo.c	ms_env.c		\
-				ms_unset.c	ms_export.c		
+				ms_unset.c	ms_export.c		ms_pipe.c
 
 HEAD_FILE	=	minishell.h		error.h			struct.h			
 

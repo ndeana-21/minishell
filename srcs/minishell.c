@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/24 00:54:52 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/26 15:10:36 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	shell_brach_command(char *content)
 		return ;
 	else if (check_shell_command(content, MS_EXIT, ms_exit))//FIXME работает через раз((
 		return ;
-	// else
-	// 	ms_exec(content);
+	else
+		ms_exec(content);
 	return ;
 }
 
@@ -93,10 +93,10 @@ int		fd_handler(t_dl_list **lst)
 	ft_putendl_fd(errno, 2);
 }
 
-// int		pipe_handler(t_dl_list *lst)
-// {
-// 	return (0);
-// }
+int		pipe_handler(t_dl_list *lst)
+{
+	return (0);
+}
 
 void	shell_brach_sep(t_dl_list *param)
 {
@@ -117,9 +117,9 @@ void	shell_brach_sep(t_dl_list *param)
 		if (ft_strsame(">>", (char *)param->content))
 			if (!(append_fd_handler(&param)))
 				return ;
-		// if (ft_strsame("|", (char *)param->content))
-		// 	if (pipe_handler(param))
-		// 		return ;
+		if (ft_strsame("|", (char *)param->content))
+			if (pipe_handler(param))
+				return ;
 		tmp = (t_dl_list *)tmp->next;
 	}
 }

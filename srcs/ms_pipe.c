@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/25 20:21:05 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/26 15:23:53 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,20 @@ void		msh_pipe(char **s)
 // ls | grep ; cat
 // редирект это один фдшник либо нулевой либо первый
 
-void	ms_exec(char **param)
+void	ms_exec(char *param)
 {
 	int		status;
 	char	*path;
+	char	**elem;
 	pid_t	pid;
 
+	elem = ft_split(param, ' ');
 	path = find_env("PATH");
+	path = ft_strjoin(path, elem[0]);
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(path, param, g_envlst);
+		execve("/bin/ls", &(param[1]), g_envlst);
 		exit(126);
 	}
 	wait(&status);

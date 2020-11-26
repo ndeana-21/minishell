@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/22 23:33:02 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/26 16:30:21 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*make_dollar(char *str, size_t *insted)
 		return (ft_strdup(""));
 	count = 0;
 	if (str[count] == '?')
-		return (ft_itoa(g_error));
+		return (ft_itoa(g_exit));
 	while (str[++count])
 		if (!(ft_isalnum(str[count])))
 			break ;

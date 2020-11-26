@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/22 23:49:37 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/26 13:33:42 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void		ms_env(char *str)
 		ft_strappend(g_ret, "\n", size * sizeof(char));
 		tmp = (t_dl_list *)tmp->next;
 	}
+	ft_putstr_fd(g_ret, 1);//FIXMY debug
 }
 
 t_dl_list	*find_env(char *name)
