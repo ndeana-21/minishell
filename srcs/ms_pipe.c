@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/26 15:23:53 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/30 21:34:27 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		pipe_parent(int fd[2], pid_t pid, int status)
 		{
 			dup2(fd[0], 0); 
 			close(fd[1]);
-			wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
+			//wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
 			close(fd[0]);
 			exit(EXIT_SUCCESS);
 		}
@@ -46,7 +46,7 @@ void		pipe_child(int child[2], int fd[2], char **s)
 		{
 			dup2(fd[1], STDIN_FILENO); // Дублируем входную сторону трубы в стандартный ввод
 			close(fd[0]); // Закрываем стандартный ввод дочернего элемента
-			execve("/bin/ls", 1, 2);
+			//execve("/bin/ls", 1, 2);
 			close(fd[1]);
 			exit(EXIT_SUCCESS);
 		}
@@ -71,6 +71,7 @@ void		msh_pipe(char **s)
 		}
 	child[0] = fork();
 	pipe_parent(child[0], fd, s);
+	//чистка строки
 	child[1] = fork();
 	pipe_child(child[1], fd, s);
 	close(fd[0]);
@@ -100,7 +101,9 @@ void	ms_exec(char *param)
 	pid = fork();
 	if (pid == 0)
 	{
-		execve("/bin/ls", &(param[1]), g_envlst);
+		if (opendir(path) != NULL)
+			exit(ft_puterr(param[0], ": is a directory", "", 126));
+		execve(path, &(param[1]), g_envlst);
 		exit(126);
 	}
 	wait(&status);

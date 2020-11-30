@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/30 14:52:11 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/30 21:09:55 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	shell_brach_command(char *content)
 {
 	if (check_shell_command(content, MS_ECHO, ms_echo))
 		return ;
-	// else if (check_shell_command(content, MS_CD, ms_cd))
-	// 	return ;
+	else if (check_shell_command(content, MS_CD, ms_cd))
+	 	return ;
 	else if (check_shell_command(content, MS_PWD, ms_pwd))
 		return ;
 	else if (check_shell_command(content, MS_EXPORT, ms_export))

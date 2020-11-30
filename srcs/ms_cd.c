@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/25 16:05:37 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/30 21:13:59 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
 void		ms_cd(char *argv)
 {
 		char *path;
@@ -26,8 +26,8 @@ void		ms_cd(char *argv)
 
 
 }
+*/
 
-/*
 void		ms_cd(char *argv)
 {
 	int		res;
@@ -52,7 +52,7 @@ void		ms_cd(char *argv)
 }
 
 
-
+/*
 static int		ft_puterr(char *s1, char *s2, char *s3, int err)
 {
 	ft_putstr_fd("minishell: ", 1);
