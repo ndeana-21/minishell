@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/26 15:10:36 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/30 14:52:11 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,6 @@
 //TODO Search and launch the right executable
 //TODO cd exit
 //TODO ' " ; < > >> |
-char	*prepare_param(char *param, char *command)
-{
-	char	*buf;
-
-	buf = ft_strreplace(param, "", 0, ft_strlen(command));
-	ms_dollar(&buf);
-	buf = ft_strpass_rev(buf, " ");
-	return (buf);
-}
 
 int		check_shell_command(char *content, char *command, void (*func)(char *))
 {
@@ -31,7 +22,8 @@ int		check_shell_command(char *content, char *command, void (*func)(char *))
 
 	if (ft_strlen(command) == (size_t)ft_strcmp_reg(content, command))
 	{
-		buff = prepare_param(content, command);
+		buff = ft_strreplace(content, "", 0, ft_strlen(command));
+		buff = ft_strpass_rev(buff, " ");
 		func(ft_strpass(buff, " "));
 		free (buff);
 		return (TRUE);
@@ -175,9 +167,10 @@ int			main(int argc, char **argv, char **env)
 		{
 			if (ft_strlen(line))
 				line[ft_strlen(line) - 1] = 0;
+			ms_dollar(&line);
 			minishell(line);
 		}
-		free(line);
+		ft_strdel(&line);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/26 16:30:21 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/30 15:26:43 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,24 @@ char	*make_dollar(char *str, size_t *insted)
 	size_t	count;
 	t_dl_list	*tmp;
 
-	if (!str)
+	if (!str || !*str)
 		return (ft_strdup(""));
 	count = 0;
-	if (str[count] == '?')
+	if (str[count + 1] == '?')
+	{
+		*insted = *insted + 2;
 		return (ft_itoa(g_exit));
+	}
 	while (str[++count])
 		if (!(ft_isalnum(str[count])))
 			break ;
+	if (count <= 1)
+		return (NULL);
 	buf = ft_strncut(str + 1, count - 1);
 	*insted = count;
 	if (!(tmp = find_env(buf)))
 		return (ft_strdup(""));
-	ret = ((t_env *)tmp->content)->val;
+	ret = ft_strdup(((t_env *)tmp->content)->val);
 	free (buf);
 	return (ret);
 }
@@ -60,14 +65,24 @@ void	ms_dollar(char **str)
 	char	*buff;
 	char	*new;
 	size_t	insted;
-
-	while ((chr = ft_strchr(*str, '$')))
+	ssize_t	i;
+	
+	i = -1;
+	while ((*str)[++i])
 	{
 		insted = 0;
-		buff = make_dollar(chr, &insted);
-		if (!(new = ft_strreplace(*str, buff, (chr - *str), insted)))
-			error_exit (ERROR_NUM_MALLOC, ERROR_MALLOC);
-		free (*str);
-		*str = new;
+		if ((*str)[i] == '$')
+		{
+			if (!(buff = make_dollar(&((*str)[i]), &insted)))
+				continue ;
+			if (!(new = ft_strreplace(*str, buff, i, insted)))
+				error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+			i += ft_strlen(buff) - 1;
+			ft_strdel(&buff);
+			ft_strdel(str);
+			*str = new;
+		}
 	}
+	g_exit = 0;
 }
+//echo $test $USER $ $ $? test

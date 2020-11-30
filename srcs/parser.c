@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/23 00:19:20 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/30 14:50:22 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_dl_list	*parsing(char *line)//FIXME слишком много строк
 					lst = ft_dl_lstlast(lst);
 					break ;
 				}
-		if (!line[count_end + 1])
+		if (!line[count_end])
 			break ;
 		line += count_end + 1;
 	}

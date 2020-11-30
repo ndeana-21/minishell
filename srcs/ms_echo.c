@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/26 16:06:44 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:11:44 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ void		ms_echo(char *param)
 	flag = 1;
 	ft_strdel(&g_ret);
 	if ((flag = (1 - flag_echo(&param))))
-	{
 		if (!(*param))
 		{
 			g_ret = ft_strdup("");
 			return ;
 		}
-	}
 	size = ft_strlen(param) + 1 + flag;
 	if (!(g_ret = ft_calloc(sizeof(char), size)))
 		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
