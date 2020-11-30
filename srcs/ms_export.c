@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:47 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/30 18:45:43 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/01 01:16:10 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,25 @@ t_env	*create_env(char *str)
 	return (data);
 }
 
+void		replace_env(char *name, char *str)
+{
+	t_dl_list	*buf;
+	t_env		*env;
+
+	if (!(buf = find_env(name)))
+	{
+		if (!(env = ft_calloc(sizeof(t_env), 1)))
+			error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		env->name = name;
+		env->val = str;
+		if (!(ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(env))))
+			error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		return ;
+	}
+	ft_strdel(&(((t_env *)(buf->content))->val));
+	((t_env *)(buf->content))->val = str;
+}
+
 void	ms_export(char *param)
 {
 	t_env	*buf;
@@ -54,7 +73,7 @@ void	ms_export(char *param)
 			ft_strappend(g_ret, "\"\n", size * sizeof(char));
 			tmp = (t_dl_list *)tmp->next;
 		}
-		ft_putstr_fd(g_ret, 1);//FIXMY debug
+		ft_putstr_fd(g_ret, 1);//FIXME debug
 	}
 	else
 		if ((buf = create_env(param)))

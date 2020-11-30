@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/30 15:26:43 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/30 23:26:07 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,16 @@ char	*get_env_pwd(char *argv)
 	return (((t_env *)tmp->content)->val);
 }
 
-void	error_exit(size_t error_code, char *error_text)
+void		print_error(size_t error_code, char *error_text)
 {
 	if (error_text)
 		ft_putendl_fd(error_text, 2);
+	g_exit = error_code;
+}
+
+void	error_exit(size_t error_code, char *error_text)
+{
+	print_error(error_code, error_text);
 	exit(error_code);
 }
 

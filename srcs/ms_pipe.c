@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/30 21:34:27 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/30 22:38:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	ms_exec(char *param)
 	if (pid == 0)
 	{
 		if (opendir(path) != NULL)
-			exit(ft_puterr(param[0], ": is a directory", "", 126));
+			// exit(ft_puterr(param[0], ": is a directory", "", 126));
 		execve(path, &(param[1]), g_envlst);
 		exit(126);
 	}
