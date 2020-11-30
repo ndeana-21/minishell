@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/26 15:58:19 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/30 18:45:00 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define MS_ECHO	"echo "
 # define MS_CD		"cd "
 # define MS_PWD		"pwd"
-# define MS_EXPORT	"export "
+# define MS_EXPORT	"export"
 # define MS_UNSET	"unset "
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
@@ -60,7 +60,7 @@ void		signal_handler(int signum);
 void		promt(void);
 void        ms_exec(char *param);
 
-
+size_t		len_lstenv(t_dl_list *tmp, size_t plus);
 void		ms_dollar(char **str);
 char		*make_dollar(char *str, size_t *insted);
 

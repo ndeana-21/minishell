@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:47 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/22 23:46:14 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/30 18:45:43 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,29 @@ t_env	*create_env(char *str)
 void	ms_export(char *param)
 {
 	t_env	*buf;
+	size_t	size;
+	t_dl_list	*tmp;
 
-	if ((buf = create_env(param)))
-		if (!(ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(buf))))
+	if (!param || !(*param))
+	{
+		tmp = g_envlst;
+		ft_strdel(&g_ret);
+		size = len_lstenv(tmp, 15);
+		if (!(g_ret = ft_calloc(sizeof(char), size + 1)))
 			error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		while (tmp)
+		{
+			ft_strappend(g_ret, "declare -x ", size * sizeof(char));
+			ft_strappend(g_ret, ((t_env *)tmp->content)->name, size * sizeof(char));
+			ft_strappend(g_ret, "=\"", size * sizeof(char));
+			ft_strappend(g_ret, ((t_env *)tmp->content)->val, size * sizeof(char));
+			ft_strappend(g_ret, "\"\n", size * sizeof(char));
+			tmp = (t_dl_list *)tmp->next;
+		}
+		ft_putstr_fd(g_ret, 1);//FIXMY debug
+	}
+	else
+		if ((buf = create_env(param)))
+			if (!(ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(buf))))
+				error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
 }
