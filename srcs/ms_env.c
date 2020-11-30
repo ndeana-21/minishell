@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/26 13:33:42 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/11/30 18:45:13 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+size_t		len_lstenv(t_dl_list *tmp, size_t plus)
+{
+	size_t		size;
+
+	size = 0;
+	while (tmp)
+	{
+		size += ft_strlen(((t_env *)tmp->content)->name) + 1;
+		size += ft_strlen(((t_env *)tmp->content)->val) + 1;
+		size += plus;
+		tmp = (t_dl_list *)tmp->next;
+	}
+	return (size);
+}
 
 void		ms_env(char *str)
 {
@@ -19,17 +34,10 @@ void		ms_env(char *str)
 
 	(void)str;
 	tmp = g_envlst;
-	size = 0;
 	ft_strdel(&g_ret);
-	while (tmp)
-	{
-		size += ft_strlen(((t_env *)tmp->content)->name) + 1;
-		size += ft_strlen(((t_env *)tmp->content)->val) + 1;
-		tmp = (t_dl_list *)tmp->next;
-	}
+	size = len_lstenv(tmp, 2);
 	if (!(g_ret = ft_calloc(sizeof(char), size + 1)))
 		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-	tmp = g_envlst;
 	while (tmp)
 	{
 		ft_strappend(g_ret, ((t_env *)tmp->content)->name, size * sizeof(char));
