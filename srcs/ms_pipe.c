@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/30 22:38:34 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/01 16:08:52 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,52 @@ int		search_pipe(char **argv)
 	return (count);
 }
 
-void		pipe_parent(int fd[2], pid_t pid, int status)
+void	sort(char **param)
 {
-		if (pid != 0)
+	if (search_pipe(param))
+		ms_pipe(param);
+	//else if (search_redir(param))
+	//	msh_exec_redir(param);
+	else if (!shell_brach_command(param))
+		ms_exec(param);
+}
+
+void		pipe_parent(int child, int fd[2], char **param)
+{
+		if (child != 0)
 		{
-			dup2(fd[0], 0); 
-			close(fd[1]);
-			//wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
+			dup2(fd[1], STDIN_FILENO); 
 			close(fd[0]);
+			//wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
+			close(fd[1]);
+			sort(param);
 			exit(EXIT_SUCCESS);
 		}
 }
 
-void		pipe_child(int child[2], int fd[2], char **s)
+void		pipe_child(int child[2], int fd[2], char **param)
 {
 	if (child == 0) // дочерний процесс
 		{
-			dup2(fd[1], STDIN_FILENO); // Дублируем входную сторону трубы в стандартный ввод
+			dup2(fd[0], STDIN_FILENO); // Дублируем входную сторону трубы в стандартный ввод
 			close(fd[0]); // Закрываем стандартный ввод дочернего элемента
 			//execve("/bin/ls", 1, 2);
 			close(fd[1]);
+			sort(param);
 			exit(EXIT_SUCCESS);
 		}
 }
 
-void		msh_pipe(char **s)
+void		ms_pipe(char **param)
 {
 	int		i;
-	char 	**s_parent;
+	char 	**param_parent;
 	int		fd[2];
 	int		child[2];
 	int		status[2];
 
 	i = 0;
-	while (!ft_strpass(s[i], "|"))
+	while (!ft_strpass(param[i], "|"))
 		i++;
 	if (pipe(fd) == -1)
 		{
@@ -70,10 +82,10 @@ void		msh_pipe(char **s)
 			return ;
 		}
 	child[0] = fork();
-	pipe_parent(child[0], fd, s);
+	pipe_parent(child[0], fd, param);
 	//чистка строки
 	child[1] = fork();
-	pipe_child(child[1], fd, s);
+	pipe_child(child[1], fd, param);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(child[1], &status[1], 0);
@@ -95,18 +107,56 @@ void	ms_exec(char *param)
 	char	**elem;
 	pid_t	pid;
 
-	elem = ft_split(param, ' ');
-	path = find_env("PATH");
-	path = ft_strjoin(path, elem[0]);
+	//elem = ft_split(param, ' ');
+	if (!(path = find_path(param[0])))
+	{
+		ft_puterr(param[0], ": command not found", "", 127);
+		return ;
+	}
+	//path = ft_strjoin(path, elem[0]);
 	pid = fork();
 	if (pid == 0)
 	{
 		if (opendir(path) != NULL)
-			// exit(ft_puterr(param[0], ": is a directory", "", 126));
-		execve(path, &(param[1]), g_envlst);
-		exit(126);
+			exit(ft_puterr(param[0], ": is a directory", "", 126));
+		if (execve(path, &(param[1]), g_envlst) == -1)
+		{
+			if (errno == 13 || errno == 8)
+				exit(ft_puterr(param[0], ": Permission denied", "", 126));
+			exit(ft_puterr(param[0], ": command not found", "", 127));
+		}
+		exit(EXIT_SUCCESS);
 	}
 	wait(&status);
 	free(path);
 	g_exit = status / 256;
+}
+
+char			find_path(char *param)
+{
+	int			i;
+	char		*tmp;
+	char		*path;
+	char		**paths;
+	struct stat	s;
+
+	if (!(tmp = find_env("PATH")))
+		return (NULL);
+	paths = ft_split(tmp, ':');
+	free(tmp);
+	i = -1;
+	while (paths[++i])
+	{
+		tmp = ft_strjoin("/", param);
+		path = ft_strjoin(paths[i], tmp);
+		free(tmp);
+		if (stat(path, &s) == 0)
+		{
+			ft_freestrs(paths);
+			return (path);
+		}
+		free(path);
+	}
+	ft_freestrs(paths);
+	return (ft_strdup(param));
 }

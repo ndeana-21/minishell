@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/30 23:26:07 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/01 15:40:47 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,31 @@ void	ms_dollar(char **str)
 	}
 	g_exit = 0;
 }
+
+void	ft_freestrs(char **str)
+{
+	int i;
+
+	i = 0;
+	if (str)
+	{
+		while (str[i])
+		{
+			free(str[i]);
+			i++;
+		}
+		free(str);
+	}
+}
+
+int		ft_puterr(char *str1, char *str2, char *str3, int error)
+{
+	ft_putstr_fd("minishell: ",1);
+	ft_putstr_fd(str1, 2);
+	ft_putstr_fd(str2, 2);
+	ft_putendl_fd(str3, 2);
+	g_exit = 1;
+	return (error);
+}
+
 //echo $test $USER $ $ $? test

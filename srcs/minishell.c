@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/30 21:09:55 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/01 16:16:40 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ void	shell_brach_command(char *content)
 		return ;
 	else if (check_shell_command(content, MS_EXIT, ms_exit))//FIXME работает через раз((
 		return ;
-	else
-		ms_exec(content);
+	//else
+	//	ms_exec(content);
+	sort(content);
 	return ;
 }
 
@@ -125,7 +126,9 @@ void	minishell(char *line)
 	while (param)
 	{
 		printf ("|%s|\n", (char *)param->content);
+		//sort(line);
 		shell_brach_command((char *)param->content);
+		
 		param = (t_dl_list *)param->next;
 	}
 	param = ft_dl_lstclear(param, free);
