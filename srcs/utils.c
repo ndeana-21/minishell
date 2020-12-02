@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/01 15:40:47 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/02 20:41:51 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_freestrs(char **str)
 
 int		ft_puterr(char *str1, char *str2, char *str3, int error)
 {
-	ft_putstr_fd("minishell: ",1);
+	//ft_putstr_fd("minishell: ", 1);
 	ft_putstr_fd(str1, 2);
 	ft_putstr_fd(str2, 2);
 	ft_putendl_fd(str3, 2);

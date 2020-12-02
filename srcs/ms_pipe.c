@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/01 16:08:52 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/02 21:11:06 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,20 +100,22 @@ void		ms_pipe(char **param)
 // ls | grep ; cat
 // редирект это один фдшник либо нулевой либо первый
 
-void	ms_exec(char *param)
+void	ms_exec(char **param)
 {
 	int		status;
 	char	*path;
 	char	**elem;
 	pid_t	pid;
 
-	//elem = ft_split(param, ' ');
+	elem = ft_split(param, ' ');
+	printf("%s", "\nHERO");
+	//path = find_path(param[0]);
 	if (!(path = find_path(param[0])))
 	{
 		ft_puterr(param[0], ": command not found", "", 127);
 		return ;
 	}
-	//path = ft_strjoin(path, elem[0]);
+	path = ft_strjoin(path, elem[0]);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -147,9 +149,9 @@ char			find_path(char *param)
 	i = -1;
 	while (paths[++i])
 	{
-		tmp = ft_strjoin("/", param);
+		//tmp = ft_strjoin("/", param); // тут сега
 		path = ft_strjoin(paths[i], tmp);
-		free(tmp);
+		//free(tmp);
 		if (stat(path, &s) == 0)
 		{
 			ft_freestrs(paths);
