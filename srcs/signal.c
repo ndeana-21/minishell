@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/02 18:47:08 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/03 16:04:57 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,34 +65,3 @@ void	set_signal(void)
 	g_exit = 0;
 }
 
-/*
-void	input_ctrld()
-{
-	
-}
-
-int 	input(char **line)
-{
-	int ctrld;
-	char *tmp;
-
-	ctrld = 0;
-	input_ctrld(ctrld, line);
-	if (**line == '\n')
-	{
-		free(*line);
-		return (0);
-	}
-	if (*line != NULL)
-	{
-		tmp = ft_strtrim(*line, " ");
-		if (*line)
-		{
-			free(*line);
-			*line = NULL;
-		}
-		*line = tmp;
-	}
-	return (1);
-}
-*/

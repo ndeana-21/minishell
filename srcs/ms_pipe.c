@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/02 21:11:06 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/02 21:15:26 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,13 @@ char			find_path(char *param)
 
 	if (!(tmp = find_env("PATH")))
 		return (NULL);
+	
 	paths = ft_split(tmp, ':');
 	free(tmp);
 	i = -1;
 	while (paths[++i])
 	{
-		//tmp = ft_strjoin("/", param); // тут сега
+		tmp = ft_strjoin("/", param); // тут сега
 		path = ft_strjoin(paths[i], tmp);
 		//free(tmp);
 		if (stat(path, &s) == 0)

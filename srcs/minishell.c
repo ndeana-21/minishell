@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/02 21:07:40 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/03 16:32:35 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,38 @@ void		init_env(char **env)
 	}
 }
 
+static void		catch_input(char **line)
+{
+	if (!ft_get_next_line(0, line))
+	{
+		write(2, "\nexit\n", 7);
+		exit(g_exit);
+	}
+}
+
+int				deal_with_input(char **line)
+{
+	char	*tmp;
+
+	catch_input(line);
+	if (**line == '\n')
+	{
+		free(*line);
+		return (0);
+	}
+	if (*line)
+	{
+		tmp = ft_strtrim(*line, " ");
+		if (*line)
+		{
+			free(*line);
+			*line = NULL;
+		}
+		*line = tmp;
+	}
+	return (1);
+}
+
 int			main(int argc, char **argv, char **env)
 {
 	char	*line;
@@ -164,6 +196,8 @@ int			main(int argc, char **argv, char **env)
 	while (TRUE)
 	{
 		promt();
+		if (!deal_with_input(&line)) // FIX
+				continue;
 		line = NULL;
 		if (0 > (ft_read_fd(0, &line)))
 			ft_putendl_fd(ERROR_READ, 2);
