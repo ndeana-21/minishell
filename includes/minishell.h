@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/02 20:45:53 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:13:12 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@
 
 # define TRUE		1
 # define FALSE		0
-# define MS_ECHO	"echo "
-# define MS_CD		"cd "
+# define MS_ECHO	"echo"
+# define MS_CD		"cd"
 # define MS_PWD		"pwd"
 # define MS_EXPORT	"export"
-# define MS_UNSET	"unset "
+# define MS_UNSET	"unset"
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
 
@@ -47,7 +47,6 @@ void		print_error(size_t error_code, char *error_text);
 t_dl_list	*parsing(char *line);
 void		promt(void);
 void		ms_dollar(char **str);
-char		*make_dollar(char *str, size_t *insted);
 
 void		replace_env(char *name, char *str);
 size_t		len_lstenv(t_dl_list *tmp, size_t plus);
@@ -68,7 +67,5 @@ void        ms_pipe(char **param);
 void		set_signal(void);
 void		signal_handler(int signum);
 char		find_path(char *param);
-
-
 
 #endif

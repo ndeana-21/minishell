@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:47 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/01 01:16:10 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/02 01:17:24 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,18 @@ t_env	*create_env(char *str)
 	t_env	*data;
 
 	count = -1;
-	if (!(data = malloc(sizeof(t_env))))
+	if (!(data = ft_calloc(sizeof(t_env), 1)))
 		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
 	while (str[++count])
 		if (ft_strchr("=", str[count]))
 		{
 			str[count] = 0;
-			if (!(data->val = ft_strdup(&(str[count + 1]))) ||
-				!(data->name = ft_strdup(str)))
+			if (!(data->val = ft_strdup(&(str[count + 1]))))
 				error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
 			break ;
 		}
+	if (!(data->name = ft_strdup(str)))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
 	return (data);
 }
 
@@ -68,9 +69,13 @@ void	ms_export(char *param)
 		{
 			ft_strappend(g_ret, "declare -x ", size * sizeof(char));
 			ft_strappend(g_ret, ((t_env *)tmp->content)->name, size * sizeof(char));
-			ft_strappend(g_ret, "=\"", size * sizeof(char));
-			ft_strappend(g_ret, ((t_env *)tmp->content)->val, size * sizeof(char));
-			ft_strappend(g_ret, "\"\n", size * sizeof(char));
+			if (((t_env *)tmp->content)->val)
+			{
+				ft_strappend(g_ret, "=\"", size * sizeof(char));
+				ft_strappend(g_ret, ((t_env *)tmp->content)->val, size * sizeof(char));
+				ft_strappend(g_ret, "\"", size * sizeof(char));
+			}
+			ft_strappend(g_ret, "\n", size * sizeof(char));
 			tmp = (t_dl_list *)tmp->next;
 		}
 		ft_putstr_fd(g_ret, 1);//FIXME debug

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/02 20:41:51 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:12:54 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	error_exit(size_t error_code, char *error_text)
 	exit(error_code);
 }
 
-char	*make_dollar(char *str, size_t *insted)
+static char	*make_dollar(char *str, size_t *insted)
 {
 	char	*buf;
 	char	*ret;
@@ -58,7 +58,7 @@ char	*make_dollar(char *str, size_t *insted)
 		return (NULL);
 	buf = ft_strncut(str + 1, count - 1);
 	*insted = count;
-	if (!(tmp = find_env(buf)))
+	if (!(tmp = find_env(buf)) || !(tmp->content) || !(((t_env *)tmp->content)->val))
 		return (ft_strdup(""));
 	ret = ft_strdup(((t_env *)tmp->content)->val);
 	free (buf);
@@ -67,27 +67,37 @@ char	*make_dollar(char *str, size_t *insted)
 
 void	ms_dollar(char **str)
 {
-	char	*chr;
 	char	*buff;
 	char	*new;
 	size_t	insted;
 	ssize_t	i;
-	
+
 	i = -1;
+	insted = 0;
 	while ((*str)[++i])
 	{
-		insted = 0;
-		if ((*str)[i] == '$')
+		if (((*str)[i] == '\''))
 		{
-			if (!(buff = make_dollar(&((*str)[i]), &insted)))
-				continue ;
-			if (!(new = ft_strreplace(*str, buff, i, insted)))
-				error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-			i += ft_strlen(buff) - 1;
-			ft_strdel(&buff);
+			if (!(new = ft_strreplace(*str, "", i, 1)))
+					error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+			i++;
 			ft_strdel(str);
 			*str = new;
+			insted = insted == -1ul ? 0 : -1;
 		}
+		if (!insted)
+			if ((*str)[i] == '$')
+			{
+				insted = 0;
+				if (!(buff = make_dollar(&((*str)[i]), &insted)))
+					continue ;
+				if (!(new = ft_strreplace(*str, buff, i, insted)))
+					error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+				i += ft_strlen(buff) - 1;
+				ft_strdel(&buff);
+				ft_strdel(str);
+				*str = new;
+			}
 	}
 	g_exit = 0;
 }
@@ -118,4 +128,4 @@ int		ft_puterr(char *str1, char *str2, char *str3, int error)
 	return (error);
 }
 
-//echo $test $USER $ $ $? test
+//echo $test $USER '$USER' $ $ $? test

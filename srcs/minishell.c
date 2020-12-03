@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/03 16:32:35 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/03 17:13:35 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,70 +52,6 @@ void	shell_brach_command(char *content)
 	}
 	//sort(content);
 	return ;
-}
-
-int		sep_handler(t_dl_list **lst)
-{
-	if (!((*lst)->next) || !((*lst)->prev))
-	{
-		ft_putendl_fd(ERROR_SYNTAX, 2);
-		return (0);
-	}
-	shell_brach_command((char *)(((t_dl_list *)(*lst)->prev)->content));
-	if (g_ret)
-		ft_putstr_fd(g_ret, 1);
-	return (1);
-}
-
-int		append_fd_handler(t_dl_list **lst)
-{
-	int	fd;
-
-	if (-1 == (fd = open((char *)(((t_dl_list *)(*lst)->next)->content),
-				O_WRONLY|O_APPEND)))
-	return (0);
-
-}
-
-int		fd_handler(t_dl_list **lst)
-{
-	int		fd;
-	char	*command;
-	char	*file;
-
-	fd = 0;
-	ft_putendl_fd(errno, 2);
-}
-
-int		pipe_handler(t_dl_list *lst)
-{
-	return (0);
-}
-
-void	shell_brach_sep(t_dl_list *param)
-{
-	t_dl_list	*tmp;
-
-	tmp = param;
-	while (tmp)
-	{
-		if (ft_strsame("; ", (char *)param->content))
-			if (!(sep_handler(&param)))
-				return ;
-		if (ft_strsame(">", (char *)param->content))
-			if (!(fd_handler(&param)))
-				return ;
-		if (ft_strsame("<", (char *)param->content))
-			if (!(fd_handler(&param)))
-				return ;
-		if (ft_strsame(">>", (char *)param->content))
-			if (!(append_fd_handler(&param)))
-				return ;
-		if (ft_strsame("|", (char *)param->content))
-			if (pipe_handler(param))
-				return ;
-		tmp = (t_dl_list *)tmp->next;
-	}
 }
 
 void	minishell(char *line)

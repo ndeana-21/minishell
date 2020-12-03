@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/30 22:35:56 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/02 01:09:39 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ void		ms_env(char *str)
 		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
 	while (tmp)
 	{
-		ft_strappend(g_ret, ((t_env *)tmp->content)->name, size * sizeof(char));
-		ft_strappend(g_ret, "=", size * sizeof(char));
-		ft_strappend(g_ret, ((t_env *)tmp->content)->val, size * sizeof(char));
-		ft_strappend(g_ret, "\n", size * sizeof(char));
+		if ((((t_env *)tmp->content)->name) && (((t_env *)tmp->content)->val))
+		{
+			ft_strappend(g_ret, ((t_env *)tmp->content)->name, size * sizeof(char));
+			ft_strappend(g_ret, "=", size * sizeof(char));
+			ft_strappend(g_ret, ((t_env *)tmp->content)->val, size * sizeof(char));
+			ft_strappend(g_ret, "\n", size * sizeof(char));
+		}
 		tmp = (t_dl_list *)tmp->next;
 	}
 	ft_putstr_fd(g_ret, 1);//FIXME debug
