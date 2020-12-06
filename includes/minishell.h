@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/06 17:59:04 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/06 23:27:03 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int         flag_r;
 void		error_exit(size_t error_code, char *error_text);
 void		print_error(size_t error_code, char *error_text);
 t_dl_list	*parsing(char *line);
-void		promt(void);
+void		prompt(void);
 void		ms_dollar(char **str);
 
 void		replace_env(char *name, char *str);

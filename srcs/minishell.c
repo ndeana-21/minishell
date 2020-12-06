@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/06 18:35:41 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/07 01:34:16 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,36 +102,28 @@ void		init_env(char **env)
 	}
 }
 
-static void		catch_input(char **line)
+void				deal_with_input(char **line)
 {
-	if (!ft_read_fd(0, line))
-	{
-		write(2, "\nexit\n", 7);
-		exit(g_exit);
-	}
-}
-
-int				deal_with_input(char **line)
-{
+	char	*readout;
 	char	*tmp;
 
-	catch_input(line);
-	if (**line == '\n')
+	readout = NULL;
+	tmp = NULL;
+	if (0 > (ft_read_fd(0, &readout)))
+		ft_putendl_fd(ERROR_READ, 2);
+	if (!(*line) && !(readout))
+		ms_exit(NULL);
+	if (!(*line) || !(readout))
 	{
-		free(*line);
-		return (0);
+		if (!(*line))
+			*line = readout;
+		return ;
 	}
-	if (*line)
-	{
-		tmp = ft_strtrim(*line, " ");
-		if (*line)
-		{
-			free(*line);
-			*line = NULL;
-		}
-		*line = tmp;
-	}
-	return (1);
+	if (!(tmp = ft_strjoin(*line, readout)))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+	ft_strdel(&readout);
+	ft_strdel(line);
+	*line = tmp;
 }
 
 int			main(int argc, char **argv, char **env)
@@ -143,24 +135,21 @@ int			main(int argc, char **argv, char **env)
 	g_name = argv[0];
 	g_envlst = NULL;
 	g_ret = NULL;
+	line = NULL;
 	init_env(env);
 	set_signal();
 	while (TRUE)
 	{
-		promt();
-		//if (!deal_with_input(&line)) // FIX
-		//	continue;
-		line = NULL;
-		if (0 > (ft_read_fd(0, &line)))
-			ft_putendl_fd(ERROR_READ, 2);
-		else
+		if (!(line))
+			prompt();
+		deal_with_input(&line);
+		if (line[ft_strlen(line) - 1] == '\n')
 		{
-			if (ft_strlen(line))
-				line[ft_strlen(line) - 1] = 0;
+			line[ft_strlen(line) - 1] = 0;
 			ms_dollar(&line);
 			minishell(line);
+			ft_strdel(&line);
 		}
-		ft_strdel(&line);
 	}
 	return (0);
 }

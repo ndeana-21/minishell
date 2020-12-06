@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/03 16:04:57 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/06 23:27:04 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	promt(void)
+void	prompt(void)
 {
 	char *path;
 	char *pwd[2];
@@ -52,7 +52,7 @@ void	signal_handler(int signum)
 	{
 		ft_putstr_fd("\b\b  \b\b", 1);
 		write(1, "\n", 1);
-		promt();
+		prompt();
 		g_exit = 1;
 	}
 	return ;
