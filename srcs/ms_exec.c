@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/06 15:48:30 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/06 16:18:26 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char			*find_path(char *param)
     //printf("%s", "Hello");
 	while (paths[++i] && paths)
 	{
-		printf("%s\n", paths[i]);
+		//printf("%s\n", paths[i]);
 		tmp = ft_strjoin("/", param);
 		path = ft_strjoin(paths[i], tmp);
 		free(tmp);

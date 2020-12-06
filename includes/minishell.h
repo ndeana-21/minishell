@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/06 15:56:31 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/06 17:59:04 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char		*g_name;
 char		*g_ret;
 char	*g_envlst;
 int			g_exit;
+int         flag_r;
 
 void		error_exit(size_t error_code, char *error_text);
 void		print_error(size_t error_code, char *error_text);
@@ -67,5 +68,6 @@ void        ms_pipe(char **param);
 void		set_signal(void);
 void		signal_handler(int signum);
 char		*find_path(char *param);
+int		    search_pipe(char **param);
 
 #endif

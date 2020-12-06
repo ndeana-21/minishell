@@ -6,22 +6,22 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/04 21:58:14 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/06 17:13:20 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		search_pipe(char **argv)
+int		search_pipe(char **param)
 {
 	int i;
 	int count;
 
 	i = 0;
 	count = 0;
-	while (argv[i])
+	while (param[i])
 	{
-		if (ft_strpass(argv[i], "|" ))
+		if (ft_strpass(param[i], "|" ))
 			count++;
 		i++;
 	}
@@ -36,7 +36,7 @@ void		pipe_parent(int child, int fd[2], char **param)
 			close(fd[0]);
 			//wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
 			close(fd[1]);
-			sort(param);
+			search(param);
 			exit(EXIT_SUCCESS);
 		}
 }
@@ -49,7 +49,7 @@ void		pipe_child(int child[2], int fd[2], char **param)
 			close(fd[0]); // Закрываем стандартный ввод дочернего элемента
 			//execve("/bin/ls", 1, 2);
 			close(fd[1]);
-			sort(param);
+			search(param);
 			exit(EXIT_SUCCESS);
 		}
 }

@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/06 15:30:40 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/06 18:35:41 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,20 @@ void	shell_brach_command(char *content)
 		//printf("%s", "HERO");
 		ms_exec(content);
 	}
+	//search(content);
 	return ;
 }
 
-int		sort(char **param)
+int		search(char *param)
 {
-	//if (search_pipe(param))
-	//	ms_pipe(param);
+	if (search_pipe(param))
+		ms_pipe(param);
 	//else if (search_redir(param))
 	//	msh_exec_redir(param);
 	//printf("%s", "start");
-	if (!(shell_brach_command))
-		ms_exec(param);
+	else if (!(check_shell_command))
+		ft_putstr_fd("error", 1);
+	return (1);
 }
 
 //Написать фуункцию что если мы встретили команду то врубаем шелл брэнч, если пайп то пайп, чек синтакс
@@ -78,7 +80,8 @@ void	minishell(char *line)
 	while (param)
 	{
 		printf("|%s|\n", (char *)param->content);
-		shell_brach_command((char *)param->content);	
+		shell_brach_command((char *)param->content);
+		//search((char *)param->content);
 		param = (t_dl_list *)param->next;
 	}
 	param = ft_dl_lstclear(param, free);
@@ -101,7 +104,7 @@ void		init_env(char **env)
 
 static void		catch_input(char **line)
 {
-	if (!ft_get_next_line(0, line))
+	if (!ft_read_fd(0, line))
 	{
 		write(2, "\nexit\n", 7);
 		exit(g_exit);
