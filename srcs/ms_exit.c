@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/03 16:13:35 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/06 15:56:28 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void		exit_error(int n, char *argv)
 	}
 }
 
-void	ms_exit(char **param)
+void	ms_exit(char *param)
 {
 	int i;
 	int len;

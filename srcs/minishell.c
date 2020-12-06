@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/03 17:13:35 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/06 15:30:40 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int		check_shell_command(char *content, char *command, void (*func)(char *))
 
 void	shell_brach_command(char *content)
 {
+	//printf("%s", "HERO");
 	if (check_shell_command(content, MS_ECHO, ms_echo))
 		return ;
 	else if (check_shell_command(content, MS_CD, ms_cd))
-	 	return ;
+		return ;
 	else if (check_shell_command(content, MS_PWD, ms_pwd))
 		return ;
 	else if (check_shell_command(content, MS_EXPORT, ms_export))
@@ -47,12 +48,26 @@ void	shell_brach_command(char *content)
 		return ;
 	else if (check_shell_command(content, MS_EXIT, ms_exit))//FIXME работает через раз((
 		return ;
-	else{
+	else
+	{
+		//printf("%s", "HERO");
 		ms_exec(content);
 	}
-	//sort(content);
 	return ;
 }
+
+int		sort(char **param)
+{
+	//if (search_pipe(param))
+	//	ms_pipe(param);
+	//else if (search_redir(param))
+	//	msh_exec_redir(param);
+	//printf("%s", "start");
+	if (!(shell_brach_command))
+		ms_exec(param);
+}
+
+//Написать фуункцию что если мы встретили команду то врубаем шелл брэнч, если пайп то пайп, чек синтакс
 
 void	minishell(char *line)
 {
@@ -62,10 +77,8 @@ void	minishell(char *line)
 	param = parsing(line);
 	while (param)
 	{
-		printf ("|%s|\n", (char *)param->content);
-		//sort(line);
-		shell_brach_command((char *)param->content);
-		
+		printf("|%s|\n", (char *)param->content);
+		shell_brach_command((char *)param->content);	
 		param = (t_dl_list *)param->next;
 	}
 	param = ft_dl_lstclear(param, free);
@@ -132,8 +145,8 @@ int			main(int argc, char **argv, char **env)
 	while (TRUE)
 	{
 		promt();
-		if (!deal_with_input(&line)) // FIX
-				continue;
+		//if (!deal_with_input(&line)) // FIX
+		//	continue;
 		line = NULL;
 		if (0 > (ft_read_fd(0, &line)))
 			ft_putendl_fd(ERROR_READ, 2);
