@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 21:27:05 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 21:36:41 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		ms_unset(char *param);
 void		ms_env(char *param);
 void		ms_exit(char *param);
 void        ms_exec(char *param);
-void        ms_pipe(char *param);
+void        ms_pipe(t_dl_list *param);
 void		set_signal(void);
 void		signal_handler(int signum);
 char		*find_path(char *param);

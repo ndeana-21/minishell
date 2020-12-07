@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 02:03:23 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 21:29:09 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 21:40:45 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct			s_dl_list
 int						ft_dl_lstsize(t_dl_list *lst);
 t_dl_list				*ft_dl_lstlast(t_dl_list *lst);
 t_dl_list				*ft_dl_lstfirst(t_dl_list *lst);
-t_dl_list				*ft_dl_lstnnext(t_dl_list *lst, size_t n);
+t_dl_list				*ft_dl_lstnnext(t_dl_list *lst, ssize_t n);
 t_dl_list				*ft_dl_lstmap(t_dl_list *lst, void *(*f)(void *),
 							void (*del)(void *));
 t_dl_list				*ft_dl_lstnew(void *content);
