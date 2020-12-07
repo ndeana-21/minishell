@@ -6,13 +6,13 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/07 19:37:55 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/07 21:11:10 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		search_pipe(char **param)
+int		search_pipe(char *param)
 {
 	int i;
 	int count;
@@ -53,7 +53,7 @@ void		pipe_child(int child[2], int fd[2], char **param)
 		}
 }
 
-void		ms_pipe(char **param)
+void		ms_pipe(char *param)
 {
 	int		i;
 	char	**param_parent;
@@ -63,8 +63,6 @@ void		ms_pipe(char **param)
 
 	i = 0;
 	printf("%s", "Heello");
-	//while (!ft_strpass(param[i], "|"))
-	//	i++;
 	printf("%s", param);
 	param_parent = ft_strcp(param, i - 1, 0);
 	param += i + 1;
@@ -75,7 +73,7 @@ void		ms_pipe(char **param)
 		return ;
 	}
 	child[0] = fork();
-	pipe_parent(child[0], fd, param);
+	pipe_parent(child[0], fd, param_parent);
 	ft_freestrs(param_parent);
 	child[1] = fork();
 	pipe_child(child[1], fd, param);
@@ -93,3 +91,5 @@ void		ms_pipe(char **param)
 // Если встретил пайп на этапе парсинга
 // ls | grep ; cat
 // редирект это один фдшник либо нулевой либо первый
+// сигнал + exit + pipe + redirect + лики + "
+

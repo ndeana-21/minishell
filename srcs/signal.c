@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/06 23:27:04 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 20:34:29 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	prompt(void)
 	free(pwd[1]);
 	free(path);
 }
-
 
 void	signal_handler(int signum)
 {
