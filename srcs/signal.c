@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/06 23:27:04 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 20:42:41 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 
 void	prompt(void)
 {
-	char *path;
-	char *pwd[2];
-	char *set;
+	char *buf;
 
-	pwd[0] = getcwd(NULL, 0);
-	set = !(ft_strncmp(pwd[0], "/Users/", 7)) ? ft_strjoin("/Users/", g_ret) : ft_strdup("/");
-	pwd[1] = ft_strtrim(pwd[0], set);
-	path = !(ft_strncmp(pwd[0], "/Users/", 7)) ? ft_strjoin("~/", pwd[1]) : ft_strjoin("/", pwd[1]);
-	// ft_putstr_fd("\033[32;7m▓▒░ ", 1);
-	// ft_putstr_fd(g_ret, 1);
-	// ft_putstr_fd(" ░▒▓\033[0;1;34m \n", 1);
-	ft_putstr_fd("\033[0;1;34m", 1);
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd(" \033[0;32m❱▶\033[0m ", 1);
-	free(pwd[0]);
-	free(pwd[1]);
-	free(path);
+	ft_putstr_fd("\033[34m", 1);
+	ft_putstr_fd(((t_env *)find_env("USER")->content)->val, 1);
+	ft_putstr_fd(" \033[32m", 1);
+	if (!(buf = getcwd(NULL, 0)))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+	ft_putstr_fd(buf, 1);
+	free(buf);
+	if (g_exit)
+	{
+		if (!(buf = ft_itoa(g_exit)))
+			error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		ft_putstr_fd(" \033[1m\033[31m[", 1);
+		ft_putstr_fd(buf, 1);
+		ft_putstr_fd("]\033[0m", 1);
+		free(buf);
+	}
+	ft_putstr_fd("\n\033[32m❱▶\033[0m ", 1);
 }
 
 
@@ -40,6 +42,7 @@ void	signal_handler(int signum)
 
 	if (signum == SIGQUIT)
 	{
+		printf("hello\n");
 		signum = wait(&status);
 		g_exit = status / 256;
 		ft_putstr_fd("\b\b  \b\b", 1);
@@ -62,6 +65,6 @@ void	set_signal(void)
 {
 	signal(SIGQUIT, signal_handler);
 	signal(SIGINT, signal_handler);
+	g_ret = NULL;
 	g_exit = 0;
 }
-
