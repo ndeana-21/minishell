@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/07 22:04:22 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/08 02:15:46 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		search_pipe(char *param)
 
 void		pipe_parent(int child, int fd[2], char **param)
 {
-	if (child != 0)
+	if (child == 0)
 	{
 		dup2(fd[1], STDIN_FILENO);
 		close(fd[0]);
@@ -62,7 +62,7 @@ void		ms_pipe(t_dl_list *param)
 	int		status[2];
 
 	i = 0;
-	printf("%s", "Heello");
+	//printf("%s", "Heello");
 	printf("%s", param);
 	//param_parent = ft_strcp(param, i - 1, 0);
 	param_parent = ((char *)ft_dl_lstnnext(param, -1)->content);

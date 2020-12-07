@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/08 01:27:30 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/08 02:00:32 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	minishell(char *line)
 		shell_branch_sep(param);
 		// printf("|%s|\n", (char *)param->content);
 		// shell_brach_command((char *)param->content);
-		// ms_pipe(param);
+		//ms_pipe(param);
 		param = (t_dl_list *)param->next;
 	}
 	param = ft_dl_lstclear(param, free);
