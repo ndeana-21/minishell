@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/12/07 21:18:02 by gselyse          ###   ########.fr       */
+=======
+/*   Updated: 2020/12/07 20:51:54 by ndeana           ###   ########.fr       */
+>>>>>>> add20648ee41071e1e7a3ee3e8fc45ad7e57f442
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +89,7 @@ void	minishell(char *line)
 	param = parsing(line);
 	while (param)
 	{
-		printf("|%s|\n", (char *)param->content);
+		// printf("|%s|\n", (char *)param->content);
 		shell_brach_command((char *)param->content);
 		//search((char *)param->content);
 		param = (t_dl_list *)param->next;
@@ -97,6 +101,7 @@ void		init_env(char **env)
 {
 	t_env	*data;
 
+	g_envlst = NULL;
 	if (!env)
 		return ;
 	while (*env)
@@ -137,13 +142,10 @@ int			main(int argc, char **argv, char **env)
 	char	*line;
 
 	(void)argc;
-	g_exit = 0;
 	g_name = argv[0];
-	g_envlst = NULL;
-	g_ret = NULL;
-	line = NULL;
 	init_env(env);
 	set_signal();
+	line = NULL;
 	while (TRUE)
 	{
 		if (!(line))
@@ -152,6 +154,11 @@ int			main(int argc, char **argv, char **env)
 		if (line[ft_strlen(line) - 1] == '\n')
 		{
 			line[ft_strlen(line) - 1] = 0;
+			if (!(*line))
+			{
+				ft_strdel(&line);
+				continue ;
+			}
 			ms_dollar(&line);
 			minishell(line);
 			ft_strdel(&line);
