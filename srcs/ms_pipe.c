@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/07 21:11:10 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/07 22:04:22 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		pipe_child(int child[2], int fd[2], char **param)
 		}
 }
 
-void		ms_pipe(char *param)
+void		ms_pipe(t_dl_list *param)
 {
 	int		i;
 	char	**param_parent;
@@ -64,8 +64,9 @@ void		ms_pipe(char *param)
 	i = 0;
 	printf("%s", "Heello");
 	printf("%s", param);
-	param_parent = ft_strcp(param, i - 1, 0);
-	param += i + 1;
+	//param_parent = ft_strcp(param, i - 1, 0);
+	param_parent = ((char *)ft_dl_lstnnext(param, -1)->content);
+	param = ((char *)ft_dl_lstnnext(param, 1)->content);
 	if (pipe(fd) == -1)
 	{
 		ft_putstr_fd("An error occured with openning to pipe\n", 1);

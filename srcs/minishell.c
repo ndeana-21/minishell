@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 21:30:54 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 21:58:03 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void	shell_brach_command(char *content)
 		return ;
 	else if (check_shell_command(content, MS_EXIT, ms_exit))//FIXME работает через раз((
 		return ;
-	else if (ft_strsame(content, "|"))
-	{
-		printf("%s", "HERO\n");
-		ms_pipe(content);
-		return ;
-	}
+	//else if (ft_strsame(content, "|"))
+	//{
+	//	printf("%s", "HERO\n");
+	//	ms_pipe(content);
+	//	return ;
+	//}
 	else
 	{
 		//printf("%s", "HERO");
@@ -87,6 +87,7 @@ void	minishell(char *line)
 	{
 		// printf("|%s|\n", (char *)param->content);
 		shell_brach_command((char *)param->content);
+		ms_pipe(param);
 		//search((char *)param->content);
 		param = (t_dl_list *)param->next;
 	}
