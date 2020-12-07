@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/06 17:13:20 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/07 19:37:55 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		search_pipe(char **param)
 	count = 0;
 	while (param[i])
 	{
-		if (ft_strpass(param[i], "|" ))
+		if (ft_strpass(param[i], "|"))
 			count++;
 		i++;
 	}
@@ -30,14 +30,14 @@ int		search_pipe(char **param)
 
 void		pipe_parent(int child, int fd[2], char **param)
 {
-		if (child != 0)
-		{
-			dup2(fd[1], STDIN_FILENO); 
-			close(fd[0]);
-			//wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
-			close(fd[1]);
-			search(param);
-			exit(EXIT_SUCCESS);
+	if (child != 0)
+	{
+		dup2(fd[1], STDIN_FILENO);
+		close(fd[0]);
+		//wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
+		close(fd[1]);
+		shell_brach_command(param);
+		exit(EXIT_SUCCESS);
 		}
 }
 
@@ -47,9 +47,8 @@ void		pipe_child(int child[2], int fd[2], char **param)
 		{
 			dup2(fd[0], STDIN_FILENO); // Дублируем входную сторону трубы в стандартный ввод
 			close(fd[0]); // Закрываем стандартный ввод дочернего элемента
-			//execve("/bin/ls", 1, 2);
 			close(fd[1]);
-			search(param);
+			shell_brach_command(param);
 			exit(EXIT_SUCCESS);
 		}
 }
@@ -57,23 +56,27 @@ void		pipe_child(int child[2], int fd[2], char **param)
 void		ms_pipe(char **param)
 {
 	int		i;
-	char 	**param_parent;
+	char	**param_parent;
 	int		fd[2];
 	int		child[2];
 	int		status[2];
 
 	i = 0;
-	while (!ft_strpass(param[i], "|"))
-		i++;
+	printf("%s", "Heello");
+	//while (!ft_strpass(param[i], "|"))
+	//	i++;
+	printf("%s", param);
+	param_parent = ft_strcp(param, i - 1, 0);
+	param += i + 1;
 	if (pipe(fd) == -1)
-		{
-			printf("An error occured with openning to pipe\n");
-			errno = EMFILE;
-			return ;
-		}
+	{
+		ft_putstr_fd("An error occured with openning to pipe\n", 1);
+		errno = EMFILE;
+		return ;
+	}
 	child[0] = fork();
 	pipe_parent(child[0], fd, param);
-	//чистка строки
+	ft_freestrs(param_parent);
 	child[1] = fork();
 	pipe_child(child[1], fd, param);
 	close(fd[0]);
@@ -81,6 +84,7 @@ void		ms_pipe(char **param)
 	waitpid(child[1], &status[1], 0);
 	waitpid(child[0], &status[0], 0);
 }
+
 //ls | grep на грепе пайпа нету, execve("usr/bin/grep", 1, 2); dup2(temp_0_fd, 0); - нулевой фдшник на место, по этой причине кат читает из нулевого фдшника
 // dup2(fd[1], 1) - в родительском или дочернем, если сделать в дочернем и вызвать exec, то все сохраниться(заменили первый фдшник на первый фдшник пайпа)
 // Все что ниже пишется в первый фдшник пайпа

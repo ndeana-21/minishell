@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 01:34:16 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 19:38:09 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ void	shell_brach_command(char *content)
 		return ;
 	else if (check_shell_command(content, MS_EXIT, ms_exit))//FIXME работает через раз((
 		return ;
+	else if (ft_strsame(content, "|"))
+	{
+		printf("%s", "HERO\n");
+		ms_pipe(content);
+		return ;
+	}
 	else
 	{
 		//printf("%s", "HERO");
@@ -56,7 +62,7 @@ void	shell_brach_command(char *content)
 	//search(content);
 	return ;
 }
-
+/*
 int		search(char *param)
 {
 	if (search_pipe(param))
@@ -64,11 +70,11 @@ int		search(char *param)
 	//else if (search_redir(param))
 	//	msh_exec_redir(param);
 	//printf("%s", "start");
-	else if (!(check_shell_command))
+	//else if (!(shell_brach_command(param)))
 		ft_putstr_fd("error", 1);
 	return (1);
 }
-
+*/
 //Написать фуункцию что если мы встретили команду то врубаем шелл брэнч, если пайп то пайп, чек синтакс
 
 void	minishell(char *line)
