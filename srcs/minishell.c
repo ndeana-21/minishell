@@ -6,11 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/07 21:18:02 by gselyse          ###   ########.fr       */
-=======
-/*   Updated: 2020/12/07 20:51:54 by ndeana           ###   ########.fr       */
->>>>>>> add20648ee41071e1e7a3ee3e8fc45ad7e57f442
+/*   Updated: 2020/12/07 21:30:54 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +33,7 @@ int		check_shell_command(char *content, char *command, void (*func)(char *))
 
 void	shell_brach_command(char *content)
 {
-	//printf("%s", "HERO");
+	printf("|%s|\n", content);
 	if (check_shell_command(content, MS_ECHO, ms_echo))
 		return ;
 	else if (check_shell_command(content, MS_CD, ms_cd))

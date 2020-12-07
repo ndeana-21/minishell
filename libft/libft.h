@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 02:03:23 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/22 11:30:14 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 21:29:09 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,7 @@ void					ft_free_da(void	**double_arr, size_t hight);
 
 double					ft_deg(double rad);
 double					ft_rad(double deg);
+
+char	**ft_strcp(char **param, int len, int start);
 
 #endif

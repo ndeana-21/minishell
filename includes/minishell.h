@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 20:55:47 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/07 21:27:05 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void		print_error(size_t error_code, char *error_text);
 t_dl_list	*parsing(char *line);
 void		prompt(void);
 void		ms_dollar(char **str);
+
+void	shell_brach_command(char *content);
 
 void		replace_env(char *name, char *str);
 size_t		len_lstenv(t_dl_list *tmp, size_t plus);
