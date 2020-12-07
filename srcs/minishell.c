@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 21:58:03 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/08 01:27:30 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //TODO Search and launch the right executable
 //TODO cd exit
-//TODO ' " ; < > >> |
+//TODO "< > >> |
 
 int		check_shell_command(char *content, char *command, void (*func)(char *))
 {
@@ -22,10 +22,14 @@ int		check_shell_command(char *content, char *command, void (*func)(char *))
 
 	if (ft_strlen(command) == (size_t)ft_strcmp_reg(content, command))
 	{
-		buff = ft_strreplace(content, "", 0, ft_strlen(command));
-		buff = ft_strpass_rev(buff, " ");
-		func(ft_strpass(buff, " "));
-		free (buff);
+		if (content[ft_strlen(command)] == '\0' ||
+			content[ft_strlen(command)] == ' ')
+		{
+			buff = ft_strreplace(content, "", 0, ft_strlen(command));
+			buff = ft_strpass_rev(buff, " ");
+			func(ft_strpass(buff, " "));
+			free (buff);
+		}
 		return (TRUE);
 	}
 	return (FALSE);
@@ -33,7 +37,6 @@ int		check_shell_command(char *content, char *command, void (*func)(char *))
 
 void	shell_brach_command(char *content)
 {
-	printf("|%s|\n", content);
 	if (check_shell_command(content, MS_ECHO, ms_echo))
 		return ;
 	else if (check_shell_command(content, MS_CD, ms_cd))
@@ -48,34 +51,50 @@ void	shell_brach_command(char *content)
 		return ;
 	else if (check_shell_command(content, MS_EXIT, ms_exit))//FIXME работает через раз((
 		return ;
-	//else if (ft_strsame(content, "|"))
-	//{
-	//	printf("%s", "HERO\n");
-	//	ms_pipe(content);
-	//	return ;
-	//}
 	else
-	{
-		//printf("%s", "HERO");
 		ms_exec(content);
-	}
-	//search(content);
-	return ;
 }
-/*
-int		search(char *param)
-{
-	if (search_pipe(param))
-		ms_pipe(param);
-	//else if (search_redir(param))
-	//	msh_exec_redir(param);
-	//printf("%s", "start");
-	//else if (!(shell_brach_command(param)))
-		ft_putstr_fd("error", 1);
-	return (1);
-}
-*/
+
 //Написать фуункцию что если мы встретили команду то врубаем шелл брэнч, если пайп то пайп, чек синтакс
+
+void	ms_run(t_dl_list *param)
+{
+	if (!(ft_dl_lstnnext(param, -1)->prev))
+		shell_brach_command((char *)(ft_dl_lstnnext(param, -1)->content));
+	if (!(ft_dl_lstnnext(param, 1)->next))
+		shell_brach_command((char *)(ft_dl_lstnnext(param, 1)->content));
+	else if(ft_strsame(ft_dl_lstnnext(param, 2)->content, ";"))
+		shell_brach_command((char *)(ft_dl_lstnnext(param, 1)->content));
+}
+
+void	ms_redir_tostdin(t_dl_list *param)
+{
+
+}
+
+void	ms_redir_tofile(t_dl_list *param)
+{
+
+}
+
+void	ms_redir_tofile_append(t_dl_list *param)
+{
+
+}
+
+void	shell_branch_sep(t_dl_list *param)
+{
+	if (ft_strsame(param->content, ";"))
+		ms_run(param);
+	else if (ft_strsame(param->content, "|"))
+		ms_pipe(param);
+	else if (ft_strsame(param->content, "<"))
+		ms_redir_tostdin(param);
+	else if (ft_strsame(param->content, ">"))
+		ms_redir_tofile(param);
+	else if (ft_strsame(param->content, ">>"))
+		ms_redir_tofile_append(param);
+}
 
 void	minishell(char *line)
 {
@@ -83,12 +102,14 @@ void	minishell(char *line)
 
 	ft_strdel(&g_ret);
 	param = parsing(line);
+	if (!(param->next))
+		shell_brach_command((char *)param->content);
 	while (param)
 	{
+		shell_branch_sep(param);
 		// printf("|%s|\n", (char *)param->content);
-		shell_brach_command((char *)param->content);
-		ms_pipe(param);
-		//search((char *)param->content);
+		// shell_brach_command((char *)param->content);
+		// ms_pipe(param);
 		param = (t_dl_list *)param->next;
 	}
 	param = ft_dl_lstclear(param, free);
@@ -163,3 +184,5 @@ int			main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+
+//FIXME комманды с параметрами работают и без пробела между коммандой и параметром

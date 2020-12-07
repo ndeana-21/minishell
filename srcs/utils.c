@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/03 17:12:54 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/08 00:09:43 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,7 @@ void	ms_dollar(char **str)
 	while ((*str)[++i])
 	{
 		if (((*str)[i] == '\''))
-		{
-			if (!(new = ft_strreplace(*str, "", i, 1)))
-					error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-			i++;
-			ft_strdel(str);
-			*str = new;
 			insted = insted == -1ul ? 0 : -1;
-		}
 		if (!insted)
 			if ((*str)[i] == '$')
 			{

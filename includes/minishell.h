@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 21:46:04 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 23:48:54 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,11 @@
 # define MS_UNSET	"unset"
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
-# define MS_PIPE    "pipe"
 
 char		*g_name;
 char		*g_ret;
 t_dl_list	*g_envlst;
 int			g_exit;
-int         flag_r;
 
 void		error_exit(size_t error_code, char *error_text);
 void		print_error(size_t error_code, char *error_text);

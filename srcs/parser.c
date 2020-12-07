@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/04 17:52:25 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/07 23:20:24 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,11 @@ char	*ft_sep(char *c)
 	if (!c || !(*c))
 		return (0);
 	if (*c == ';')
-		return (ft_strchr(";|<>", *(c + 1)) ? "-" : "; ");
+		return (ft_strchr(";|<>", *(c + 1)) ? "-" : ";");
 	else if (*c == '|')
 		return (ft_strchr(";|<>", *(c + 1)) ? "-" : "|");
 	else if (*c == '<')
-	{
-		if (*(c + 1) == '<')
-			return (ft_strchr(";|<>", *(c + 2)) ? "-" : "; ");
 		return (ft_strchr(";|>", *(c + 1)) ? "-" : "<");
-	}
 	else if (*c == '>')
 	{
 		if (*(c + 1) == '>')
