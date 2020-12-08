@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/08 02:15:46 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/08 14:50:19 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int		search_pipe(char *param)
-{
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (param[i])
-	{
-		if (ft_strpass(param[i], "|"))
-			count++;
-		i++;
-	}
-	return (count);
-}
 
 void		pipe_parent(int child, int fd[2], char **param)
 {
@@ -34,11 +18,10 @@ void		pipe_parent(int child, int fd[2], char **param)
 	{
 		dup2(fd[1], STDIN_FILENO);
 		close(fd[0]);
-		//wait(&status); //жду дочку , статус это флаг записи/чтения из какого то дискриптора 
 		close(fd[1]);
 		shell_brach_command(param);
 		exit(EXIT_SUCCESS);
-		}
+	}
 }
 
 void		pipe_child(int child[2], int fd[2], char **param)
@@ -63,8 +46,7 @@ void		ms_pipe(t_dl_list *param)
 
 	i = 0;
 	//printf("%s", "Heello");
-	printf("%s", param);
-	//param_parent = ft_strcp(param, i - 1, 0);
+	//printf("%s", param);
 	param_parent = ((char *)ft_dl_lstnnext(param, -1)->content);
 	param = ((char *)ft_dl_lstnnext(param, 1)->content);
 	if (pipe(fd) == -1)
@@ -75,7 +57,7 @@ void		ms_pipe(t_dl_list *param)
 	}
 	child[0] = fork();
 	pipe_parent(child[0], fd, param_parent);
-	ft_freestrs(param_parent);
+	//ft_freestrs(param_parent);
 	child[1] = fork();
 	pipe_child(child[1], fd, param);
 	close(fd[0]);

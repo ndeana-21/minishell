@@ -6,12 +6,12 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 15:25:18 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/06 20:10:56 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/08 17:15:56 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
 int		search_redir(char **param)
 {
 	int i;
@@ -48,6 +48,9 @@ int		type_redir(char *param)
 	else
 		return (-1);
 }
+*/
+
+int		exec_redir()
 
 void	open_files(char *param)
 {
