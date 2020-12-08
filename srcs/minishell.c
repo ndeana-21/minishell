@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/08 17:35:36 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/08 17:51:37 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void	ms_redir_tofile(t_dl_list *param)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
+			printf("%s", "ALLLO");
+		exit(127);
 			return ; //error
 	}
 	//free(path);
