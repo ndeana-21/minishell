@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/06 16:18:26 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/09 21:31:35 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,11 @@ void	ms_exec(char *param)
 	pid_t	pid;
 
 	elem = ft_split(param, ' ');
-	printf("%s", param);
-	//printf("%s", "LLLLLLL");
-	//path = find_path(elem);
 	if (!(path = find_path(elem[0])))
 	{
 		ft_puterr(elem[0], ": command not found", "", 127);
 		return ;
 	}
-	//path = ft_strjoin(path, elem[0]);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -72,10 +68,8 @@ char			*find_path(char *param)
 	paths = ft_split(tmp, ':');
 	//free(tmp);
 	i = -1;
-    //printf("%s", "Hello");
 	while (paths[++i] && paths)
 	{
-		//printf("%s\n", paths[i]);
 		tmp = ft_strjoin("/", param);
 		path = ft_strjoin(paths[i], tmp);
 		free(tmp);
