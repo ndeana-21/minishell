@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/09 18:24:01 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/09 18:57:52 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ms_redir_tostdin(t_dl_list *param)
 	int		status;
 	pid_t	pid;
 
-	printf("%s", param);
+	//printf("%s", param);
 	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
 	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
 	if ((fd = open(tmp, O_RDONLY, 0644)) < 0)
@@ -112,7 +112,7 @@ void	ms_redir_tofile(t_dl_list *param)
 	int		status;
 	pid_t	pid;
 
-	printf("%s", param);
+	//printf("%s", param);
 	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
 	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
 	if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
@@ -150,7 +150,7 @@ void	ms_redir_tofile_append(t_dl_list *param)
 	int		status;
 	pid_t	pid;
 
-	printf("%s", param);
+	//printf("%s", param);
 	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
 	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
 	if ((fd = open(tmp, O_WRONLY | O_CREAT | O_APPEND, 0744)) < 0)
