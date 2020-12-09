@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/09 21:31:35 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/09 22:27:46 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,5 @@ char			*find_path(char *param)
 	ft_freestrs(paths);
 	return (ft_strdup(param));
 }
+
+//TODO твое

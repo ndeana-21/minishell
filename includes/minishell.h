@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 23:48:54 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/09 22:28:35 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
 
-char		*g_name;
-char		*g_ret;
 t_dl_list	*g_envlst;
 int			g_exit;
 

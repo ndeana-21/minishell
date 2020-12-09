@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/09 21:33:51 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/09 22:28:50 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//TODO Search and launch the right executable
-//TODO cd exit
-//TODO "< > >> |
+//TODO exit "
+//TODO cd ~/ SEGA
 
 int		check_shell_command(char *content, char *command, void (*func)(char *))
 {
@@ -49,7 +48,7 @@ void	shell_brach_command(char *content)
 		return ;
 	else if (check_shell_command(content, MS_ENV, ms_env))
 		return ;
-	else if (check_shell_command(content, MS_EXIT, ms_exit))//FIXME работает через раз((
+	else if (check_shell_command(content, MS_EXIT, ms_exit))
 		return ;
 	else
 		ms_exec(content);
@@ -65,112 +64,28 @@ void	ms_run(t_dl_list *param)
 		shell_brach_command((char *)(ft_dl_lstnnext(param, 1)->content));
 }
 
-void	ms_redir_tostdin(t_dl_list *param)
+void	ms_redir(t_dl_list *param, int perm, int descr, int to_dup)
 {
 	int		fd;
-	char	*path;
 	char	*tmp;
 	char	*tmp_p;
-	int		status;
 	pid_t	pid;
 
 	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
 	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
-	if ((fd = open(tmp, O_RDONLY, 0644)) < 0)
+	if ((fd = open(tmp, perm, descr)) < 0)
 		write(1, "Couldn't open file\n", 19);
-	pid = fork();
-	if (pid == 0)
+	if (!(pid = fork()))
 	{
-		//if ((fd = open(param, O_RDONLY, 0644)) < 0);
-		//	write(1, "Couldn't open file\n", 19);
-		if (!(path = find_path(tmp_p)))
-			return ;
-		//return (ft_puterr());
-		dup2(fd, 0);
+		dup2(fd, to_dup);
 		close(fd);
 		shell_brach_command(tmp_p);
-		//if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
-		//	printf("%s", "ALLLO");
-		exit(127);
-			return ; //error
+		exit(EXIT_SUCCESS);
 	}
-	//free(path);
-	wait(&status);
-	//free(tmp);
-	g_exit = status / 256;
-}
-
-void	ms_redir_tofile(t_dl_list *param)
-{
-	int		fd;
-	char	*path;
-	char	*tmp;
-	char	*tmp_p;
-	int		status;
-	pid_t	pid;
-
-	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
-	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
-	if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
-		write(1, "Couldn't open file\n", 19);
-	pid = fork();
-	if (pid == 0)
-	{
-		//if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
-		//	write(1, "Couldn't open file\n", 19);
-		//printf("%s", "lplasdas");
-		if (!(path = find_path(tmp_p)))
-			return ;
-		//return (ft_puterr());
-		//command = ft_strjoin(command, path);
-		dup2(fd, 1);
-		close(fd);
-		shell_brach_command(tmp_p);
-		//if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1)) // сюда не заходим
-		//	printf("%s", "ALLLO");
-		exit(127);
-			return ; //error
-	}
-	//free(path);
-	wait(&status);
-	//free(tmp);
-	g_exit = status / 256;
-}
-
-void	ms_redir_tofile_append(t_dl_list *param)
-{
-	int		fd;
-	char	*path;
-	char	*tmp;
-	char	*tmp_p;
-	int		status;
-	pid_t	pid;
-
-	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
-	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
-	if ((fd = open(tmp, O_WRONLY | O_CREAT | O_APPEND, 0744)) < 0)
-		write(1, "Couldn't open file\n", 19);
-	pid = fork();
-	if (pid == 0)
-	{
-		//if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
-		//	write(1, "Couldn't open file\n", 19);
-		if (!(path = find_path(tmp_p)))
-			return ;
-		//return (ft_puterr());
-		//command = ft_strjoin(command, path);
-		dup2(fd, 1);
-		close(fd);
-		shell_brach_command(tmp_p);
-		//if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1)) // сюда не заходим
-		//	printf("%s", "ALLLO");
-		exit(127);
-			return ; //error
-	}
-	//free(path);
-	wait(&status);
-	//free(tmp);
-	g_exit = status / 256;
+	free(tmp);
+	free(tmp_p);
+	wait(&g_exit);
+	g_exit = g_exit / 256;
 }
 
 void	shell_branch_sep(t_dl_list *param)
@@ -180,11 +95,11 @@ void	shell_branch_sep(t_dl_list *param)
 	else if (ft_strsame(param->content, "|"))
 		ms_pipe(param);
 	else if (ft_strsame(param->content, "<"))
-		ms_redir_tostdin(param);
+		ms_redir(param, O_RDONLY, 0644, 0);
 	else if (ft_strsame(param->content, ">"))
-		ms_redir_tofile(param);
+		ms_redir(param, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1);
 	else if (ft_strsame(param->content, ">>"))
-		ms_redir_tofile_append(param);
+		ms_redir(param, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
 }
 
 void	minishell(char *line)
@@ -198,9 +113,6 @@ void	minishell(char *line)
 	while (param)
 	{
 		shell_branch_sep(param);
-		// printf("|%s|\n", (char *)param->content);
-		// shell_brach_command((char *)param->content);
-		//ms_pipe(param);
 		param = (t_dl_list *)param->next;
 	}
 	param = ft_dl_lstclear(param, free);
@@ -251,7 +163,7 @@ int			main(int argc, char **argv, char **env)
 	char	*line;
 
 	(void)argc;
-	g_name = argv[0];
+	(void)argv;
 	init_env(env);
 	set_signal();
 	line = NULL;
