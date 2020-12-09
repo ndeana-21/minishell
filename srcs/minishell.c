@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/08 17:51:37 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/09 17:10:35 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,35 @@ void	ms_redir_tostdin(t_dl_list *param)
 {
 	int		fd;
 	char	*path;
+	char	*tmp;
+	char	*tmp_p;
+	int		status;
+	pid_t	pid;
 
 	printf("%s", param);
-	fd = open(param, O_RDONLY, 0644);
-	if (fd < 0)
+	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
+	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
+	if ((fd = open(param, O_RDONLY, 0644)) < 0)
 		write(1, "Couldn't open file\n", 19);
-	if (!(path = find_path(param)))
-		return ;
+	pid = fork();
+	if (pid == 0)
+	{
+		//if ((fd = open(param, O_RDONLY, 0644)) < 0);
+		//	write(1, "Couldn't open file\n", 19);
+		if (!(path = find_path(tmp_p)))
+			return ;
 		//return (ft_puterr());
+		dup2(fd, 1);
+		close(fd);
+		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
+			printf("%s", "ALLLO");
+		exit(127);
+			return ; //error
+	}
+	//free(path);
+	wait(&status);
+	//free(tmp);
+	g_exit = status / 256;
 }
 
 void	ms_redir_tofile(t_dl_list *param)
@@ -88,34 +109,26 @@ void	ms_redir_tofile(t_dl_list *param)
 	char	*tmp;
 	char	*tmp_p;
 	int		status;
+	//char *command = "/usr/bin/";
 	pid_t	pid;
 
 	printf("%s", param);
 	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
 	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
-	fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744);
-	if (fd < 0)
-	{
-		//ft_puterr();
-		//return (EXIT_FAILURE);
+	if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
 		write(1, "Couldn't open file\n", 19);
-	}
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744);
-		if (fd < 0)
-		{
-		//ft_puterr();
-		//return (EXIT_FAILURE);
-		write(1, "Couldn't open file\n", 19);
-		}
+		if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
+			write(1, "Couldn't open file\n", 19);
 		if (!(path = find_path(tmp_p)))
 			return ;
 		//return (ft_puterr());
-		dup2(fd, STDIN_FILENO);
+		//command = ft_strjoin(command, path);
+		dup2(fd, 1);
 		close(fd);
-		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
+		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1)) // сюда не заходим
 			printf("%s", "ALLLO");
 		exit(127);
 			return ; //error
@@ -129,10 +142,36 @@ void	ms_redir_tofile(t_dl_list *param)
 void	ms_redir_tofile_append(t_dl_list *param)
 {
 	int		fd;
-	char 	*path;
+	char	*path;
+	char	*tmp;
+	char	*tmp_p;
+	int		status;
+	pid_t	pid;
 
-	//fd = open(param, O_WRONLY | O_CREAT | O_APPEND. 0744);
-
+	printf("%s", param);
+	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
+	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
+	if ((fd = open(tmp, O_WRONLY | O_CREAT | O_APPEND, 0744)) < 0)
+		write(1, "Couldn't open file\n", 19);
+	pid = fork();
+	if (pid == 0)
+	{
+		//if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
+		//	write(1, "Couldn't open file\n", 19);
+		if (!(path = find_path(tmp_p)))
+			return ;
+		//return (ft_puterr());
+		dup2(fd, 1);
+		close(fd);
+		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
+			printf("%s", "ALLLO");
+		exit(127);
+			return ; //error
+	}
+	//free(path);
+	wait(&status);
+	//free(tmp);
+	g_exit = status / 256;
 }
 
 void	shell_branch_sep(t_dl_list *param)
