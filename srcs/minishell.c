@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/09 17:10:35 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/09 18:24:01 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	ms_redir_tostdin(t_dl_list *param)
 	printf("%s", param);
 	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
 	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
-	if ((fd = open(param, O_RDONLY, 0644)) < 0)
+	if ((fd = open(tmp, O_RDONLY, 0644)) < 0)
 		write(1, "Couldn't open file\n", 19);
 	pid = fork();
 	if (pid == 0)
@@ -89,10 +89,11 @@ void	ms_redir_tostdin(t_dl_list *param)
 		if (!(path = find_path(tmp_p)))
 			return ;
 		//return (ft_puterr());
-		dup2(fd, 1);
+		dup2(fd, 0);
 		close(fd);
-		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
-			printf("%s", "ALLLO");
+		shell_brach_command(tmp_p);
+		//if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
+		//	printf("%s", "ALLLO");
 		exit(127);
 			return ; //error
 	}
@@ -109,7 +110,6 @@ void	ms_redir_tofile(t_dl_list *param)
 	char	*tmp;
 	char	*tmp_p;
 	int		status;
-	//char *command = "/usr/bin/";
 	pid_t	pid;
 
 	printf("%s", param);
@@ -120,16 +120,18 @@ void	ms_redir_tofile(t_dl_list *param)
 	pid = fork();
 	if (pid == 0)
 	{
-		if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
-			write(1, "Couldn't open file\n", 19);
+		//if ((fd = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744)) < 0)
+		//	write(1, "Couldn't open file\n", 19);
+		//printf("%s", "lplasdas");
 		if (!(path = find_path(tmp_p)))
 			return ;
 		//return (ft_puterr());
 		//command = ft_strjoin(command, path);
 		dup2(fd, 1);
 		close(fd);
-		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1)) // сюда не заходим
-			printf("%s", "ALLLO");
+		shell_brach_command(tmp_p);
+		//if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1)) // сюда не заходим
+		//	printf("%s", "ALLLO");
 		exit(127);
 			return ; //error
 	}
@@ -161,10 +163,12 @@ void	ms_redir_tofile_append(t_dl_list *param)
 		if (!(path = find_path(tmp_p)))
 			return ;
 		//return (ft_puterr());
+		//command = ft_strjoin(command, path);
 		dup2(fd, 1);
 		close(fd);
-		if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1))
-			printf("%s", "ALLLO");
+		shell_brach_command(tmp_p);
+		//if (!(check_shell_command) && (execve(path, tmp_p, g_envlst) == -1)) // сюда не заходим
+		//	printf("%s", "ALLLO");
 		exit(127);
 			return ; //error
 	}
