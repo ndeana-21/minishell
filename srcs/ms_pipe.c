@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/08 14:50:19 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/09 17:19:18 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		pipe_parent(int child, int fd[2], char **param)
 {
 	if (child == 0)
 	{
-		dup2(fd[1], STDIN_FILENO);
+		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
 		shell_brach_command(param);
@@ -28,7 +28,7 @@ void		pipe_child(int child[2], int fd[2], char **param)
 {
 	if (child == 0) // дочерний процесс
 		{
-			dup2(fd[0], STDIN_FILENO); // Дублируем входную сторону трубы в стандартный ввод
+			dup2(fd[0], 0); // Дублируем входную сторону трубы в стандартный ввод
 			close(fd[0]); // Закрываем стандартный ввод дочернего элемента
 			close(fd[1]);
 			shell_brach_command(param);
