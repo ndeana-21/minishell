@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 16:36:35 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 20:07:31 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_strpass_rev(char *str, char *sample)
 	size_t	count;
 
 	count = ft_strlen(str);
-	while (--count > 0)
+	while (--count)
 	{
 		if (ft_strchr(sample, str[count]))
 			str[count] = 0;

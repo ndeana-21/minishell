@@ -6,13 +6,13 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 19:23:05 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 01:08:48 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_shell_command(char *content, char *command, void (*func)(char *))
+int		check_shell_cmd(char *content, char *command, void (*func)(char *))
 {
 	char	*buff;
 
@@ -30,21 +30,21 @@ int		check_shell_command(char *content, char *command, void (*func)(char *))
 	return (FALSE);
 }
 
-void	shell_brach_command(char *content)
+void	shell_brach_cmd(char *content)
 {
-	if (check_shell_command(content, MS_CD, ms_cd))
+	if (check_shell_cmd(content, MS_CD, ms_cd))
 		return ;
-	else if (check_shell_command(content, MS_ECHO, ms_echo))
+	else if (check_shell_cmd(content, MS_ECHO, ms_echo))
 		return ;
-	else if (check_shell_command(content, MS_PWD, ms_pwd))
+	else if (check_shell_cmd(content, MS_PWD, ms_pwd))
 		return ;
-	else if (check_shell_command(content, MS_UNSET, ms_unset))
+	else if (check_shell_cmd(content, MS_UNSET, ms_unset))
 		return ;
-	else if (check_shell_command(content, MS_ENV, ms_env))
+	else if (check_shell_cmd(content, MS_ENV, ms_env))
 		return ;
-	else if (check_shell_command(content, MS_EXPORT, ms_export))
+	else if (check_shell_cmd(content, MS_EXPORT, ms_export))
 		return ;
-	else if (check_shell_command(content, MS_EXIT, ms_exit))
+	else if (check_shell_cmd(content, MS_EXIT, ms_exit))
 		return ;
 	else
 		ms_exec(content);
@@ -70,7 +70,7 @@ void	minishell(char **line)
 
 	param = parsing(*line);
 	if (!(param->next))
-		shell_brach_command((char *)param->content);
+		shell_brach_cmd((char *)param->content);
 	while (param)
 	{
 		shell_branch_sep(param);

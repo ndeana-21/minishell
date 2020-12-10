@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:35:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 16:26:25 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 01:08:55 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ms_redir(t_dl_list *param, int perm, int descr, int to_dup)
 	{
 		dup2(fd, to_dup);
 		close(fd);
-		shell_brach_command(tmp_p);
+		shell_brach_cmd(tmp_p);
 		exit(EXIT_SUCCESS);
 	}
 	free(tmp);

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:37:08 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 03:46:08 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 23:03:44 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void		init_env(char **env)
 		return ;
 	while (*env)
 	{
+		data = NULL;
 		data = create_env(*env);
 		ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(data));
-		data = 0;
 		env++;
 	}
 }
@@ -32,8 +32,10 @@ void		free_env(void *env)
 {
 	if (env)
 	{
-		free(((t_env *)env)->name);
-		free(((t_env *)env)->val);
+		if (((t_env *)env)->name)
+			free(((t_env *)env)->name);
+		if (((t_env *)env)->val)
+			free(((t_env *)env)->val);
 		free(env);
 	}
 }

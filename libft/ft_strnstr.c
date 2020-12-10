@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:55 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 00:36:46 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 01:11:46 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,12 @@ char	*ft_strreplace(char *str, char *sample, ssize_t where, ssize_t insted)
 		return (NULL);
 	count = -1;
 	while ((++count < where) && *str)
-	{
-		new[count] = *str;
-		str++;
-	}
+		new[count] = *(str++);
 	while (*sample)
-	{
-		new[count++] = *sample;
-		sample++;
-	}
+		new[count++] = *(sample++);
 	while (insted-- && *str)
 		str++;
 	while (*str)
-	{
-		new[count++] = *str;
-		str++;
-	}
+		new[count++] = *(str++);
 	return (new);
 }

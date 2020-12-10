@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/09 22:27:56 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 23:08:18 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int			ft_strln(char **s)
 
 static void			free_exit(void)
 {
-	ft_freestrs(g_envlst);
 	exit(g_exit);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/09 22:28:00 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 01:08:49 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		pipe_parent(int child, int fd[2], char **param)
 		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
-		shell_brach_command(param);
+		shell_brach_cmd(param);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -31,7 +31,7 @@ void		pipe_child(int child[2], int fd[2], char **param)
 		dup2(fd[0], 0);
 		close(fd[0]);
 		close(fd[1]);
-		shell_brach_command(param);
+		shell_brach_cmd(param);
 		exit(EXIT_SUCCESS);
 	}
 }
