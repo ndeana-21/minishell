@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 23:20:24 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 02:00:15 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 char		find_quotes(char line, char flag)
 {
 	if (!flag)
-		{
-			if (line == '\'')
-				flag = '\'';
-			else if (line == '"')
-				flag = '"';
-		}
+	{
+		if (line == '\'')
+			flag = '\'';
+		else if (line == '"')
+			flag = '"';
+	}
 	else if (line == flag)
 		flag = 0;
 	return (flag);
 }
 
-char	*ft_sep(char *c)
+char		*ft_sep(char *c)
 {
 	if (!c || !(*c))
 		return (0);
@@ -45,12 +45,47 @@ char	*ft_sep(char *c)
 	return (0);
 }
 
-t_dl_list	*parsing(char *line)//FIXME слишком много строк
+void		parsing_utilit_to_lst(char *line, t_dl_list **lst,
+								ssize_t *count_end, char *sep_res)
 {
-	t_dl_list	*lst;
+	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+	*count_end += ft_strlen(sep_res) - 1;
+	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(sep_res)))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+	*lst = ft_dl_lstlast(*lst);
+}
+
+ssize_t		parsing_utilit(char *line, t_dl_list **lst)
+{
 	ssize_t		count_end;
 	char		*sep_res;
 	char		flag;
+
+	flag = 0;
+	count_end = -1;
+	while (line[++count_end])
+		if (!(flag = find_quotes(line[count_end], flag)))
+			if ((sep_res = ft_sep(&line[count_end])))
+			{
+				if (*sep_res == '-')
+				{
+					ft_putendl_fd(ERROR_SYNTAX, 2);
+					*lst = ft_dl_lstclear(*lst, free);
+					return (-1);
+				}
+				if (count_end < 0)
+					return (-1);
+				parsing_utilit_to_lst(line, lst, &count_end, sep_res);
+				break ;
+			}
+	return (count_end);
+}
+
+t_dl_list	*parsing(char *line)
+{
+	t_dl_list	*lst;
+	ssize_t		count_end;
 
 	if (!line)
 		return (NULL);
@@ -58,29 +93,8 @@ t_dl_list	*parsing(char *line)//FIXME слишком много строк
 	while (*line)
 	{
 		line = ft_strpass(line, " ");
-		flag = 0;
-		count_end = -1;
-		while (line[++count_end])
-			if (!(flag = find_quotes(line[count_end], flag)))
-				if ((sep_res = ft_sep(&line[count_end])))
-				{
-					if (*sep_res == '-')
-					{
-						ft_putendl_fd(ERROR_SYNTAX, 2);
-						lst = ft_dl_lstclear(lst, free);
-						return (lst);
-					}
-					if (count_end < 0)
-						return (lst);
-					if (!ft_dl_lstadd_back(&lst,
-							ft_dl_lstnew(ft_strncut(line, count_end))))
-						error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-					count_end += ft_strlen(sep_res) - 1;
-					if (!ft_dl_lstadd_back(&lst, ft_dl_lstnew(sep_res)))
-						error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-					lst = ft_dl_lstlast(lst);
-					break ;
-				}
+		if (0 > (count_end = parsing_utilit(line, &lst)))
+			return (lst);
 		if (!line[count_end])
 			break ;
 		line += count_end + 1;

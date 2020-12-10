@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:55 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/17 08:03:05 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 00:36:46 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,10 @@ char	*ft_strinsert(char *str, char *target, size_t to)
 	}
 	while (str[str_count])
 		ret[count++] = str[str_count++];
-	free (str);
+	free(str);
 	return (ret);
 }
 
-/*
-**	where	- place where it will insert sample
-**	insted	- count of letters that will erase after "where"
-*/
 char	*ft_strreplace(char *str, char *sample, ssize_t where, ssize_t insted)
 {
 	char	*new;

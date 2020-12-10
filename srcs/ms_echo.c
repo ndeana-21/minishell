@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/11/28 22:11:44 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 03:53:52 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int			flag_echo(char **str)
 	char	*buf;
 	int		count;
 
+	if (!str || !*str || !**str)
+		return (FALSE);
 	buf = *str;
 	buf = ft_strpass(buf, " ");
 	count = 0;
@@ -37,22 +39,16 @@ int			flag_echo(char **str)
 
 void		ms_echo(char *param)
 {
-	int 	flag;
-	size_t	size;
+	int	flag;
 
-	flag = 1;
-	ft_strdel(&g_ret);
-	if ((flag = (1 - flag_echo(&param))))
-		if (!(*param))
-		{
-			g_ret = ft_strdup("");
-			return ;
-		}
-	size = ft_strlen(param) + 1 + flag;
-	if (!(g_ret = ft_calloc(sizeof(char), size)))
-		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-	ft_strappend(g_ret, param, sizeof(char) * size);
-	if (flag)
-		ft_strappend(g_ret, "\n", sizeof(char) * size);
-	ft_putstr_fd(g_ret, 1);//FIXME это временно
+	if (!param || !(*param))
+	{
+		ft_putstr_fd("", 1);
+		return ;
+	}
+	flag = flag_echo(&param);
+	ft_putstr_fd(param, 1);
+	if (!flag)
+		ft_putstr_fd("\n", 1);
+	g_exit = 0;
 }

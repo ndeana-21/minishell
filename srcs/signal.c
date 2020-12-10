@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/09 22:28:17 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 00:21:14 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	set_signal(void)
 {
 	signal(SIGQUIT, signal_handler);
 	signal(SIGINT, signal_handler);
-	g_ret = NULL;
 	g_exit = 0;
 }
 
