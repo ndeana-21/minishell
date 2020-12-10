@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 01:22:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/10 21:04:45 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 00:42:43 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	ft_dl_lstreplace(t_dl_list *lst, size_t to)
 	if (!lst)
 		return ;
 	if (lst->prev)
-		((t_dl_list *)lst->prev)->next  = lst->next;
+		((t_dl_list *)lst->prev)->next = lst->next;
 	if (lst->next)
-		((t_dl_list *)lst->next)->prev  = lst->prev;
+		((t_dl_list *)lst->next)->prev = lst->prev;
 	tmp = ft_dl_lstnnext(ft_dl_lstfirst(lst), to);
 	if (tmp->prev)
 		((t_dl_list *)tmp->prev)->next = (struct t_dl_list *)lst;

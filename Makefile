@@ -6,7 +6,7 @@
 #    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/01 16:51:38 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/10 21:07:48 by ndeana           ###   ########.fr        #
+#    Updated: 2020/12/10 02:59:21 by ndeana           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,35 +15,37 @@ DIR			=	./srcs
 LFT_DIR		=	./libft
 HEAD_DIR	=	./includes
 
-FILES		=	ms_cd.c			ms_exit.c		ms_pwd.c		ms_unset.c		\
-				ms_env.c		ms_export.c		parser.c		minishell.c		\
-				utils.c			
+FILES		=	parser.c	minishell.c		utils.c		signal.c		\
+				ms_pwd.c	ms_exit.c		ms_echo.c	ms_env.c		\
+				ms_unset.c	ms_export.c		ms_pipe.c   ms_cd.c			\
+				ms_exec.c	ms_sep.c		env_utils.c	main.c			\
+				error.c
 
 HEAD_FILE	=	minishell.h		error.h			struct.h			
 
 LFT			=	-L$(LFT_DIR) -lft
 SRCS		=	$(addprefix $(DIR)/, $(FILES))
-HEAD		=	$(addprefix $(HEAD_DIR)/, $(HEAD_FILE))
+HEADERS		=	$(addprefix $(HEAD_DIR)/, $(HEAD_FILE))
 INCLUDES	=	-I$(HEAD_DIR) -I$(LFT_DIR)
 OBJS		=	$(SRCS:.c=.o)
 
 M_FLAGS		=	--no-print-directory
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -g -O0 $(INCLUDES) 
+CFLAGS		=	-Wall -Wextra -mcmodel=medium -g -O0 $(INCLUDES) 
 LIBS		=	-lm $(LFT)
 
 all: $(NAME)
 
 %.o: %.c $(HEADERS)
 	@$(CC) $(CFLAGS) -c $< $(LIBS) -o $@
-	@$(PRINT) "\r$(FGREEN)COMPILE: $<            $(PNULL)"
+	@$(PRINT) "\r$(FGREEN)COMPILE: $<                   $(PNULL)"
 
 lib:
 	@make $(M_FLAGS) -C $(LFT_DIR)
 
 $(NAME): lib $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-	@$(PRINT) "\r$(FGREEN)MAKE: ${NAME}      $(PNULL)\n"
+	@$(PRINT) "\r$(FGREEN)MAKE: ${NAME}                 $(PNULL)\n"
 
 clean:
 	@$(PRINT) "$(addprefix \n$(FRED)REMOVE: $(FYELLOW), $(FILES:.c=.o))$(PNULL)"

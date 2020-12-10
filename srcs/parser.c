@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/06 18:34:004 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 02:00:15 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,68 +15,77 @@
 char		find_quotes(char line, char flag)
 {
 	if (!flag)
-		{
-			if (line == '\'')
-				flag = '\'';
-			else if (line == '"')
-				flag = '"';
-		}
+	{
+		if (line == '\'')
+			flag = '\'';
+		else if (line == '"')
+			flag = '"';
+	}
 	else if (line == flag)
 		flag = 0;
 	return (flag);
 }
 
-char	*ft_sep(char *c)
+char		*ft_sep(char *c)
 {
+	if (!c || !(*c))
+		return (0);
 	if (*c == ';')
-		return (";");
-	if (*c == '|')
-		return ("|");
-	if (*c == '<')
-	{
-		if (*(c + 1) == '<')
-			return ("<<");
-		return ("<");
-	}
-	if (*c == '>')
+		return (ft_strchr(";|<>", *(c + 1)) ? "-" : ";");
+	else if (*c == '|')
+		return (ft_strchr(";|<>", *(c + 1)) ? "-" : "|");
+	else if (*c == '<')
+		return (ft_strchr(";|>", *(c + 1)) ? "-" : "<");
+	else if (*c == '>')
 	{
 		if (*(c + 1) == '>')
-			return (">>");
-		return (">");
+			return (ft_strchr(";|<>", *(c + 2)) ? "-" : ">>");
+		return (ft_strchr(";|<", *(c + 1)) ? "-" : ">");
 	}
 	return (0);
 }
 
-// ssize_t		parsing_sep(t_dl_list	*lst, char *line)
-// {
-// 	size_t		count_end;
-// 	char		*sep_res;
-// 	char		flag;
+void		parsing_utilit_to_lst(char *line, t_dl_list **lst,
+								ssize_t *count_end, char *sep_res)
+{
+	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+	*count_end += ft_strlen(sep_res) - 1;
+	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(sep_res)))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+	*lst = ft_dl_lstlast(*lst);
+}
 
-// 	flag = 0;
-// 	count_end = -1;
-// 	while (line[++count_end])
-// 	{
-// 		flag = find_quotes(line[count_end], flag);
-// 		if (!flag)
-// 			if ((sep_res = ft_sep(&line[count_end])))
-// 			{
-// 				lst = ft_dl_lstlast(lst);
-// 				lst->content = ft_strncut(line, count_end - 1);
-// 				if (count_end > 0)
-// 					ft_dl_lstadd_back(&lst, ft_dl_lstnew(sep_res));
-// 				return (count_end);
-// 			}
-// 	}
-// 	return (-1);
-// }
+ssize_t		parsing_utilit(char *line, t_dl_list **lst)
+{
+	ssize_t		count_end;
+	char		*sep_res;
+	char		flag;
+
+	flag = 0;
+	count_end = -1;
+	while (line[++count_end])
+		if (!(flag = find_quotes(line[count_end], flag)))
+			if ((sep_res = ft_sep(&line[count_end])))
+			{
+				if (*sep_res == '-')
+				{
+					ft_putendl_fd(ERROR_SYNTAX, 2);
+					*lst = ft_dl_lstclear(*lst, free);
+					return (-1);
+				}
+				if (count_end < 0)
+					return (-1);
+				parsing_utilit_to_lst(line, lst, &count_end, sep_res);
+				break ;
+			}
+	return (count_end);
+}
 
 t_dl_list	*parsing(char *line)
 {
 	t_dl_list	*lst;
 	ssize_t		count_end;
-	char		*sep_res;
-	char		flag;
 
 	if (!line)
 		return (NULL);
@@ -84,22 +93,9 @@ t_dl_list	*parsing(char *line)
 	while (*line)
 	{
 		line = ft_strpass(line, " ");
-		flag = 0;
-		count_end = -1;
-		while (line[++count_end])
-			if (!(flag = find_quotes(line[count_end], flag)))
-				if ((sep_res = ft_sep(&line[count_end])))
-				{
-					if (count_end <= 0)
-						return (NULL);
-					if (!ft_dl_lstadd_back(&lst,
-							ft_dl_lstnew(ft_strncut(line, count_end - 1))) ||
-						!ft_dl_lstadd_back(&lst, ft_dl_lstnew(sep_res)))
-						error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-					lst = ft_dl_lstlast(lst);
-					break ;
-				}
-		if (!line[count_end + 1])
+		if (0 > (count_end = parsing_utilit(line, &lst)))
+			return (lst);
+		if (!line[count_end])
 			break ;
 		line += count_end + 1;
 	}

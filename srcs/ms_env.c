@@ -6,29 +6,32 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/14 00:32:18 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 03:53:39 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ms_env(char *str)//FIXME
+void		ms_env(char *param)
 {
 	t_dl_list	*tmp;
-	// t_env	*data;
 
+	if ((*param))
+	{
+		print_error(2, "env: too many arguments");
+		return ;
+	}
 	tmp = g_envlst;
 	while (tmp)
 	{
-		ft_putchar_fd(((t_env *)tmp->content)->name, 1);
-		ft_putchar_fd("=", 1);
-		ft_putendl_fd(((t_env *)tmp->content)->val, 1);
-		tmp->next;
+		if ((((t_env *)tmp->content)->name) && (((t_env *)tmp->content)->val))
+		{
+			ft_putstr_fd(((t_env *)tmp->content)->name, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(((t_env *)tmp->content)->val, 1);
+			ft_putstr_fd("\n", 1);
+		}
+		tmp = (t_dl_list *)tmp->next;
 	}
-	
-	// data = create_env(str);
-	// if (find_env(data->name))
-	// 	data = free_env(data);
-	// else
-	// 	ft_dl_lstadd_back(g_envlst, ft_dl_lstnew(data));
+	g_exit = 0;
 }

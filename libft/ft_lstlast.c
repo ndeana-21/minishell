@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 01:22:35 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/07 14:25:30 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/07 21:42:42 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_dl_list	*ft_dl_lstfirst(t_dl_list *lst)
 	return (lst);
 }
 
-t_dl_list	*ft_dl_lstnnext(t_dl_list *lst, size_t step)
+t_dl_list	*ft_dl_lstnnext(t_dl_list *lst, ssize_t step)
 {
 	if (!lst)
 		return (0);

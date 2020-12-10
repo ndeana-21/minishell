@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:20 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/02 02:49:24 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 03:19:41 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ size_t	ft_strlen(const char *s)
 		return (0);
 	i = 0;
 	while (s[i])
+		i++;
+	return (i);
+}
+
+size_t	ft_pointer_len(void **pointer)
+{
+	size_t	i;
+
+	if (!(*pointer))
+		return (0);
+	i = 0;
+	while (pointer[i])
 		i++;
 	return (i);
 }

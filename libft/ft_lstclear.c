@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 01:23:04 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/10 21:09:50 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 00:35:08 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_list		*ft_lstclear(t_list *lst, void (*del)(void*))
 		}
 	return (NULL);
 }
+
 t_dl_list	*ft_dl_lstclear(t_dl_list *lst, void (*del)(void*))
 {
 	t_dl_list	*tlst;

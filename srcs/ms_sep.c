@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_unset.c                                         :+:      :+:    :+:   */
+/*   ms_sep.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 18:21:41 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 03:55:12 by ndeana           ###   ########.fr       */
+/*   Created: 2020/12/10 03:37:31 by ndeana            #+#    #+#             */
+/*   Updated: 2020/12/10 03:44:00 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_unset(char *str)
+void	ms_sep(t_dl_list *param)
 {
-	t_dl_list	*tmp;
-
-	g_exit = 0;
-	if (!(tmp = find_env(str)))
-		return ;
-	ft_dl_lstdelone(tmp, free_env);
+	if (!(ft_dl_lstnnext(param, -1)->prev))
+		shell_brach_command((char *)(ft_dl_lstnnext(param, -1)->content));
+	if (!(ft_dl_lstnnext(param, 1)->next))
+		shell_brach_command((char *)(ft_dl_lstnnext(param, 1)->content));
+	else if (ft_strsame(ft_dl_lstnnext(param, 2)->content, ";"))
+		shell_brach_command((char *)(ft_dl_lstnnext(param, 1)->content));
 }

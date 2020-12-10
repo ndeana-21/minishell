@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+         #
+#    By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/02 14:32:17 by ndeana            #+#    #+#              #
-#    Updated: 2020/11/04 13:55:09 by ndeana           ###   ########.fr        #
+#    Updated: 2020/11/26 13:38:56 by gselyse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_DIR)/, $(OBJ))
 INCLUDES= ./
 CC		= clang
-CF		= -Wall -Wextra -Werror
+CF		= -Wall -Wextra -Werror -mcmodel=medium
 RM		= rm -rf
 .PHONY: all clean fclean re norme
 

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/09 23:21:24 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 00:34:59 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strrchr(const char *s, int c)
 	return (0);
 }
 
-char			*ft_strpass(char *str, char *sample)
+char	*ft_strpass(char *str, char *sample)
 {
 	while (*str)
 	{
@@ -42,7 +42,7 @@ char			*ft_strpass(char *str, char *sample)
 	return (str);
 }
 
-char					*ft_strpass_rev(char *str, char *sample)
+char	*ft_strpass_rev(char *str, char *sample)
 {
 	size_t	count;
 

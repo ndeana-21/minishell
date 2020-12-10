@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 01:23:23 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/06 18:33:34 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/10 00:35:28 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	return (new_lst);
 }
 
-t_dl_list	*ft_dl_lstmap(t_dl_list *lst, void *(*f)(void *), void (*del)(void *))
+t_dl_list	*ft_dl_lstmap(t_dl_list *lst,
+							void *(*f)(void *), void (*del)(void *))
 {
 	t_dl_list	*new_lst;
 	t_dl_list	*new_next;
