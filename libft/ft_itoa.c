@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/17 18:50:19 by ndeana            #+#    #+#             */
-/*   Updated: 2020/05/29 18:56:43 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/11/30 15:24:17 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,40 @@ int		count_lenofnum(int num)
 		return (1);
 }
 
-char	*ft_itoa(int n)
+void	num_to_str(char *str, int num)
 {
-	char			*num;
 	unsigned int	sign;
+	unsigned int	ui_num;
 	unsigned int	i;
-	unsigned int	ui_n;
 
-	if (!(num = (char *)malloc(sizeof(char) * count_lenofnum(n) + 1)))
-		return (NULL);
 	sign = 0;
 	i = 0;
-	if (n < 0)
+	ui_num = (unsigned int)num;
+	if (num < 0)
 	{
-		num[i++] = '-';
+		str[i++] = '-';
 		sign++;
-		ui_n = (unsigned int)(n * -1);
+		ui_num = (unsigned int)(num * -1);
 	}
-	else
-		ui_n = (unsigned int)n;
-	while (ui_n != 0 || !*num)
+	str[i] = '0';
+	while (ui_num != 0)
 	{
-		num[i++] = (ui_n % 10) + '0';
-		ui_n /= 10;
+		str[i++] = (ui_num % 10) + '0';
+		ui_num /= 10;
 	}
-	num[i] = '\0';
-	ft_strflip(&num[sign]);
-	return (num);
+	if (num == 0)
+		str[i + 1] = '\0';
+	else
+		str[i] = '\0';
+	ft_strflip(&str[sign]);
+}
+
+char	*ft_itoa(int num)
+{
+	char			*ret;
+
+	if (!(ret = (char *)malloc(sizeof(char) * count_lenofnum(num) + 1)))
+		return (NULL);
+	num_to_str(ret, num);
+	return (ret);
 }

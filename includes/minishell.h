@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/14 02:31:55 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/09 22:28:35 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,37 @@
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
 
-char		*g_name;
-char		*g_ret;
 t_dl_list	*g_envlst;
-int			g_error;
+int			g_exit;
 
 void		error_exit(size_t error_code, char *error_text);
+void		print_error(size_t error_code, char *error_text);
 t_dl_list	*parsing(char *line);
+void		prompt(void);
+void		ms_dollar(char **str);
+
+void	shell_brach_command(char *content);
+
+void		replace_env(char *name, char *str);
+size_t		len_lstenv(t_dl_list *tmp, size_t plus);
 t_dl_list	*find_env(char *name);
 t_env		*create_env(char *str);
 t_env		*free_env(t_env *env);
 
+
 void		ms_echo(char *param);
 void		ms_cd(char *param);
-void		ms_pwd(char *param);
+void		ms_pwd(char **param);
 void		ms_export(char *param);
 void		ms_unset(char *param);
 void		ms_env(char *param);
 void		ms_exit(char *param);
-void		ms_exec(t_dl_list *param);
+void        ms_exec(char *param);
+void        ms_pipe(t_dl_list *param);
+
+void		set_signal(void);
+void		signal_handler(int signum);
+char		*find_path(char *param);
+int		    search_pipe(char *param);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/14 04:15:27 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/08 00:09:43 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*get_env_pwd(char *argv)
 {
-	int i;
 	t_dl_list	*tmp;
 
 	if (!(tmp = find_env("PWD")))
@@ -24,121 +23,102 @@ char	*get_env_pwd(char *argv)
 	return (((t_env *)tmp->content)->val);
 }
 
-void	error_exit(size_t error_code, char *error_text)
+void		print_error(size_t error_code, char *error_text)
 {
 	if (error_text)
 		ft_putendl_fd(error_text, 2);
+	g_exit = error_code;
+}
+
+void	error_exit(size_t error_code, char *error_text)
+{
+	print_error(error_code, error_text);
 	exit(error_code);
 }
 
-t_dl_list	*find_env(char *name)
-{
-	t_dl_list	*tmp_env;
-
-	tmp_env = g_envlst;
-	while (tmp_env)
-	{
-		if (ft_strsame(((t_env *)tmp_env->content)->name, name))
-			return (tmp_env);
-		tmp_env = (t_dl_list *)tmp_env->next;
-	}
-	return (NULL);
-}
-
-t_env		*create_env(char *str)
-{
-	size_t	count;
-	t_env	*data;
-
-	count = -1;
-	if (!(data = malloc(sizeof(t_env))))
-		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-	while (str[++count])
-		if (ft_strchr("=", str[count]))
-		{
-			str[count] = 0;
-			if (!(data->val = ft_strdup(&(str[count + 1]))) ||
-				!(data->name = ft_strdup(str)))
-				error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
-			break ;
-		}
-	return (data);
-}
-
-/*
-** NEW
-*/
-
-
-/*
-**	where	- place where it will insert sample
-**	insted	- count of letters that will erase after "where"
-*/
-char	*ft_strreplace(char *str, char *sample, size_t where, size_t insted)
-{
-	char	*new;
-	ssize_t	count;
-
-	if (!(new = ft_calloc(sizeof(char),
-		ft_strlen(str) + ft_strlen(sample) - insted)))
-		return (NULL);
-	count = -1;
-	while ((++count < where) && *str)
-	{
-		new[count] = *str;
-		str++;
-	}
-	while (*sample)
-	{
-		new[count++] = *sample;
-		sample++;
-	}
-	while (insted-- && *str)
-		str++;
-	while (*str)
-	{
-		new[count++] = *str;
-		str++;
-	}
-	return (new);
-}
-
-char	*make_dollar(char *str, size_t *insted)//FIXME нужно протестить
+static char	*make_dollar(char *str, size_t *insted)
 {
 	char	*buf;
 	char	*ret;
 	size_t	count;
+	t_dl_list	*tmp;
 
-	if (!str)
-		return (NULL);
+	if (!str || !*str)
+		return (ft_strdup(""));
 	count = 0;
-	*insted = count;
-	if (str[count] == '?')
-		return (ft_itoa(g_error));
+	if (str[count + 1] == '?')
+	{
+		*insted = *insted + 2;
+		return (ft_itoa(g_exit));
+	}
 	while (str[++count])
 		if (!(ft_isalnum(str[count])))
 			break ;
+	if (count <= 1)
+		return (NULL);
 	buf = ft_strncut(str + 1, count - 1);
-	ret = ((t_env *)(find_env(buf)->content))->val;
-	free (buf);
 	*insted = count;
+	if (!(tmp = find_env(buf)) || !(tmp->content) || !(((t_env *)tmp->content)->val))
+		return (ft_strdup(""));
+	ret = ft_strdup(((t_env *)tmp->content)->val);
+	free (buf);
 	return (ret);
 }
 
 void	ms_dollar(char **str)
 {
-	char	*chr;
 	char	*buff;
 	char	*new;
 	size_t	insted;
+	ssize_t	i;
 
-	while (chr = ft_strchr(*str, '$'))
+	i = -1;
+	insted = 0;
+	while ((*str)[++i])
 	{
-		insted = 0;
-		buff = make_dollar(chr, &insted);
-		if (!(new = ft_strreplace(*str, buff, (chr - *str), insted)))
-			error_exit (ERROR_NUM_MALLOC, ERROR_MALLOC);
-		free (*str);
-		*str = new;
+		if (((*str)[i] == '\''))
+			insted = insted == -1ul ? 0 : -1;
+		if (!insted)
+			if ((*str)[i] == '$')
+			{
+				insted = 0;
+				if (!(buff = make_dollar(&((*str)[i]), &insted)))
+					continue ;
+				if (!(new = ft_strreplace(*str, buff, i, insted)))
+					error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+				i += ft_strlen(buff) - 1;
+				ft_strdel(&buff);
+				ft_strdel(str);
+				*str = new;
+			}
+	}
+	g_exit = 0;
+}
+
+void	ft_freestrs(char **str)
+{
+	int i;
+
+	i = 0;
+	if (str)
+	{
+		while (str[i])
+		{
+			free(str[i]);
+			i++;
+		}
+		free(str);
 	}
 }
+
+int		ft_puterr(char *str1, char *str2, char *str3, int error)
+{
+	//ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd(str1, 2);
+	ft_putstr_fd(str2, 2);
+	ft_putendl_fd(str3, 2);
+	g_exit = 1;
+	return (error);
+}
+
+//echo $test $USER '$USER' $ $ $? test

@@ -6,29 +6,62 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/14 00:32:18 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/02 01:09:39 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ms_env(char *str)//FIXME
+size_t		len_lstenv(t_dl_list *tmp, size_t plus)
 {
-	t_dl_list	*tmp;
-	// t_env	*data;
+	size_t		size;
 
-	tmp = g_envlst;
+	size = 0;
 	while (tmp)
 	{
-		ft_putchar_fd(((t_env *)tmp->content)->name, 1);
-		ft_putchar_fd("=", 1);
-		ft_putendl_fd(((t_env *)tmp->content)->val, 1);
-		tmp->next;
+		size += ft_strlen(((t_env *)tmp->content)->name) + 1;
+		size += ft_strlen(((t_env *)tmp->content)->val) + 1;
+		size += plus;
+		tmp = (t_dl_list *)tmp->next;
 	}
-	
-	// data = create_env(str);
-	// if (find_env(data->name))
-	// 	data = free_env(data);
-	// else
-	// 	ft_dl_lstadd_back(g_envlst, ft_dl_lstnew(data));
+	return (size);
+}
+
+void		ms_env(char *str)
+{
+	t_dl_list	*tmp;
+	size_t		size;
+
+	(void)str;
+	tmp = g_envlst;
+	ft_strdel(&g_ret);
+	size = len_lstenv(tmp, 2);
+	if (!(g_ret = ft_calloc(sizeof(char), size + 1)))
+		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+	while (tmp)
+	{
+		if ((((t_env *)tmp->content)->name) && (((t_env *)tmp->content)->val))
+		{
+			ft_strappend(g_ret, ((t_env *)tmp->content)->name, size * sizeof(char));
+			ft_strappend(g_ret, "=", size * sizeof(char));
+			ft_strappend(g_ret, ((t_env *)tmp->content)->val, size * sizeof(char));
+			ft_strappend(g_ret, "\n", size * sizeof(char));
+		}
+		tmp = (t_dl_list *)tmp->next;
+	}
+	ft_putstr_fd(g_ret, 1);//FIXME debug
+}
+
+t_dl_list	*find_env(char *name)
+{
+	t_dl_list	*tmp_env;
+
+	tmp_env = g_envlst;
+	while (tmp_env)
+	{
+		if (ft_strsame(((t_env *)tmp_env->content)->name, name))
+			return (tmp_env);
+		tmp_env = (t_dl_list *)tmp_env->next;
+	}
+	return (NULL);
 }
