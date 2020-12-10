@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 02:00:15 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 19:23:03 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,24 @@ char		*ft_sep(char *c)
 	return (0);
 }
 
-void		parsing_utilit_to_lst(char *line, t_dl_list **lst,
+int		parsing_utilit_to_lst(char *line, t_dl_list **lst,
 								ssize_t *count_end, char *sep_res)
 {
+	if (*sep_res == '-')
+	{
+		ft_putendl_fd(ERROR_SYNTAX, 2);
+		*lst = ft_dl_lstclear(*lst, free);
+		return (0);
+	}
+	if (count_end < 0)
+		return (0);
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
 		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
 	*count_end += ft_strlen(sep_res) - 1;
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(sep_res)))
 		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
 	*lst = ft_dl_lstlast(*lst);
+	return (1);
 }
 
 ssize_t		parsing_utilit(char *line, t_dl_list **lst)
@@ -68,15 +77,8 @@ ssize_t		parsing_utilit(char *line, t_dl_list **lst)
 		if (!(flag = find_quotes(line[count_end], flag)))
 			if ((sep_res = ft_sep(&line[count_end])))
 			{
-				if (*sep_res == '-')
-				{
-					ft_putendl_fd(ERROR_SYNTAX, 2);
-					*lst = ft_dl_lstclear(*lst, free);
+				if (!(parsing_utilit_to_lst(line, lst, &count_end, sep_res)))
 					return (-1);
-				}
-				if (count_end < 0)
-					return (-1);
-				parsing_utilit_to_lst(line, lst, &count_end, sep_res);
 				break ;
 			}
 	return (count_end);

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 00:34:59 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 16:36:35 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,23 @@ char	*ft_strpass_rev(char *str, char *sample)
 			break ;
 	}
 	return (str);
+}
+
+void	ft_erasechr(char *str, const char *sample)
+{
+	size_t	i;
+
+	if (!str)
+		return ;
+	while (*str)
+	{
+		if (ft_strchr(sample, *str))
+		{
+			i = 0;
+			while (str[i++])
+				str[i - 1] = str[i];
+		}
+		else
+			str++;
+	}
 }

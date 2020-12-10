@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 04:04:23 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/10 19:23:05 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ int		check_shell_command(char *content, char *command, void (*func)(char *))
 	char	*buff;
 
 	if (ft_strlen(command) == (size_t)ft_strcmp_reg(content, command))
-	{
 		if (content[ft_strlen(command)] == '\0' ||
 			content[ft_strlen(command)] == ' ')
 		{
 			buff = ft_strreplace(content, "", 0, ft_strlen(command));
 			buff = ft_strpass_rev(buff, " ");
+			ft_erasechr(buff, "\"\'");
 			func(ft_strpass(buff, " "));
 			free(buff);
+			return (TRUE);
 		}
-		return (TRUE);
-	}
 	return (FALSE);
 }
 
