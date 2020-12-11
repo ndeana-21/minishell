@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/10 00:21:14 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 12:48:34 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,12 @@ void	signal_handler(int signum)
 
 	if (signum == SIGQUIT)
 	{
-		printf("hello\n");
 		signum = wait(&status);
 		g_exit = status / 256;
 		ft_putstr_fd("\b\b  \b\b", 1);
 		g_exit = 3;
 		if (signum != -1)
 			ft_putstr_fd("Quit: 3\n", 1);
-		//kill(SIGTERM, 0);
 	}
 	else if (signum == SIGINT)
 	{
@@ -66,5 +64,3 @@ void	set_signal(void)
 	signal(SIGINT, signal_handler);
 	g_exit = 0;
 }
-
-//TODO твое

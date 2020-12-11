@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/09 22:27:46 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 14:07:27 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ms_exec(char *param)
+void		ms_exec(char *param)
 {
 	int		status;
 	char	*path;
@@ -25,8 +25,7 @@ void	ms_exec(char *param)
 		ft_puterr(elem[0], ": command not found", "", 127);
 		return ;
 	}
-	pid = fork();
-	if (pid == 0)
+	if (!(pid = fork()))
 	{
 		if (opendir(path) != NULL)
 			exit(ft_puterr(elem[0], ": is a directory", "", 126));
@@ -39,7 +38,6 @@ void	ms_exec(char *param)
 		exit(EXIT_SUCCESS);
 	}
 	wait(&status);
-	//free(path);
 	g_exit = status / 256;
 }
 
@@ -53,7 +51,7 @@ static int	is_absolute_path(char *path)
 		return (0);
 }
 
-char			*find_path(char *param)
+char		*find_path(char *param)
 {
 	int			i;
 	char		*tmp;
@@ -66,7 +64,6 @@ char			*find_path(char *param)
 	if (!(tmp = ((t_env *)(find_env("PATH")->content))->val))
 		return (NULL);
 	paths = ft_split(tmp, ':');
-	//free(tmp);
 	i = -1;
 	while (paths[++i] && paths)
 	{
@@ -83,5 +80,4 @@ char			*find_path(char *param)
 	ft_freestrs(paths);
 	return (ft_strdup(param));
 }
-
 //TODO твое

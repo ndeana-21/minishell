@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/11 01:08:49 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 12:29:12 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void		ms_pipe(t_dl_list *param)
 	}
 	child[0] = fork();
 	pipe_parent(child[0], fd, param_parent);
-	//ft_freestrs(param_parent);
 	child[1] = fork();
 	pipe_child(child[1], fd, param);
 	close(fd[0]);
@@ -63,4 +62,3 @@ void		ms_pipe(t_dl_list *param)
 	waitpid(child[1], &status[1], 0);
 	waitpid(child[0], &status[0], 0);
 }
-//TODO твое

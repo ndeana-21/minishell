@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:35:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 01:08:55 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 14:00:46 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,6 @@
 
 //TODO exit "
 //TODO cd ~/ SEGA
-
-void	ms_redir(t_dl_list *param, int perm, int descr, int to_dup)
-{
-	int		fd;
-	char	*tmp;
-	char	*tmp_p;
-	pid_t	pid;
-
-	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
-	tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
-	if ((fd = open(tmp, perm, descr)) < 0)
-		write(1, "Couldn't open file\n", 19);
-	if (!(pid = fork()))
-	{
-		dup2(fd, to_dup);
-		close(fd);
-		shell_brach_cmd(tmp_p);
-		exit(EXIT_SUCCESS);
-	}
-	free(tmp);
-	free(tmp_p);
-	wait(&g_exit);
-	g_exit = g_exit / 256;
-}
 
 void	deal_with_input(char **line)
 {
@@ -72,6 +48,16 @@ int		main(int argc, char **argv, char **env)
 	init_env(env);
 	set_signal();
 	line = NULL;
+	#if 0
+	if (argv[1][0] == '-' && argv[1][1] == 'c')
+	{
+		char *tmp = ft_strdup(argv[2]);
+		ms_dollar(&tmp);
+		minishell(&tmp);	
+	}
+	else
+	#endif
+	{
 	while (TRUE)
 	{
 		if (!(line))
@@ -88,6 +74,7 @@ int		main(int argc, char **argv, char **env)
 			ms_dollar(&line);
 			minishell(&line);
 		}
+	}
 	}
 	exit(0);
 }
