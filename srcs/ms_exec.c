@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/11 14:07:27 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/11 17:28:33 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void		ms_exec(char *param)
 		{
 			if (errno == 13 || errno == 8)
 				exit(ft_puterr(elem[0], ": Permission denied", "", 126));
+			//ft_putstr_fd("minishell :", 1);
 			exit(ft_puterr(elem[0], ": command not found", "", 127));
 		}
 		exit(EXIT_SUCCESS);

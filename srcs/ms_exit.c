@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 13:56:46 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/11 17:57:21 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ static int			ft_strln(char **s)
 
 static void			free_exit(void)
 {
+	ft_freestrs(g_envlst);
 	exit(g_exit);
 }
+
+
 
 static int		ft_isdigitstr(char *str)
 {
@@ -65,25 +68,54 @@ static void		exit_error(int n, char *argv)
 	}
 }
 
+static int  exit_atoi(char *str)
+{
+	int	sign;
+
+	unsigned long long res;
+	sign = 1;
+	res = 0;
+	if (ft_strsame(str, "-9223372036854775808"))
+		str = "0";
+	while ((*str >= 7 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '-')
+		sign = -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		res = res * 10 + (*str - '0');
+		str++;
+		if (res > 9223372036854775807)
+			return (-1);
+	}
+	res = res * sign;
+	g_exit = res;
+	return (0);
+}
+
 void	ms_exit(char *param)
 {
 	int i;
 	int len;
 
 	i = 0;
+	//while (param)
+	//	i++;
 	len = ft_strln(param);
-	if (len == 0)
+	if (len == 1)
 	{
 		ft_putstr_fd("exit\n", 1);
 		free_exit();
 	}
-	else if (len == 1)
+	if (len == 2 && (ft_isdigitstr(param)))
 	{
-		g_exit = (ft_atoi(param));
+		g_exit = (exit_atoi(param));
 		ft_putstr_fd("exit\n", 1);
 		free_exit();
 	}
-	else if (len > 1 && (ft_isdigitstr(param)))
+	if (len > 2 && (ft_isdigitstr(param)))
 		//exit_error(len, param);
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 1);
@@ -98,5 +130,5 @@ void	ms_exit(char *param)
 		free_exit();
 	}
 }
- //#endif
+// #endif
 //TODO твое
