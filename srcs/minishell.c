@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/12 02:53:04 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/12 17:05:05 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,34 @@ char	**prepere_cmd(char *content)
 	ssize_t	count;
 	size_t	size;
 
-	count = -1;
 	flag = 0;
 	size = 0;
+	count = 0;
 	if (!(cmd = ft_calloc(sizeof(char *), 1)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
-	while (content[++count])
+	while (content[count])
 	{
 		if (!flag)
 			if (content[count] == ' ')
 			{
-				if (!(cmd[size] = ft_strncut(content, count)))
+				if (!(cmd[size++] = ft_strncut(content, count)))
 					error_exit(EXIT_FAILURE, ERROR_MALLOC);
-				if (!(cmd = ft_realloc(cmd, sizeof(char *) * ((size++) + 1))))
+				if (!(cmd = ft_realloc(cmd, sizeof(char *) * ((size) + 1))))
 					error_exit(EXIT_FAILURE, ERROR_MALLOC);
 				content = ft_strpass((content += count), " ");
+				count = -1;
 			}
 		if (flag_placer(&(content[count]), &flag))
 			count--;
+		count++;
 	}
-	if (content)
+	if (*content)
 	{
 		if (!(cmd = ft_realloc(cmd, sizeof(char *) * size + 2)))
 			error_exit(EXIT_FAILURE, ERROR_MALLOC);
 		cmd[size] = ft_strdup(content);
 	}
+	cmd[size + 1] = NULL;
 	return (cmd);
 }
 
@@ -71,7 +74,6 @@ int		check_shell_cmd(char **cmd, char *cmd_check, void (func)(char **))
 	if (ft_strsame(cmd[0], cmd_check))
 		{
 			func(&(cmd[1]));
-			ft_freestrs(cmd);
 			return (TRUE);
 		}
 	return (FALSE);
@@ -82,7 +84,6 @@ void	shell_brach_cmd(char *content)
 	char **cmd;
 
 	cmd = prepere_cmd(content);
-	free(content);
 	if (check_shell_cmd(cmd, MS_CD, ms_cd))
 		return ;
 	else if (check_shell_cmd(cmd, MS_ECHO, ms_echo))
@@ -99,6 +100,7 @@ void	shell_brach_cmd(char *content)
 		return ;
 	else
 		ms_exec(cmd);
+	ft_freestrs(cmd);
 }
 
 void	shell_branch_sep(t_dl_list *param)
@@ -118,14 +120,16 @@ void	shell_branch_sep(t_dl_list *param)
 void	minishell(char **line)
 {
 	t_dl_list	*param;
+	t_dl_list	*tmp;
 
 	param = parsing(*line);
 	if (!(param->next))
 		shell_brach_cmd((char *)param->content);
-	while (param)
+	tmp = param;
+	while (tmp)
 	{
-		shell_branch_sep(param);
-		param = (t_dl_list *)param->next;
+		shell_branch_sep(tmp);
+		tmp = (t_dl_list *)tmp->next;
 	}
 	param = ft_dl_lstclear(param, free);
 	ft_strdel(line);

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/12 03:25:08 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/12 16:01:00 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void		ms_exec(char **param)
 	char	*path;
 	pid_t	pid;
 
+	printf("%ld\n", ft_pointer_len((void **)param));
 	if (!(path = find_path(param[0])))
 	{
 		ft_puterr(param[0], ": command not found", "", 127);
@@ -37,6 +38,7 @@ void		ms_exec(char **param)
 	}
 	wait(&status);
 	g_exit = status / 256;
+	ft_strdel(&path);
 }
 
 static int	is_absolute_path(char *path)

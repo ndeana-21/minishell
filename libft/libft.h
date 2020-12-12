@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 02:03:23 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 18:40:34 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/12 16:38:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-char					*ft_strncut(char *str, size_t n);
+char					*ft_strncut(const char *str, size_t n);
 char					*ft_strinsert(char *str, char *target, size_t to);
 /*
 **	where	- place where it will insert sample

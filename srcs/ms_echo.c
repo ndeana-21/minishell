@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/12 02:05:44 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/12 16:56:14 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void		ms_echo(char **param)
 	}
 	flag = flag_echo(&(param[1]));
 	count = flag;
-	// printf("|%s|\n", param[count]);
 	while (param[count])
 	{
+		// printf("|%p|\n", param[count]);
 		ft_putstr_fd(param[count], 1);
 		if (param[count++])
 			ft_putstr_fd(" ", 1);
