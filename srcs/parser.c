@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 12:35:30 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/12 02:47:35 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int			parsing_utilit_to_lst(char *line, t_dl_list **lst,
 		*lst = ft_dl_lstclear(*lst, free);
 		return (0);
 	}
-	if (count_end < 0)
+	if (*count_end < 0)
 		return (0);
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
-		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	*count_end += ft_strlen(sep_res) - 1;
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(sep_res)))
-		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	*lst = ft_dl_lstlast(*lst);
 	return (1);
 }
@@ -102,6 +102,6 @@ t_dl_list	*parsing(char *line)
 		line += count_end + 1;
 	}
 	if (!ft_dl_lstadd_back(&lst, ft_dl_lstnew(ft_strdup(line))))
-		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	return (ft_dl_lstfirst(lst));
 }

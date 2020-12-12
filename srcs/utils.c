@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 02:58:50 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 13:43:42 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		ms_dollar(char **str)
 				if (!(buff = make_dollar(&((*str)[i]), &insted)))
 					continue ;
 				if (!(new = ft_strreplace(*str, buff, i, insted)))
-					error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+					error_exit(EXIT_FAILURE, ERROR_MALLOC);
 				i += ft_strlen(buff) - 1;
 				ft_strdel(&buff);
 				ft_strdel(str);

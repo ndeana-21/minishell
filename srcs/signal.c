@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/11 12:48:34 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/11 13:42:56 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	prompt(void)
 	ft_putstr_fd(((t_env *)find_env("USER")->content)->val, 1);
 	ft_putstr_fd(" \033[32m", 1);
 	if (!(buf = getcwd(NULL, 0)))
-		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	ft_putstr_fd(buf, 1);
 	free(buf);
 	if (g_exit)
 	{
 		if (!(buf = ft_itoa(g_exit)))
-			error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+			error_exit(EXIT_FAILURE, ERROR_MALLOC);
 		ft_putstr_fd(" \033[1m\033[31m[", 1);
 		ft_putstr_fd(buf, 1);
 		ft_putstr_fd("]\033[0m", 1);

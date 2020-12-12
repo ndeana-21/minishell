@@ -6,25 +6,72 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 01:08:48 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/12 02:53:04 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_shell_cmd(char *content, char *command, void (*func)(char *))
+int		flag_placer(char *content, char *flag)
 {
-	char	*buff;
-
-	if (ft_strlen(command) == (size_t)ft_strcmp_reg(content, command))
-		if (content[ft_strlen(command)] == '\0' ||
-			content[ft_strlen(command)] == ' ')
+	if (!(*flag))
+	{
+		if ((*flag = find_quotes((*content), *flag)))
 		{
-			buff = ft_strreplace(content, "", 0, ft_strlen(command));
-			buff = ft_strpass_rev(buff, " ");
-			ft_erasechr(buff, "\"\'");
-			func(ft_strpass(buff, " "));
-			free(buff);
+			ft_strmoveleft(content);
+			return (1);
+		}
+	}
+	else if (*flag)
+		if (!(*flag = find_quotes((*content), *flag)))
+		{
+			ft_strmoveleft(content);
+			return (1);
+		}
+	return (0);
+}
+
+char	**prepere_cmd(char *content)
+{
+	char	**cmd;
+	char	flag;
+	ssize_t	count;
+	size_t	size;
+
+	count = -1;
+	flag = 0;
+	size = 0;
+	if (!(cmd = ft_calloc(sizeof(char *), 1)))
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
+	while (content[++count])
+	{
+		if (!flag)
+			if (content[count] == ' ')
+			{
+				if (!(cmd[size] = ft_strncut(content, count)))
+					error_exit(EXIT_FAILURE, ERROR_MALLOC);
+				if (!(cmd = ft_realloc(cmd, sizeof(char *) * ((size++) + 1))))
+					error_exit(EXIT_FAILURE, ERROR_MALLOC);
+				content = ft_strpass((content += count), " ");
+			}
+		if (flag_placer(&(content[count]), &flag))
+			count--;
+	}
+	if (content)
+	{
+		if (!(cmd = ft_realloc(cmd, sizeof(char *) * size + 2)))
+			error_exit(EXIT_FAILURE, ERROR_MALLOC);
+		cmd[size] = ft_strdup(content);
+	}
+	return (cmd);
+}
+
+int		check_shell_cmd(char **cmd, char *cmd_check, void (func)(char **))
+{
+	if (ft_strsame(cmd[0], cmd_check))
+		{
+			func(&(cmd[1]));
+			ft_freestrs(cmd);
 			return (TRUE);
 		}
 	return (FALSE);
@@ -32,22 +79,26 @@ int		check_shell_cmd(char *content, char *command, void (*func)(char *))
 
 void	shell_brach_cmd(char *content)
 {
-	if (check_shell_cmd(content, MS_CD, ms_cd))
+	char **cmd;
+
+	cmd = prepere_cmd(content);
+	free(content);
+	if (check_shell_cmd(cmd, MS_CD, ms_cd))
 		return ;
-	else if (check_shell_cmd(content, MS_ECHO, ms_echo))
+	else if (check_shell_cmd(cmd, MS_ECHO, ms_echo))
 		return ;
-	else if (check_shell_cmd(content, MS_PWD, ms_pwd))
+	else if (check_shell_cmd(cmd, MS_PWD, ms_pwd))
 		return ;
-	else if (check_shell_cmd(content, MS_UNSET, ms_unset))
+	else if (check_shell_cmd(cmd, MS_UNSET, ms_unset))
 		return ;
-	else if (check_shell_cmd(content, MS_ENV, ms_env))
+	else if (check_shell_cmd(cmd, MS_ENV, ms_env))
 		return ;
-	else if (check_shell_cmd(content, MS_EXPORT, ms_export))
+	else if (check_shell_cmd(cmd, MS_EXPORT, ms_export))
 		return ;
-	else if (check_shell_cmd(content, MS_EXIT, ms_exit))
+	else if (check_shell_cmd(cmd, MS_EXIT, ms_exit))
 		return ;
 	else
-		ms_exec(content);
+		ms_exec(cmd);
 }
 
 void	shell_branch_sep(t_dl_list *param)
@@ -79,3 +130,5 @@ void	minishell(char **line)
 	param = ft_dl_lstclear(param, free);
 	ft_strdel(line);
 }
+
+//FIXME сега если ввести только разделитель

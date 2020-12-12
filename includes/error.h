@@ -6,20 +6,15 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:02:00 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 00:41:10 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 13:44:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_H
 # define ERROR_H
 
-//TODO дать определенным ошибкам определенные коды
-# define ERROR_NUM_MALLOC       -1
-# define ERROR_NUM_READ         -1
-# define ERROR_NUM_FILE_DIR     -1
-# define ERROR_NUM_FILE         -1
-# define ERROR_NUM_DIR          -1
-# define ERROR_NUM_ENV          -1
+# define EXIT_FAILURE           1
+# define EXIT_SUCCESS           0
 
 # define ERROR_SYNTAX           "ERROR invalid syntax"
 # define ERROR_ENV              "ERROR have no env data"

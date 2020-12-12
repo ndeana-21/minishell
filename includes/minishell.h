@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 17:47:17 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/12 03:13:23 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 
 t_dl_list	*g_envlst;
 char		*g_name;
+char		*g_path;
 int			g_exit;
 
 void		error_exit(size_t error_code, char *error_text);
@@ -46,24 +47,25 @@ void		print_error(size_t error_code, char *error_text);
 t_dl_list	*parsing(char *line);
 void		prompt(void);
 void		ms_dollar(char **str);
+char		find_quotes(char line, char flag);
 
-void		shell_brach_command(char *content);
+void		shell_brach_cmd(char *content);
 void		minishell(char **line);
 
-void		init_env(char **env);
+char		**create_env_exec(void);
 void		free_env(void *env);
 t_env		*create_env(char *str);
 t_dl_list	*find_env(char *name);
 void		replace_env(char *name, char *str);
 
-void		ms_cd(char *param);
-void		ms_pwd(char *param);
-void		ms_env(char *param);
-void		ms_echo(char *param);
-void		ms_exit(char *param);
-void		ms_exec(char *param);
-void		ms_unset(char *param);
-void		ms_export(char *param);
+void		ms_cd(char **param);
+void		ms_pwd(char **param);
+void		ms_env(char **param);
+void		ms_echo(char **param);
+void		ms_exit(char **param);
+void		ms_exec(char **param);
+void		ms_unset(char **param);
+void		ms_export(char **param);
 void		ms_sep(t_dl_list *param);
 void		ms_pipe(t_dl_list *param);
 void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup);

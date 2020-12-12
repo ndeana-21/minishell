@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 01:17:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 20:07:31 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/12 02:18:23 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,14 @@ void	ft_erasechr(char *str, const char *sample)
 		else
 			str++;
 	}
+}
+
+void	ft_strmoveleft(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[++i])
+		str[i - 1] = str[i];
+	str[i - 1] = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 02:03:23 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 16:37:01 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 18:40:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char					*ft_strreplace(char *str, char *sample,
 							ssize_t where, ssize_t insted);
 void					ft_strappend(char *str, char *from, size_t size);
 void					ft_erasechr(char *str, const char *sample);
+void					ft_strmoveleft(char *str);
 char					*ft_strchr(const char *str, int c);
 char					*ft_strnstr(const char *str,
 									const char *find, size_t n);

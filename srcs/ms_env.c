@@ -6,17 +6,17 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:50 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/10 03:53:39 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/11 19:28:06 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ms_env(char *param)
+void		ms_env(char **param)
 {
 	t_dl_list	*tmp;
 
-	if ((*param))
+	if ((param[0]))
 	{
 		print_error(2, "env: too many arguments");
 		return ;

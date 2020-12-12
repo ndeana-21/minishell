@@ -3,19 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:35:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 17:28:48 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/12 03:01:20 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//TODO exit "
 //TODO cd ~/ SEGA
 
-void	deal_with_input(char **line)
+static void	init_env(char **env)
+{
+	t_env	*data;
+
+	g_envlst = NULL;
+	if (!env)
+		return ;
+	while (*env)
+	{
+		data = NULL;
+		data = create_env(*env);
+		ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(data));
+		env++;
+	}
+	g_path = ((t_env *)(find_env("PATH")->content))->val;
+}
+
+void		deal_with_input(char **line)
 {
 	char	*readout;
 	char	*tmp;
@@ -33,31 +49,29 @@ void	deal_with_input(char **line)
 		return ;
 	}
 	if (!(tmp = ft_strjoin(*line, readout)))
-		error_exit(ERROR_NUM_MALLOC, ERROR_MALLOC);
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	ft_strdel(&readout);
 	ft_strdel(line);
 	*line = tmp;
 }
 
-int		main(int argc, char **argv, char **env)
+int			main(int argc, char **argv, char **env)
 {
 	char	*line;
 
 	(void)argc;
 	g_name = argv[0];
 	init_env(env);
-	set_signal();
+	// set_signal();
 	line = NULL;
-	#if 0
-	if (argv[1][0] == '-' && argv[1][1] == 'c')
-	{
-		char *tmp = ft_strdup(argv[2]);
-		ms_dollar(&tmp);
-		minishell(&tmp);	
-	}
-	else
-	#endif
-	{
+	// if (argv[1][0] == '-' && argv[1][1] == 'c')
+	// {
+	// 	char *tmp = ft_strdup(argv[2]);
+	// 	ms_dollar(&tmp);
+	// 	minishell(&tmp);	
+	// }
+	// else
+	// {
 	while (TRUE)
 	{
 		if (!(line))
@@ -75,6 +89,6 @@ int		main(int argc, char **argv, char **env)
 			minishell(&line);
 		}
 	}
-	}
+	// }
 	exit(0);
 }

@@ -6,48 +6,54 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/10 03:53:52 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/12 02:05:44 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			flag_echo(char **str)
+ssize_t		flag_echo(char **str)
 {
-	char	*buf;
-	int		count;
+	ssize_t	count;
+	ssize_t	i;
 
-	if (!str || !*str || !**str)
-		return (FALSE);
-	buf = *str;
-	buf = ft_strpass(buf, " ");
-	count = 0;
-	if ((*buf) == '-')
+	count = -1;
+	while (str[++count])
 	{
-		while (*(++buf) == 'n')
-			++count;
-		if (!count || (*buf && ((*buf) != ' ')))
-			return (FALSE);
-		buf = ft_strpass(buf, " ");
-		(*str) = buf;
-		flag_echo(str);
-		return (TRUE);
+		i = 0;
+		if (str[count][i] == '-')
+		{
+			while (str[++count][++i])
+				if (str[count][i] != 'n')
+					break ;
+			if (str[count][i])
+				break ;
+		}
+		else
+			break ;
 	}
-	(*str) = buf;
-	return (FALSE);
+	return (count);
 }
 
-void		ms_echo(char *param)
+void		ms_echo(char **param)
 {
-	int	flag;
+	ssize_t	count;
+	ssize_t	flag;
 
-	if (!param || !(*param))
+	if (!(param[0]))
 	{
 		ft_putstr_fd("", 1);
 		return ;
 	}
-	flag = flag_echo(&param);
-	ft_putstr_fd(param, 1);
+	flag = flag_echo(&(param[1]));
+	count = flag;
+	// printf("|%s|\n", param[count]);
+	while (param[count])
+	{
+		ft_putstr_fd(param[count], 1);
+		if (param[count++])
+			ft_putstr_fd(" ", 1);
+	}
 	if (!flag)
 		ft_putstr_fd("\n", 1);
 	g_exit = 0;
