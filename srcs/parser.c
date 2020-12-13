@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/13 03:28:34 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/13 16:18:19 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_dl_list		*parsing(char *line)
 			break ;
 		line += count_end + 1;
 	}
-	if (lst && check_sep((char *)lst->content))
+	if (lst && check_sep((char *)lst->content) && !(*line))
 	{
 		ft_putendl_fd(ERROR_SYNTAX, 2);
 		lst = ft_dl_lstclear(lst, free);
