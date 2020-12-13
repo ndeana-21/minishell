@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:35:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/12 23:41:51 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/13 16:20:20 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			main(int argc, char **argv, char **env)
 	(void)argc;
 	g_name = argv[0];
 	init_env(env);
-	// set_signal();
+	set_signal();
 	line = NULL;
 	// if (argv[1][0] == '-' && argv[1][1] == 'c')
 	// {

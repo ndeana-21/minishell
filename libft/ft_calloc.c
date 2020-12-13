@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 00:34:09 by ndeana            #+#    #+#             */
-/*   Updated: 2020/11/10 16:44:17 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/13 17:30:27 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void	*ft_realloc(void *old_alloc, size_t new_size)
 {
 	unsigned char	*new_alloc;
 
-	if (!(new_alloc = (unsigned char *)ft_calloc(new_size + 1, 1)))
+	if (!(new_alloc = (unsigned char *)ft_calloc(new_size, 1)))
 		return (NULL);
-	new_alloc = ft_memcpy(new_alloc, old_alloc, new_size);
+	if (old_alloc)
+		new_alloc = ft_memcpy(new_alloc, old_alloc, new_size);
 	free(old_alloc);
 	return ((void *)new_alloc);
 }

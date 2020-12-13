@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/13 15:28:41 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/13 17:36:08 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ char	**prepere_cmd(char *content)
 	flag = 0;
 	size = 0;
 	count = 0;
-	if (!(cmd = ft_calloc(sizeof(char *), 1)))
-		error_exit(EXIT_FAILURE, ERROR_MALLOC);
+	cmd = NULL;
 	while (content[count])
 	{
 		if (!flag)
 			if (content[count] == ' ')
 			{
-				if (!(cmd[size++] = ft_strncut(content, count)))
+				// printf("%ld |%s|\n", count, content);
+				if (!(cmd = ft_realloc(cmd, sizeof(char *) * ((size++) + 1))))
 					error_exit(EXIT_FAILURE, ERROR_MALLOC);
-				if (!(cmd = ft_realloc(cmd, sizeof(char *) * ((size) + 1))))
+				if (!(cmd[size - 1] = ft_strncut(content, count)))
 					error_exit(EXIT_FAILURE, ERROR_MALLOC);
 				content = ft_strpass((content += count), " ");
 				count = -1;
@@ -60,12 +60,9 @@ char	**prepere_cmd(char *content)
 		count++;
 	}
 	if (*content)
-	{
-		if (!(cmd = ft_realloc(cmd, sizeof(char *) * size + 2)))
+		if (!(cmd = ft_realloc(cmd, sizeof(char *) * (size + 1))) ||
+			!(cmd[size] = ft_strdup(content)))
 			error_exit(EXIT_FAILURE, ERROR_MALLOC);
-		cmd[size] = ft_strdup(content);
-	}
-	cmd[size + 1] = NULL;
 	return (cmd);
 }
 
