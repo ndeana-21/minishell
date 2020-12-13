@@ -6,13 +6,13 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/12 02:47:35 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/13 03:28:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char		find_quotes(char line, char flag)
+char			find_quotes(char line, char flag)
 {
 	if (!flag)
 	{
@@ -26,7 +26,7 @@ char		find_quotes(char line, char flag)
 	return (flag);
 }
 
-char		*ft_sep(char *c)
+static char		*ft_sep(char *c)
 {
 	if (!c || !(*c))
 		return (0);
@@ -45,7 +45,7 @@ char		*ft_sep(char *c)
 	return (0);
 }
 
-int			parsing_utilit_to_lst(char *line, t_dl_list **lst,
+static int		parsing_utilit_to_lst(char *line, t_dl_list **lst,
 								ssize_t *count_end, char *sep_res)
 {
 	if (*sep_res == '-')
@@ -59,13 +59,13 @@ int			parsing_utilit_to_lst(char *line, t_dl_list **lst,
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	*count_end += ft_strlen(sep_res) - 1;
-	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(sep_res)))
+	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strdup(sep_res))))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	*lst = ft_dl_lstlast(*lst);
 	return (1);
 }
 
-ssize_t		parsing_utilit(char *line, t_dl_list **lst)
+static ssize_t	parsing_utilit(char *line, t_dl_list **lst)
 {
 	ssize_t		count_end;
 	char		*sep_res;
@@ -84,7 +84,15 @@ ssize_t		parsing_utilit(char *line, t_dl_list **lst)
 	return (count_end);
 }
 
-t_dl_list	*parsing(char *line)
+static int		check_sep(char *str)
+{
+	if (ft_strsame(str, ";") || ft_strsame(str, "<") || ft_strsame(str, ">") ||
+			ft_strsame(str, ">>") || ft_strsame(str, "|"))
+		return (1);
+	return (0);
+}
+
+t_dl_list		*parsing(char *line)
 {
 	t_dl_list	*lst;
 	ssize_t		count_end;
@@ -100,6 +108,12 @@ t_dl_list	*parsing(char *line)
 		if (!line[count_end])
 			break ;
 		line += count_end + 1;
+	}
+	if (lst && check_sep((char *)lst->content))
+	{
+		ft_putendl_fd(ERROR_SYNTAX, 2);
+		lst = ft_dl_lstclear(lst, free);
+		return (lst);
 	}
 	if (!ft_dl_lstadd_back(&lst, ft_dl_lstnew(ft_strdup(line))))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);

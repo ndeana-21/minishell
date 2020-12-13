@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/12 17:05:05 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/13 15:28:41 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,19 @@ void	shell_branch_sep(t_dl_list *param)
 void	minishell(char **line)
 {
 	t_dl_list	*param;
-	t_dl_list	*tmp;
 
-	param = parsing(*line);
+	if (!(param = parsing(*line)))
+	{
+		ft_strdel(line);
+		return ;
+	}
 	if (!(param->next))
 		shell_brach_cmd((char *)param->content);
-	tmp = param;
-	while (tmp)
+	while (param)
 	{
-		shell_branch_sep(tmp);
-		tmp = (t_dl_list *)tmp->next;
+		shell_branch_sep(param);
+		param = (t_dl_list *)param->next;
 	}
-	param = ft_dl_lstclear(param, free);
+	param = ft_dl_lstclear(ft_dl_lstfirst(param), free);
 	ft_strdel(line);
 }
-
-//FIXME сега если ввести только разделитель

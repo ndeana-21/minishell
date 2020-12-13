@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:02:00 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 13:44:34 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/13 01:36:57 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 # define EXIT_FAILURE           1
 # define EXIT_SUCCESS           0
 
-# define ERROR_SYNTAX           "ERROR invalid syntax"
-# define ERROR_ENV              "ERROR have no env data"
-# define ERROR_PARAMS_LEAST     "ERROR not enough params"
-# define ERROR_PARAMS_MANY      "ERROR too many params"
-# define ERROR_MALLOC           "ERROR allocation"
-# define ERROR_READ             "ERROR reading"
-# define ERROR_FILE_DIR         "ERROR no such file/directory"
-# define ERROR_FILE             "ERROR no such file"
-# define ERROR_DIR              "ERROR no such directory"
-# define ERROR_OPTION           "ERROR no such option"
-# define ERROR_COMMAND          "ERROR command not found"
+# define ERROR_SYNTAX           "minishell: invalid syntax"
+# define ERROR_ENV              "minishell: have no env data"
+# define ERROR_PARAMS_LEAST     "minishell: not enough params"
+# define ERROR_PARAMS_MANY      "minishell: too many params"
+# define ERROR_MALLOC           "minishell: invalid allocation"
+# define ERROR_READ             "minishell: invalid reading"
+# define ERROR_FILE_DIR         "minishell: no such file/directory"
+# define ERROR_FILE             "minishell: no such file"
+# define ERROR_DIR              "minishell: no such directory"
+# define ERROR_OPTION           "minishell: no such option"
+# define ERROR_COMMAND          "minishell: command not found"
 
 #endif
