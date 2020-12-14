@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/13 17:36:08 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/14 20:06:07 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,24 @@ int		flag_placer(char *content, char *flag)
 	return (0);
 }
 
+size_t	sizeof_content(char *content)
+{
+	char	flag;
+	size_t	size;
+
+	flag = 0;
+	size = 0;
+	while (*content)
+	{
+		if (!flag)
+			if ((*content) == ' ')
+				size++;
+		flag = find_quotes(*content, flag);
+		content++;
+	}
+	return (size);
+}
+
 char	**prepere_cmd(char *content)
 {
 	char	**cmd;
@@ -41,34 +59,31 @@ char	**prepere_cmd(char *content)
 	flag = 0;
 	size = 0;
 	count = 0;
-	cmd = NULL;
+	if (!(cmd = ft_calloc(sizeof(char *), sizeof_content(content) + 2)))
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	while (content[count])
 	{
 		if (!flag)
 			if (content[count] == ' ')
 			{
-				// printf("%ld |%s|\n", count, content);
-				if (!(cmd = ft_realloc(cmd, sizeof(char *) * ((size++) + 1))))
-					error_exit(EXIT_FAILURE, ERROR_MALLOC);
-				if (!(cmd[size - 1] = ft_strncut(content, count)))
+				if (!(cmd[size++] = ft_strncut(content, count)))
 					error_exit(EXIT_FAILURE, ERROR_MALLOC);
 				content = ft_strpass((content += count), " ");
 				count = -1;
 			}
-		if (flag_placer(&(content[count]), &flag))
+		if (flag_placer(&(content[count > 0 ? count : 0]), &flag))
 			count--;
 		count++;
 	}
 	if (*content)
-		if (!(cmd = ft_realloc(cmd, sizeof(char *) * (size + 1))) ||
-			!(cmd[size] = ft_strdup(content)))
+		if (!(cmd[size] = ft_strdup(content)))
 			error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	return (cmd);
 }
 
 int		check_shell_cmd(char **cmd, char *cmd_check, void (func)(char **))
 {
-	if (ft_strsame(cmd[0], cmd_check))
+	if (ft_strlen(cmd_check) == (size_t)ft_strcmp_reg(cmd[0], cmd_check))
 		{
 			func(&(cmd[1]));
 			return (TRUE);
@@ -118,18 +133,17 @@ void	minishell(char **line)
 {
 	t_dl_list	*param;
 
-	if (!(param = parsing(*line)))
-	{
-		ft_strdel(line);
+	param = parsing(*line);
+	ft_strdel(line);
+	if (!param)
 		return ;
-	}
 	if (!(param->next))
 		shell_brach_cmd((char *)param->content);
-	while (param)
-	{
-		shell_branch_sep(param);
-		param = (t_dl_list *)param->next;
-	}
-	param = ft_dl_lstclear(ft_dl_lstfirst(param), free);
-	ft_strdel(line);
+	else
+		while (param)
+		{
+			shell_branch_sep(param);
+			param = (t_dl_list *)param->next;
+		}
+	ft_dl_lstclear(param, free);
 }

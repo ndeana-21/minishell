@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/13 16:43:15 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/14 15:12:50 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void		ms_exec(char **param)
 	int		status;
 	char	*path;
 	pid_t	pid;
+	DIR		*dir;
 
 	if (!(path = find_path(param[0])))
 	{
@@ -25,15 +26,14 @@ void		ms_exec(char **param)
 	}
 	if (!(pid = fork()))
 	{
-		if (opendir(path) != NULL)
+		if ((dir = opendir(path)))
 			exit(ft_puterr(param[0], ": is a directory", "", 126));
-		if (execve(path, param, create_env_exec()) == -1)
-		{
-			if (errno == 13 || errno == 8)
-				exit(ft_puterr(param[0], ": Permission denied", "", 126));
-			exit(ft_puterr(param[0], ": ",strerror(errno), 2));
-		}
-		exit(EXIT_SUCCESS);
+		free(dir);
+		if (execve(path, param, create_env_exec()) != -1)
+			exit(EXIT_SUCCESS);
+		if (errno == 13 || errno == 8)
+			exit(ft_puterr(param[0], ": Permission denied", "", 126));
+		exit(ft_puterr(param[0], ": ",strerror(errno), 2));
 	}
 	wait(&status);
 	g_exit = status / 256;

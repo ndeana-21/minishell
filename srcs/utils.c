@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/11 13:43:42 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/14 01:01:00 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		ms_dollar(char **str)
 
 void		ft_freestrs(char **str)
 {
-	int i;
+	size_t	i;
 
 	i = 0;
 	if (str)
