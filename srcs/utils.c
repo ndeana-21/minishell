@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:42:38 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/14 01:01:00 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 02:12:07 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,23 @@ void		ms_dollar(char **str)
 	char	*buff;
 	char	*new;
 	size_t	insted;
-	ssize_t	i;
+	ssize_t	count;
 
-	i = -1;
+	count = -1;
 	insted = 0;
-	while ((*str)[++i])
+	while ((*str)[++count])
 	{
-		if (((*str)[i] == '\''))
+		if (((*str)[count] == '\''))
 			insted = insted == -1ul ? 0 : -1;
-		if (!insted)
-			if ((*str)[i] == '$')
+		if (insted != -1ul)
+			if ((*str)[count] == '$')
 			{
 				insted = 0;
-				if (!(buff = make_dollar(&((*str)[i]), &insted)))
+				if (!(buff = make_dollar(&((*str)[count]), &insted)))
 					continue ;
-				if (!(new = ft_strreplace(*str, buff, i, insted)))
+				if (!(new = ft_strreplace(*str, buff, count, insted)))
 					error_exit(EXIT_FAILURE, ERROR_MALLOC);
-				i += ft_strlen(buff) - 1;
+				count += ft_strlen(buff) - 1;
 				ft_strdel(&buff);
 				ft_strdel(str);
 				*str = new;

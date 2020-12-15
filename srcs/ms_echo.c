@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/13 16:33:41 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 02:31:15 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		ms_echo(char **param)
 		ft_putstr_fd("", 1);
 		return ;
 	}
-	flag = flag_echo(&(param[0]));
+	flag = flag_echo(param);
 	count = flag;
 	while (param[count])
 	{

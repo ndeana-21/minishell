@@ -60,7 +60,8 @@ re:	fclean lib all
 
 norme:
 	@make norme $(M_FLAGS) -C $(LIBFT_PATH) $(LFT_DIR)
-	@norminette $(SRCS) $(HEADERS) | awk '{sub(/Norme/,"$(FGREEN)Norme$(PNULL)")}1' | awk '{sub(/Error/,"$(FRED)Error$(PNULL)")}1'
+	@norminette $(SRCS) $(HEADERS) | awk '{sub(/Norme/,"$(FGREEN)Norme$(PNULL)")}1'\
+								| awk '{sub(/Error/,"$(FRED)Error$(PNULL)")}1'
 
 run: all
 	@./$(NAME)

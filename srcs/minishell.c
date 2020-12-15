@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/14 20:06:07 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 03:09:38 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int		check_shell_cmd(char **cmd, char *cmd_check, void (func)(char **))
 	if (ft_strlen(cmd_check) == (size_t)ft_strcmp_reg(cmd[0], cmd_check))
 		{
 			func(&(cmd[1]));
+			ft_freestrs(cmd);
 			return (TRUE);
 		}
 	return (FALSE);
@@ -140,7 +141,7 @@ void	minishell(char **line)
 	if (!(param->next))
 		shell_brach_cmd((char *)param->content);
 	else
-		while (param)
+		while (param->next)
 		{
 			shell_branch_sep(param);
 			param = (t_dl_list *)param->next;
