@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:47 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/12 02:49:49 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 15:15:26 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void		ms_export(char **param)
 	t_env		*buf;
 	ssize_t		count;
 
+	g_exit = 0;
 	if (!param || !(*param) || !(**param))
 	{
 		printing_export();
@@ -45,9 +46,13 @@ void		ms_export(char **param)
 	count = -1;
 	while (param[++count])
 	{
-		if ((buf = create_env(param[0])))
+		if (!(ft_isalpha(param[count][0])))
+		{
+			ft_puterr("export: '", param[count], "' not a valid identifier", 1);
+			return ;
+		}
+		else if ((buf = create_env(param[count])))
 			if (!(ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(buf))))
 				error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	}
-	g_exit = 0;
 }

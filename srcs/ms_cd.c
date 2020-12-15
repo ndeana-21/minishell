@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/13 16:32:54 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 15:07:59 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,26 @@ void		ms_cd_utilit(char *param)
 		}
 	}
 	if ((ft_strlen(param) > 0) && (chdir(param) == -1))
-		print_error(1, param);
+		ft_puterr("cd: ", strerror(errno), "", 1);
 }
 
 void		ms_cd(char **param)
 {
+	g_exit = 0;
 	if (1 < ft_pointer_len((void **)param))
 	{
-		print_error(2, "cd: too many arguments");
+		print_error(1, "cd: too many arguments");
+		g_exit = 1;
 		return ;
 	}
 	if (!(param[0]) && !(find_env("HOME")))
+	{
 		print_error(1, "cd: HOME not set");
+		g_exit = 1;
+	}
 	else if (!(param[0]))
 		chdir((((t_env *)(find_env("HOME")->content))->val));
 	else
 		ms_cd_utilit(param[0]);
 	set_pwd();
-	g_exit = 0;
 }

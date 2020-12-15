@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:37:33 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/15 14:43:39 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/15 15:07:26 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int		ft_puterr(char *str1, char *str2, char *str3, int error)
 	ft_putstr_fd(str1, 2);
 	ft_putstr_fd(str2, 2);
 	ft_putendl_fd(str3, 2);
-	g_exit = 1;
+	g_exit = error;
 	return (error);
 }

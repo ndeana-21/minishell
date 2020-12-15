@@ -6,39 +6,36 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/15 02:31:15 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 16:46:41 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-ssize_t		flag_echo(char **str)
+size_t		flag_echo(char **str)
 {
-	ssize_t	count;
-	ssize_t	i;
+	size_t	flag;
+	size_t	count;
 
-	count = -1;
-	while (str[++count])
+	flag = -1;
+	while (str[++flag])
 	{
-		i = 0;
-		if (str[count][i] == '-')
-		{
-			while (str[++count][++i])
-				if (str[count][i] != 'n')
-					break ;
-			if (str[count][i])
+		if (2 < (ft_strcmp(str[flag], "-n")))
+			break ;
+		count = 1;
+		while (str[flag][++count])
+			if (str[flag][count] != 'n')
 				break ;
-		}
-		else
+		if (str[flag][count])
 			break ;
 	}
-	return (count);
+	return (flag);
 }
 
 void		ms_echo(char **param)
 {
-	ssize_t	count;
-	ssize_t	flag;
+	size_t	count;
+	size_t	flag;
 
 	if (!(param[0]))
 	{
