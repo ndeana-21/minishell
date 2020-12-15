@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/15 21:33:44 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/15 21:48:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**prepere_cmd(char *content)
 	while (content[count])
 	{
 		if (!flag)
-			if (content[count] == ' ')
+			if (ft_strchr(" ", content[count]))
 			{
 				if (!(cmd[size++] = ft_strncut(content, count)))
 					error_exit(EXIT_FAILURE, ERROR_MALLOC);
@@ -136,6 +136,12 @@ int		shell_brach_cmd(char *content)
 	char **cmd;
 
 	cmd = prepere_cmd(content);
+	if (!cmd || !*cmd || !**cmd)
+	{
+		ft_freestrs(cmd);
+		ft_puterr(NULL, NULL, ERROR_SYNTAX, 127);
+		return (0);
+	}
 	if (check_shell_cmd(cmd, MS_CD, ms_cd))
 		return (1);
 	else if (check_shell_cmd(cmd, MS_ECHO, ms_echo))
