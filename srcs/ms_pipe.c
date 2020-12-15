@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/12 03:17:37 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 16:59:50 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		pipe_parent(int child, int fd[2], char *param)
 		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
-		shell_brach_cmd(param);
+		sort(param);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -31,7 +31,7 @@ void		pipe_child(int child, int fd[2], char *param)
 		dup2(fd[0], 0);
 		close(fd[0]);
 		close(fd[1]);
-		shell_brach_cmd(param);
+		sort(param);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -61,3 +61,45 @@ void		ms_pipe(t_dl_list *param)
 	waitpid(child[1], &status[1], 0);
 	waitpid(child[0], &status[0], 0);
 }
+/*
+void		ms_pipe(t_dl_list *param)
+{
+	int		fd[2];
+	pid_t	pid;
+	int		status;
+	char	*param_parent;
+	char	*param_child;
+
+	printf("%s", (char *)ft_dl_lstnnext(param, 0)->content);
+	param_parent = ((char *)ft_dl_lstnnext(param, -1)->content);
+	param_child = ((char *)ft_dl_lstnnext(param, 1)->content);
+	//if (pipe(fd) == -1)
+	//	ft_putstr_fd("An error occured with openning to pipe\n", 1);
+	//	errno = EMFILE;
+	//	return ;
+	if ((pid = fork()) == -1)
+		return ;
+	if (pid == 0)
+	{
+		dup2(fd[1], 1);
+		close(fd[0]);
+		close(fd[1]);
+		shell_brach_cmd(param_parent);
+		exit(0);
+	}
+	else
+	{
+		if (waitpid(pid, &status, 0) != pid)
+			return ;
+		dup2(fd[0], 0);
+		close(fd[1]);
+		close(fd[0]);
+		if (shell_branch_sep(param) == 2)
+		{
+			param = param->next;
+			ms_pipe(param);
+		}
+		shell_brach_cmd(param_child);
+	}
+}
+*/

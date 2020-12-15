@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/15 03:09:38 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 16:35:20 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		check_shell_cmd(char **cmd, char *cmd_check, void (func)(char **))
 		}
 	return (FALSE);
 }
-
+/*
 void	shell_brach_cmd(char *content)
 {
 	char **cmd;
@@ -115,7 +115,7 @@ void	shell_brach_cmd(char *content)
 		ms_exec(cmd);
 	ft_freestrs(cmd);
 }
-
+*/
 void	shell_branch_sep(t_dl_list *param)
 {
 	if (ft_strsame(param->content, ";"))
@@ -128,6 +128,49 @@ void	shell_branch_sep(t_dl_list *param)
 		ms_redir(param, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1);
 	else if (ft_strsame(param->content, ">>"))
 		ms_redir(param, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
+	param = (t_dl_list *)param->next;
+}
+
+int		shell_brach_cmd(char *content)
+{
+	char **cmd;
+
+	cmd = prepere_cmd(content);
+	if (check_shell_cmd(cmd, MS_CD, ms_cd))
+		return (1);
+	else if (check_shell_cmd(cmd, MS_ECHO, ms_echo))
+		return (1);
+	else if (check_shell_cmd(cmd, MS_PWD, ms_pwd))
+		return (1);
+	else if (check_shell_cmd(cmd, MS_UNSET, ms_unset))
+		return (1);
+	else if (check_shell_cmd(cmd, MS_ENV, ms_env))
+		return (1);
+	else if (check_shell_cmd(cmd, MS_EXPORT, ms_export))
+		return (1);
+	else if (check_shell_cmd(cmd, MS_EXIT, ms_exit))
+		return (1);
+	else
+	{
+		ms_exec(cmd);
+		return (1);
+	}
+	ft_freestrs(cmd);
+	return (0);
+}
+
+void			sort(char *param)
+{
+	if (ft_strsame(param, "|"))
+		ms_pipe(param);
+	else if (ft_strsame(param, ">"))
+		ms_redir(param, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1);
+	else if (ft_strsame(param, ">>"))
+		ms_redir(param, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
+	else if (ft_strsame(param, "<"))
+		ms_redir(param, O_RDONLY, 0644, 0);
+	else if (!(shell_brach_cmd(param)))
+		return ;
 }
 
 void	minishell(char **line)
@@ -143,6 +186,7 @@ void	minishell(char **line)
 	else
 		while (param->next)
 		{
+			sort((char *)ft_dl_lstnnext(param, 0)->content);
 			shell_branch_sep(param);
 			param = (t_dl_list *)param->next;
 		}

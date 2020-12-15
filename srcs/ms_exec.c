@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/14 15:12:50 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 14:45:44 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		ms_exec(char **param)
 
 	if (!(path = find_path(param[0])))
 	{
-		ft_puterr(param[0], ": command not found", "", 127);
+		ft_puterr(param[0], ": No such file or directory", "", 1);
 		return ;
 	}
 	if (!(pid = fork()))
@@ -33,7 +33,7 @@ void		ms_exec(char **param)
 			exit(EXIT_SUCCESS);
 		if (errno == 13 || errno == 8)
 			exit(ft_puterr(param[0], ": Permission denied", "", 126));
-		exit(ft_puterr(param[0], ": ",strerror(errno), 2));
+		exit(ft_puterr(param[0], ": ", "command not found", 127));
 	}
 	wait(&status);
 	g_exit = status / 256;
