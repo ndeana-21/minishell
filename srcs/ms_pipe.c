@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/15 16:59:50 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/15 19:37:10 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		ms_pipe(t_dl_list *param)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(child[1], &status[1], 0);
-	waitpid(child[0], &status[0], 0);
+	waitpid(child[0], &status[0], WNOHANG);
 }
 /*
 void		ms_pipe(t_dl_list *param)

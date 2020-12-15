@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/15 16:11:19 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/15 21:26:13 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 # define MS_UNSET	"unset"
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
+# define REDIR	62
+# define DREDIR	6
+# define BREDIR	60
 
 t_dl_list	*g_envlst;
 char		*g_name;
@@ -50,7 +53,7 @@ void		ms_dollar(char **str);
 char		find_quotes(char line, char flag);
 
 int         shell_brach_cmd(char *content);
-void         shell_branch_sep(t_dl_list *param);
+void        shell_branch_sep(t_dl_list *param);
 void		minishell(char **line);
 
 char		**create_env_exec(void);

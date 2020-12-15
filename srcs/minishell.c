@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/15 17:27:28 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/15 21:33:44 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void	minishell(char **line)
 	else
 		while (param->next)
 		{
-			sort((char *)ft_dl_lstnnext(param, 0)->content);
+			//sort((char *)ft_dl_lstnnext(param, 0)->content);
 			shell_branch_sep(param);
 			param = (t_dl_list *)param->next;
 		}
