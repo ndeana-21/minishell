@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 01:22:35 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/07 21:42:42 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/16 23:59:03 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ t_dl_list	*ft_dl_lstnnext(t_dl_list *lst, ssize_t step)
 	if (!lst)
 		return (0);
 	if (step > 0)
-		while (step-- && lst->next)
+		while (step-- && lst)
 			lst = (t_dl_list*)lst->next;
 	else if (step < 0)
-		while (step++ && lst->prev)
+		while (step++ && lst)
 			lst = (t_dl_list*)lst->prev;
 	return (lst);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/15 19:37:10 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/17 21:05:12 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		pipe_parent(int child, int fd[2], char *param)
 		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
-		sort(param);
+		shell_brach_cmd(param);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -31,35 +31,51 @@ void		pipe_child(int child, int fd[2], char *param)
 		dup2(fd[0], 0);
 		close(fd[0]);
 		close(fd[1]);
-		sort(param);
+		shell_brach_cmd(param);
 		exit(EXIT_SUCCESS);
 	}
 }
 
 void		ms_pipe(t_dl_list *param)
 {
-	char	*param_parent;
-	char	*param_child;
-	int		fd[2];
-	int		child[2];
-	int		status[2];
+	t_dl_list	*buf_lst;
+	int			fd[2];
+	pid_t		child[2];
+	int			status[2];
 
-	param_parent = ((char *)ft_dl_lstnnext(param, -1)->content);
-	param_child = ((char *)ft_dl_lstnnext(param, 1)->content);
 	if (pipe(fd) == -1)
 	{
 		ft_putstr_fd("An error occured with openning to pipe\n", 1);
 		errno = EMFILE;
 		return ;
 	}
-	child[0] = fork();
-	pipe_parent(child[0], fd, param_parent);
-	child[1] = fork();
-	pipe_child(child[1], fd, param_child);
-	close(fd[0]);
+	if (!(ft_dl_lstnnext(param, -2)) ||
+		ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content))
+	{
+		if (!(child[0] = fork()))
+		{
+			pipe_parent(child[0], fd, (char *)(ft_dl_lstnnext(param, -1)->content));
+			close(fd[0]);
+			waitpid(child[0], &status[0], WNOHANG);
+			exit(status[0]);
+		}
+	}
+	else
+	{
+		child[0] = g_child;
+		fd[0] = g_fd;
+	}
+	if (!(child[1] = fork()))
+		pipe_child(child[1], fd, (char *)(ft_dl_lstnnext(param, 1)->content));
 	close(fd[1]);
-	waitpid(child[1], &status[1], 0);
-	waitpid(child[0], &status[0], WNOHANG);
+	if (!(buf_lst = ft_dl_lstnnext(param, 2)) ||
+		ft_strsame(";", (char *)(buf_lst->content)))
+	{
+		waitpid(child[1], &status[1], 0);
+		exit(status[1]);
+	}
+	g_fd = fd[1];
+	g_child = child[1];
 }
 /*
 void		ms_pipe(t_dl_list *param)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/15 21:26:13 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/17 21:02:21 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_dl_list	*g_envlst;
 char		*g_name;
 char		*g_path;
 int			g_exit;
+int			g_child;
+int			g_fd;
 
 void		error_exit(size_t error_code, char *error_text);
 void		print_error(size_t error_code, char *error_text);
