@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/17 21:02:21 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/19 21:10:28 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@
 # define MS_UNSET	"unset"
 # define MS_ENV		"env"
 # define MS_EXIT	"exit"
-# define REDIR	62
-# define DREDIR	6
-# define BREDIR	60
+# define REDIR_OUT		1
+# define REDIR_APPEND	2
+# define REDIR_IN		3
+
 
 t_dl_list	*g_envlst;
 char		*g_name;
@@ -55,7 +56,7 @@ void		ms_dollar(char **str);
 char		find_quotes(char line, char flag);
 
 int         shell_brach_cmd(char *content);
-void        shell_branch_sep(t_dl_list *param);
+void		shell_branch_sep(t_dl_list *param, int *fd_count);
 void		minishell(char **line);
 
 char		**create_env_exec(void);
@@ -74,8 +75,7 @@ void		ms_unset(char **param);
 void		ms_export(char **param);
 void		ms_sep(t_dl_list *param);
 void		ms_pipe(t_dl_list *param);
-void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup);
-
+void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup, int *fd_count);
 void		set_signal(void);
 void		signal_handler(int signum);
 char		*find_path(char *param);
