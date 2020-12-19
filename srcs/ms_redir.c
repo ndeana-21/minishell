@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 15:25:18 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/19 21:55:27 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/19 22:00:33 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ms_redir(t_dl_list *param, int perm, int descr, int to_dup, int *fd_count)
 	pid_t	pid;
 	int i = 0;
 	//t_dl_list	*buf_lst;
+
 
 	tmp = ((char *)ft_dl_lstnnext(param, 1)->content);
 	//tmp_p = ((char *)ft_dl_lstnnext(param, -1)->content);
@@ -89,96 +90,3 @@ void	ms_redir_do(t_dl_list *param, int perm, int descr, int to_dup)
 	wait(&g_exit);
 	g_exit = g_exit / 256;
 }
-
-/*
-static int	ft_redir_out(char *file)
-{
-	int fd;
-
-	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (fd != -1)
-	{
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	else
-	{
-		//put_err(file, ": ", strerror(errno), TRUE);
-		g_exit = 1;
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
-static int	ft_redir_append(char *file)
-{
-	int fd;
-
-	fd = open(file, O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-	if (fd != -1)
-	{
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	else
-	{
-		//put_err(file, ": ", strerror(errno), TRUE);
-		g_exit = 1;
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
-static int	ft_redir_in(char *file)
-{
-	int fd;
-
-	fd = open(file, O_RDWR);
-	if (fd == -1)
-	{
-		//put_err(file, ": ", strerror(errno), TRUE);
-		g_exit = 1;
-		return (FALSE);
-	}
-	else
-	{
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	return (TRUE);
-}
-
-static int	ft_handle_redir(t_redir *redir)
-{
-	if (redir->state == -1 || redir->file == NULL)
-	{
-		//puterr(redir->original, ": ", "ambiguous redir", TRUE);
-		g_exit = 1;
-		return (FALSE);
-	}
-	if (redir->state == REDIR_OUT)
-		if (ft_redir_out(redir->file) == FALSE)
-			return (FALSE);
-	if (redir->state == REDIR_APPEND)
-		if (ft_redir_append(redir->file) == FALSE)
-			return (FALSE);
-	if (redir->state == REDIR_IN)
-		if (ft_redir_in(redir->file) == FALSE)
-			return (FALSE);
-	return (TRUE);
-}
-
-int			ms_redir(t_dl_list *param)
-{
-	t_list	*redir_list;
-
-	redir_list = param;
-	while (redir_list)
-	{
-		if (ft_handle_redir((t_redir*)redir_list->content) == FALSE)
-			return (FALSE);
-		redir_list = redir_list->next;
-	}
-	return (TRUE);
-}
-*/
