@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/19 21:10:11 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/19 22:03:55 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,38 +131,30 @@ void    shell_branch_sep(t_dl_list *param, int *fd_count)
     param = (t_dl_list *)param->next;
 }
 
-int		shell_brach_cmd(char *content)
+void		shell_brach_cmd(char *content)
 {
 	char **cmd;
 
 	cmd = prepere_cmd(content);
 	if (!cmd || !*cmd || !**cmd)
-	{
-		ft_freestrs(cmd);
 		ft_puterr(NULL, NULL, ERROR_SYNTAX, 127);
-		return (0);
-	}
 	if (check_shell_cmd(cmd, MS_CD, ms_cd))
-		return (1);
+		return ;
 	else if (check_shell_cmd(cmd, MS_ECHO, ms_echo))
-		return (1);
+		return ;
 	else if (check_shell_cmd(cmd, MS_PWD, ms_pwd))
-		return (1);
+		return ;
 	else if (check_shell_cmd(cmd, MS_UNSET, ms_unset))
-		return (1);
+		return ;
 	else if (check_shell_cmd(cmd, MS_ENV, ms_env))
-		return (1);
+		return ;
 	else if (check_shell_cmd(cmd, MS_EXPORT, ms_export))
-		return (1);
+		return ;
 	else if (check_shell_cmd(cmd, MS_EXIT, ms_exit))
-		return (1);
+		return ;
 	else
-	{
 		ms_exec(cmd);
-		return (1);
-	}
 	ft_freestrs(cmd);
-	return (0);
 }
 
 void    minishell(char **line)

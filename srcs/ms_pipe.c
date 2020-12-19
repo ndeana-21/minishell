@@ -6,116 +6,76 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/17 21:05:12 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/19 21:35:56 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		pipe_parent(int child, int fd[2], char *param)
+void		ms_pipe(t_dl_list *param, int *fd_count)
 {
-	if (child == 0)
-	{
-		dup2(fd[1], 1);
-		close(fd[0]);
-		close(fd[1]);
-		shell_brach_cmd(param);
-		exit(EXIT_SUCCESS);
-	}
-}
+	pid_t		pid;
+	int			status;
 
-void		pipe_child(int child, int fd[2], char *param)
-{
-	if (child == 0)
+	*fd_count += 1;
+	if (pipe(g_fd[(*fd_count) % 2]) == -1)
 	{
-		dup2(fd[0], 0);
-		close(fd[0]);
-		close(fd[1]);
-		shell_brach_cmd(param);
-		exit(EXIT_SUCCESS);
-	}
-}
-
-void		ms_pipe(t_dl_list *param)
-{
-	t_dl_list	*buf_lst;
-	int			fd[2];
-	pid_t		child[2];
-	int			status[2];
-
-	if (pipe(fd) == -1)
-	{
-		ft_putstr_fd("An error occured with openning to pipe\n", 1);
-		errno = EMFILE;
+		ft_puterr("minishell: ", NULL, strerror(errno), 1);
 		return ;
 	}
-	if (!(ft_dl_lstnnext(param, -2)) ||
-		ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content))
+	if (!(pid = fork()))
 	{
-		if (!(child[0] = fork()))
-		{
-			pipe_parent(child[0], fd, (char *)(ft_dl_lstnnext(param, -1)->content));
-			close(fd[0]);
-			waitpid(child[0], &status[0], WNOHANG);
-			exit(status[0]);
-		}
+		dup2(g_fd[(*fd_count) % 2][STDOUT_FILENO], STDOUT_FILENO);
+		if (ft_dl_lstnnext(param, -2) &&
+			!(ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content)))
+			dup2(g_fd[1 - (*fd_count) % 2][STDIN_FILENO], STDIN_FILENO);
+		shell_brach_cmd((char *)ft_dl_lstnnext(param, 1)->content);
+		exit(g_exit);
+	}
+	else if (pid == -1)
+	{
+		ft_puterr("minishell: ", NULL, strerror(errno), 1);
+		return ;
 	}
 	else
 	{
-		child[0] = g_child;
-		fd[0] = g_fd;
+		waitpid(pid, &status, 0);
+		printf("here\n");
+		g_exit = status / 256;
+		close(g_fd[(*fd_count) % 2][STDOUT_FILENO]);
+		if (!(ft_dl_lstnnext(param, 2)) ||
+			(ft_strsame(";", (char *)ft_dl_lstnnext(param, 2)->content)))
+			close(g_fd[(*fd_count) % 2][STDIN_FILENO]);
+		if (ft_dl_lstnnext(param, -2) &&
+			!(ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content)))
+			close(g_fd[1 - (*fd_count) % 2][STDIN_FILENO]);
 	}
-	if (!(child[1] = fork()))
-		pipe_child(child[1], fd, (char *)(ft_dl_lstnnext(param, 1)->content));
-	close(fd[1]);
-	if (!(buf_lst = ft_dl_lstnnext(param, 2)) ||
-		ft_strsame(";", (char *)(buf_lst->content)))
-	{
-		waitpid(child[1], &status[1], 0);
-		exit(status[1]);
-	}
-	g_fd = fd[1];
-	g_child = child[1];
-}
-/*
-void		ms_pipe(t_dl_list *param)
-{
-	int		fd[2];
-	pid_t	pid;
-	int		status;
-	char	*param_parent;
-	char	*param_child;
+	
 
-	printf("%s", (char *)ft_dl_lstnnext(param, 0)->content);
-	param_parent = ((char *)ft_dl_lstnnext(param, -1)->content);
-	param_child = ((char *)ft_dl_lstnnext(param, 1)->content);
-	//if (pipe(fd) == -1)
-	//	ft_putstr_fd("An error occured with openning to pipe\n", 1);
-	//	errno = EMFILE;
-	//	return ;
-	if ((pid = fork()) == -1)
-		return ;
-	if (pid == 0)
-	{
-		dup2(fd[1], 1);
-		close(fd[0]);
-		close(fd[1]);
-		shell_brach_cmd(param_parent);
-		exit(0);
-	}
-	else
-	{
-		if (waitpid(pid, &status, 0) != pid)
-			return ;
-		dup2(fd[0], 0);
-		close(fd[1]);
-		close(fd[0]);
-		if (shell_branch_sep(param) == 2)
-		{
-			param = param->next;
-			ms_pipe(param);
-		}
-		shell_brach_cmd(param_child);
-	}
+
+
+
+	// if (!(ft_dl_lstnnext(param, -2)) ||
+	// 	ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content))
+	// {
+	// 	if (!(pid = fork()))
+	// 		pipe_child(g_fd[(*fd_count) % 2][STDIN_FILENO], STDIN_FILENO,
+	// 					(char *)(ft_dl_lstnnext(param, 1)->content));
+	// 	dup2(STDOUT_FILENO, g_fd[(*fd_count) % 2][STDIN_FILENO]);
+	// }
+	// else
+	// 	if (!(pid = fork()))
+	// 	{
+	// 		pipe_child(g_fd[1 - ((*fd_count) % 2)][STDIN_FILENO], STDIN_FILENO,
+	// 					(char *)(ft_dl_lstnnext(param, 1)->content));
+	// 		close(g_fd[1 - ((*fd_count) % 2)][STDIN_FILENO]);
+	// 	}
+	// close(g_fd[(*fd_count) % 2][STDOUT_FILENO]);
+	// if (!(ft_dl_lstnnext(param, 2)) ||
+	// 	ft_strsame(";", (char *)ft_dl_lstnnext(param, 2)->content))
+	// {
+	// 	waitpid(pid[0], &status, 0);
+	// 	close(g_fd[(*fd_count) % 2][STDIN_FILENO]);
+	// 	g_exit = status / 256;
+	// }
 }
-*/

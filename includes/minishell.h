@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/19 21:10:28 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/19 22:03:54 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char		*g_name;
 char		*g_path;
 int			g_exit;
 int			g_child;
-int			g_fd;
+int			g_fd[2][2];
 
 void		error_exit(size_t error_code, char *error_text);
 void		print_error(size_t error_code, char *error_text);
@@ -55,8 +55,8 @@ void		prompt(void);
 void		ms_dollar(char **str);
 char		find_quotes(char line, char flag);
 
-int         shell_brach_cmd(char *content);
-void		shell_branch_sep(t_dl_list *param, int *fd_count);
+void        shell_brach_cmd(char *content);
+void        shell_branch_sep(t_dl_list *param, int *fd_count);
 void		minishell(char **line);
 
 char		**create_env_exec(void);
@@ -74,8 +74,14 @@ void		ms_exec(char **param);
 void		ms_unset(char **param);
 void		ms_export(char **param);
 void		ms_sep(t_dl_list *param);
+<<<<<<< Updated upstream
 void		ms_pipe(t_dl_list *param);
 void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup, int *fd_count);
+=======
+void		ms_pipe(t_dl_list *param, int *fd_count);
+void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup);
+
+>>>>>>> Stashed changes
 void		set_signal(void);
 void		signal_handler(int signum);
 char		*find_path(char *param);

@@ -1,7 +1,7 @@
 {
 	"configurations": [
 		{
-			"type": "lldb",
+			"type": "gdb",
 			"request": "launch",
 			"name": "Launch",
 			"program": "${workspaceFolder}/./minishell",
