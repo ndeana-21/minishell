@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/19 22:03:55 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/20 17:50:08 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,36 @@ void	shell_brach_cmd(char *content)
 	ft_freestrs(cmd);
 }
 */
+void	shell_brach_red(t_dl_list *param)
+{
+	t_dl_list *tmp;
+
+	tmp = param;
+	while (tmp)
+	{	
+		if (ft_strsame(tmp->content, "<"))
+       		ms_redir(tmp, O_RDONLY, 0644, 0);
+    	else if (ft_strsame(tmp->content, ">"))
+        	ms_redir(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1);
+    	else if (ft_strsame(tmp->content, ">>"))
+        	ms_redir(tmp, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
+    	tmp = (t_dl_list *)tmp->next;
+	}
+}
+
 void    shell_branch_sep(t_dl_list *param, int *fd_count)
 {
     if (ft_strsame(param->content, ";"))
         ms_sep(param);
     else if (ft_strsame(param->content, "|"))
-        ms_pipe(param);
-    else if (ft_strsame(param->content, "<"))
-        ms_redir(param, O_RDONLY, 0644, 0, fd_count);
-    else if (ft_strsame(param->content, ">"))
-        ms_redir(param, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1, fd_count);
-    else if (ft_strsame(param->content, ">>"))
-        ms_redir(param, O_WRONLY | O_CREAT | O_APPEND, 0744, 1, fd_count);
-    param = (t_dl_list *)param->next;
+        ms_pipe(param, fd_count);
+    //else if (ft_strsame(param->content, "<"))
+     //   ms_redir(param, O_RDONLY, 0644, 0);
+    //else if (ft_strsame(param->content, ">"))
+    //    ms_redir(param, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1);
+    //else if (ft_strsame(param->content, ">>"))
+    //    ms_redir(param, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
+    param = param->next;
 }
 
 void		shell_brach_cmd(char *content)
@@ -164,13 +181,15 @@ void    minishell(char **line)
 	
     param = parsing(*line);
     ft_strdel(line);
-    fd_count = 0;
     if (!param)
         return ;
-    fd_count = shell_brach_cmd((char *)param->content);
+	shell_brach_red(param);
+	shell_brach_cmd((char *)param->content);
+	//shell_branch_sep(param, &fd_count);
     while (param->next)
     {
-        shell_branch_sep(param, &fd_count);
+		shell_branch_sep(param, &fd_count);
+		//shell_brach_cmd((char *)param->content);
         param = (t_dl_list *)param->next;
     }
     ft_dl_lstclear(param, free);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/19 22:03:54 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/20 00:04:46 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,9 @@ void		ms_exec(char **param);
 void		ms_unset(char **param);
 void		ms_export(char **param);
 void		ms_sep(t_dl_list *param);
-<<<<<<< Updated upstream
-void		ms_pipe(t_dl_list *param);
-void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup, int *fd_count);
-=======
 void		ms_pipe(t_dl_list *param, int *fd_count);
 void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup);
 
->>>>>>> Stashed changes
 void		set_signal(void);
 void		signal_handler(int signum);
 char		*find_path(char *param);
