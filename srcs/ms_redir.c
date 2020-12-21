@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 15:25:18 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/20 18:52:48 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/21 21:25:52 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ms_redir(t_dl_list *param, int perm, int descr, int to_dup)
 	if (ft_dl_lstnnext(param, -2) &&
 			!(ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content)))
 	{
-		printf("%s", "aslalsl");
 		//if (!(pid = fork()))
 		{
 			tmp = ((char *)ft_dl_lstnnext(param, 1)->content);

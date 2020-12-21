@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/20 17:50:08 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/21 21:24:32 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void    minishell(char **line)
         return ;
 	shell_brach_red(param);
 	shell_brach_cmd((char *)param->content);
+	dup2(0, 1);
 	//shell_branch_sep(param, &fd_count);
     while (param->next)
     {
