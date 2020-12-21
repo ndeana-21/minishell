@@ -19,7 +19,7 @@ FILES		=	parser.c	minishell.c		utils.c		signal.c		\
 				ms_pwd.c	ms_exit.c		ms_echo.c	ms_env.c		\
 				ms_unset.c	ms_export.c		ms_pipe.c   ms_cd.c			\
 				ms_exec.c	ms_sep.c		env_utils.c	main.c			\
-				error.c		ms_redir.c
+				error.c		ms_redir.c		run_cmd.c
 
 HEAD_FILE	=	minishell.h		error.h			struct.h			
 

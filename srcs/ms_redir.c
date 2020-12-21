@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 15:25:18 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/21 21:25:52 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/21 16:54:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ms_redir_do(t_dl_list *param, int perm, int descr, int to_dup)
 		{
 			dup2(fd, to_dup);
 			close(fd);
-			shell_brach_cmd(tmp);
+			run_cmd(tmp);
 			exit(EXIT_SUCCESS);
 		}
 	}
