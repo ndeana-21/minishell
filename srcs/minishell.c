@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/22 00:27:08 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/22 00:29:33 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void    shell_branch_sep(t_dl_list *param, int *fd_count)
         ms_sep(param);
     else if (ft_strsame(param->content, "|"))
         ms_pipe(param, fd_count);
-    param = param->next;
+    param = (t_dl_list *)param->next;
 }
 
 
