@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/20 18:19:44 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/22 00:09:27 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		ms_pipe(t_dl_list *param, int *fd_count)
 		if (ft_dl_lstnnext(param, -2) &&
 			!(ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content)))
 			dup2(g_fd[1 - (*fd_count) % 2][STDIN_FILENO], STDIN_FILENO);
-		shell_brach_cmd((char *)ft_dl_lstnnext(param, 1)->content);
+		run_cmd((char *)ft_dl_lstnnext(param, 1)->content);
 		exit(g_exit);
 	}
 	else if (pid == -1)
