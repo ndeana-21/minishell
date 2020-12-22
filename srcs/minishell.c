@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/22 00:29:33 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/22 20:32:08 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,32 @@ void	shell_brach_red(t_dl_list *param)
 	}
 }
 
-void    shell_branch_sep(t_dl_list *param, int *fd_count)
+static t_dl_list	*shell_branch_sep(t_dl_list *param, t_pipe *pip)
 {
-    if (ft_strsame(param->content, ";"))
-        ms_sep(param);
-    else if (ft_strsame(param->content, "|"))
-        ms_pipe(param, fd_count);
-    param = (t_dl_list *)param->next;
+	while (param)
+	{
+		if (!(param->next))
+			return (param);
+		else if (ft_strsame(param->content, ";"))
+			return ((t_dl_list *)param->next);
+		else if (ft_strsame(param->content, "|"))
+		{
+			pip->count -= 1;
+			pip->pos += 1;
+			ms_pipe(param, pip);
+		}
+		//else if (ft_strsame(param->content, "<"))
+		//   ms_redir(param, O_RDONLY, 0644, 0);
+		//else if (ft_strsame(param->content, ">"))
+		//    ms_redir(param, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1);
+		//else if (ft_strsame(param->content, ">>"))
+		//    ms_redir(param, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
+		param = (t_dl_list *)param->next;
+	}
+	return (param);
 }
 
+static t_pipe		*pipe_init(void)
 
 void	shell_brach_ut(t_dl_list *param)
 {
@@ -62,26 +79,62 @@ t_pipe	*pipe_init(void)
 
 	if (!(pipe = ft_calloc(sizeof(t_pipe), 1)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
+	pipe->count = 0;
+	pipe->pos = 0;
+	pipe->pid = -1;
+	pipe->fd[0][0] = -1;
+	pipe->fd[0][1] = -1;
+	pipe->fd[1][0] = -1;
+	pipe->fd[1][1] = -1;
+	return (pipe);
 }
 
-void    minishell(char **line)
+int		find_pipe(t_dl_list *param)
 {
-	t_pipe		*pipe;
-    t_dl_list   *param;
-    int         fd_count;
+	int	count;
+
+	count = 0;
+	while (param->next && !(ft_strsame(";", param->content)))
+	{
+		if (ft_strsame("|", param->content))
+			count++;
+		param = (t_dl_list *)param->next;
+	}
+	return (count);
+}
+
+void	minishell(char **line)
+{
+	t_dl_list	*param;
+	t_pipe		*pip;
 	
-    param = parsing(*line);
-    ft_strdel(line);
-    if (!param)
-        return ;
-	pipe = pipe_init();
+	param = parsing(*line);
+	ft_strdel(line);
+	if (!param)
+		return ;
+	pip = pipe_init();
 	shell_brach_red(param);
-	run_cmd((char *)param->content);
+	while (param)
+	{
+		if ((pip->count = find_pipe(param)))
+		{
+			pipe(pip->fd[0]);
+			if (!(pip->pid = fork()))
+			{
+				dup2(pip->fd[0][STDOUT_FILENO], STDOUT_FILENO);
+				run_cmd(param->content);
+				exit(g_exit);
+			}
+			if (pip->pid == -1)
+				exit (ft_puterr("minishell: ", NULL, strerror(errno), 1));
+		}
+		else
+			run_cmd(param->content);
+		if (!(param->next))
+			break ;
+		param = shell_branch_sep((t_dl_list *)param->next, pip);
+	}
+	free(pip);
+	ft_dl_lstclear(param, free);
 	shell_brach_ut(param);
-    while (param->next)
-    {
-		shell_branch_sep(param, &fd_count);
-        param = (t_dl_list *)param->next;
-    }
-    ft_dl_lstclear(param, free);
 }

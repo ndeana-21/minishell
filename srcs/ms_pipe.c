@@ -3,79 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/22 00:09:27 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/22 20:31:14 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ms_pipe(t_dl_list *param, int *fd_count)
+int		ms_pipe(t_dl_list *param, t_pipe *pip)
 {
-	pid_t		pid;
 	int			status;
+	pid_t		pid;
 
-	*fd_count += 1;
-	if (pipe(g_fd[(*fd_count) % 2]) == -1)
-	{
-		ft_puterr("minishell: ", NULL, strerror(errno), 1);
-		return ;
-	}
+	if (pip->count)
+		if (pipe(pip->fd[(pip->pos) % 2]) == -1)
+			return (ft_puterr("minishell: ", NULL, strerror(errno), 1));
+	close(pip->fd[1 - (pip->pos) % 2][STDOUT_FILENO]);
 	if (!(pid = fork()))
 	{
-		dup2(g_fd[(*fd_count) % 2][STDOUT_FILENO], STDOUT_FILENO);
-		if (ft_dl_lstnnext(param, -2) &&
-			!(ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content)))
-			dup2(g_fd[1 - (*fd_count) % 2][STDIN_FILENO], STDIN_FILENO);
+		dup2(pip->fd[1 - ((pip->pos) % 2)][STDIN_FILENO], STDIN_FILENO);
+		if (pip->count)
+			dup2(pip->fd[(pip->pos) % 2][STDOUT_FILENO], STDOUT_FILENO);
 		run_cmd((char *)ft_dl_lstnnext(param, 1)->content);
 		exit(g_exit);
 	}
 	else if (pid == -1)
-	{
-		ft_puterr("minishell: ", NULL, strerror(errno), 1);
-		return ;
-	}
+		return (ft_puterr("minishell: ", NULL, strerror(errno), 1));
 	else
 	{
-		waitpid(pid, &status, 0);
-		printf("here\n");
+		if (!(pip->count))
+			waitpid(pid, &status, 0);
 		g_exit = status / 256;
-		close(g_fd[(*fd_count) % 2][STDOUT_FILENO]);
-		if (!(ft_dl_lstnnext(param, 2)) ||
-			(ft_strsame(";", (char *)ft_dl_lstnnext(param, 2)->content)))
-			close(g_fd[(*fd_count) % 2][STDIN_FILENO]);
-		if (ft_dl_lstnnext(param, -2) &&
-			!(ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content)))
-			close(g_fd[1 - (*fd_count) % 2][STDIN_FILENO]);
+		close(pip->fd[1 - (pip->pos) % 2][STDIN_FILENO]);
 	}
-	
-
-
-
-
-	// if (!(ft_dl_lstnnext(param, -2)) ||
-	// 	ft_strsame(";", (char *)ft_dl_lstnnext(param, -2)->content))
-	// {
-	// 	if (!(pid = fork()))
-	// 		pipe_child(g_fd[(*fd_count) % 2][STDIN_FILENO], STDIN_FILENO,
-	// 					(char *)(ft_dl_lstnnext(param, 1)->content));
-	// 	dup2(STDOUT_FILENO, g_fd[(*fd_count) % 2][STDIN_FILENO]);
-	// }
-	// else
-	// 	if (!(pid = fork()))
-	// 	{
-	// 		pipe_child(g_fd[1 - ((*fd_count) % 2)][STDIN_FILENO], STDIN_FILENO,
-	// 					(char *)(ft_dl_lstnnext(param, 1)->content));
-	// 		close(g_fd[1 - ((*fd_count) % 2)][STDIN_FILENO]);
-	// 	}
-	// close(g_fd[(*fd_count) % 2][STDOUT_FILENO]);
-	// if (!(ft_dl_lstnnext(param, 2)) ||
-	// 	ft_strsame(";", (char *)ft_dl_lstnnext(param, 2)->content))
-	// {
-	// 	waitpid(pid[0], &status, 0);
-	// 	close(g_fd[(*fd_count) % 2][STDIN_FILENO]);
-	// 	g_exit = status / 256;
-	// }
+	return (0);
 }
