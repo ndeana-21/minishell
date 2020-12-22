@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/11 13:42:56 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/22 23:56:28 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	signal_handler(int signum)
 	else if (signum == SIGINT)
 	{
 		ft_putstr_fd("\b\b  \b\b", 1);
-		write(1, "\n", 1);
-		prompt();
+		// write(1, "\n", 1);
+		// prompt();
 		g_exit = 1;
 	}
 	return ;
