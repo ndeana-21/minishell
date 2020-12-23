@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/23 01:02:04 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/23 20:40:57 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_dl_list	*shell_branch_sep(t_dl_list *param, t_pipe *pip)
 		if (!(param->next))
 			return (param);
 		else if (ft_strsame(param->content, ";"))
-			return ((t_dl_list *)param->next);
+			return (param);
 		else if (ft_strsame(param->content, "|"))
 		{
 			pip->count -= 1;
@@ -113,13 +113,16 @@ int		is_sep(char *elem)
 void	minishell(char **line)
 {
 	t_dl_list	*param;
+	t_dl_list	*tmp;
 	t_pipe		*pip;
 	
 	param = parsing(*line);
+	tmp = param;
 	ft_strdel(line);
 	if (!param)
 		return ;
-	pip = pipe_init();
+	if (!(pip = pipe_init()))
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	shell_brach_red(param);
 	while (param)
 	{
@@ -133,17 +136,14 @@ void	minishell(char **line)
 				exit(g_exit);
 			}
 			if (pip->pid == -1)
-				exit (ft_puterr("minishell: ", NULL, strerror(errno), 1));
+				exit(ft_puterr("minishell: ", NULL, strerror(errno), 1));
+			param = shell_branch_sep(param, pip);
 		}
 		else
 			if (!(is_sep(param->content)))
 				run_cmd(param->content);
-		if (!(param->next))
-			break ;
-		param = shell_branch_sep((t_dl_list *)param->next, pip);
-		if (!(param->next))
-				break ;
+		param = (t_dl_list *)param->next;
 	}
 	free(pip);
-	ft_dl_lstclear(param, free);
+	ft_dl_lstclear(tmp, free);
 }

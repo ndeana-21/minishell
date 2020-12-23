@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:57:05 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/22 20:08:13 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/23 20:47:16 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct			s_pipe
 	int					pos;
 	pid_t				pid;
 	int					count;
-	int					*status;
+	int					status;
 }						t_pipe;
 
 #endif

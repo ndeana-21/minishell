@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/15 14:45:44 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/23 19:48:39 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		ms_exec(char **param)
 			exit(ft_puterr(param[0], ": Permission denied", "", 126));
 		exit(ft_puterr(param[0], ": ", "command not found", 127));
 	}
-	wait(&status);
+	waitpid(pid, &status, 0);
 	g_exit = status / 256;
 	ft_strdel(&path);
 }
