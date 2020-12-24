@@ -3,30 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/24 15:23:47 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/24 16:47:13 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_brach_red(t_dl_list *param)
+t_dl_list	*shell_brach_red(t_dl_list *param, t_redir *redir)
 {
 	t_dl_list *tmp;
 
 	tmp = param;
-	while (tmp)
-	{	
-		if (ft_strsame(tmp->content, "<"))
-       		ms_redir(tmp, O_RDONLY, 0644, 0);
-    	else if (ft_strsame(tmp->content, ">"))
-        	ms_redir(tmp, O_WRONLY | O_CREAT | O_TRUNC, 0744, 1);
-    	else if (ft_strsame(tmp->content, ">>"))
-        	ms_redir(tmp, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
-    	tmp = (t_dl_list *)tmp->next;
+	if (param->next && is_sep(((t_dl_list *)param->next)->content, RD_OUT | RD_APP | RD_IN))
+	{
+		while (param->next)
+		{	
+			//if (ft_strsame(tmp->content, "<"))
+       			//ms_redir(tmp, redir);
+    		if (ft_strsame(param->content, ">"))
+			{
+        		ms_redir(param, redir);
+				redir->count -= 1;
+				redir->type = 2;
+			}
+			if (is_sep(param->content, PIPE | SEP))
+				break ;
+    		//else if (ft_strsame(tmp->content, ">>"))
+        		//ms_redir(tmp, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
+			param = (t_dl_list *)param->next;
+		}
+		run_cmd(tmp->content);
+		close(redir->fd);
+		dup2(redir->fd_out, STDOUT_FILENO);
+		dup2(redir->fd_in, STDIN_FILENO);
+		return (param);
 	}
+	run_cmd(param->content);
+	return (param);
 }
 
 static t_dl_list	*shell_branch_sep(t_dl_list *param, t_pipe *pip)
@@ -62,11 +78,11 @@ void	shell_brach_ut(t_dl_list *param)
 	while (tmp)
 	{	
 		if (ft_strsame(tmp->content, "<"))
-       		dup2(1, 0);
+       		dup2(0, 1);
     	else if (ft_strsame(tmp->content, ">"))
-        	dup2(0, 1);
+        	dup2(1, 0);
     	else if (ft_strsame(tmp->content, ">>"))
-        	dup2(0, 1);
+        	dup2(1, 0);
     	tmp = (t_dl_list *)tmp->next;
 	}
 }
@@ -87,6 +103,38 @@ t_pipe	*pipe_init(void)
 	return (pipe);
 }
 
+t_redir	*redir_init(void)
+{
+	t_redir	*redir;
+
+	if (!(redir = ft_calloc(sizeof(t_redir), 1)))
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
+	redir->count = 0;
+	redir->fd_in = STDIN_FILENO;
+	redir->fd_out = STDOUT_FILENO;
+	redir->type = 0;
+	redir->fd = -1;
+	return (redir);
+}
+
+int		find_redir(t_dl_list *param)
+{
+	int	count;
+
+
+	count = 0;
+	while (param->next && !(ft_strsame(";", param->content)))
+	{
+		if (ft_strsame(param->content, "<"))
+		   	count++;
+    	else if (ft_strsame(param->content, ">"))
+        	count++;
+    	else if (ft_strsame(param->content, ">>"))
+        	count++;
+		param = (t_dl_list *)param->next;
+	}
+	return (count);
+}
 int		find_pipe(t_dl_list *param)
 {
 	int	count;
@@ -121,17 +169,24 @@ void	minishell(char **line)
 	t_dl_list	*param;
 	t_dl_list	*tmp;
 	t_pipe		*pip;
+	t_redir		*redir;
 	
 	param = parsing(*line);
 	tmp = param;
 	ft_strdel(line);
 	if (!param)
 		return ;
+	redir = redir_init();
+	redir->fd_in = dup(0);
+	redir->fd_out = dup(1);
 	if (!(pip = pipe_init()))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
-	shell_brach_red(param);
 	while (param)
 	{
+		//if ((redir->count = find_redir(param)))
+		//{
+		//	shell_brach_red(param, redir);
+		//}
 		if ((pip->count = find_pipe(param)))
 		{
 			pipe(pip->fd[0]);
@@ -146,9 +201,10 @@ void	minishell(char **line)
 			param = shell_branch_sep(param, pip);
 		}
 		else
-			if (!(is_sep(param->content, SEP | PIPE | RD_IN | RD_OUT | RD_APP)))
-				run_cmd(param->content);
-		param = (t_dl_list *)param->next;
+			if (!(is_sep(param->content, PIPE | SEP | RD_IN | RD_OUT | RD_APP)))
+				param = shell_brach_red(param,redir);	
+		if (param)
+			param = (t_dl_list *)param->next;
 	}
 	free(pip);
 	ft_dl_lstclear(tmp, free);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/23 20:47:36 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/23 21:43:52 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		ms_pipe(t_dl_list *param, t_pipe *pip)
 		if (pip->count)
 			dup2(pip->fd[(pip->pos) % 2][STDOUT_FILENO], STDOUT_FILENO);
 		run_cmd((char *)ft_dl_lstnnext(param, 1)->content);
+		close(pip->fd[(pip->pos) % 2][STDOUT_FILENO]);
 		exit(g_exit);
 	}
 	else if (pip->pid == -1)

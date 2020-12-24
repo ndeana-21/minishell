@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/24 15:23:44 by ndeana           ###   ########.fr       */
+/*   Created: 2020/12/24 15:29:42 by gselyse           #+#    #+#             */
+/*   Updated: 2020/12/24 15:29:46 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		ms_unset(char **param);
 void		ms_export(char **param);
 void		ms_sep(t_dl_list *param);
 int			ms_pipe(t_dl_list *param, t_pipe *pip);
-void		ms_redir(t_dl_list *param, int perm, int descr, int to_dup);
+void		ms_redir(t_dl_list *param, t_redir *redir);
 
 void		set_signal(void);
 void		signal_handler(int signum);
