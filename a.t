@@ -1,6 +1,5 @@
 Makefile
-a.t 
-c.t
+a.t
 includes
 libft
 minishell

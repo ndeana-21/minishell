@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/24 16:47:13 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/24 19:43:06 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,26 @@ t_dl_list	*shell_brach_red(t_dl_list *param, t_redir *redir)
 	{
 		while (param->next)
 		{	
-			//if (ft_strsame(tmp->content, "<"))
-       			//ms_redir(tmp, redir);
+			if (ft_strsame(tmp->content, "<"))
+       		{
+				ms_redir_do(param, redir);
+				redir->count -= 1;
+				redir->type = 1;
+			}
     		if (ft_strsame(param->content, ">"))
 			{
         		ms_redir(param, redir);
 				redir->count -= 1;
 				redir->type = 2;
 			}
+    		else if (ft_strsame(param->content, ">>"))
+        	{
+        		ms_redir_add(param, redir);
+				redir->count -= 1;
+				redir->type = 3;
+			}
 			if (is_sep(param->content, PIPE | SEP))
 				break ;
-    		//else if (ft_strsame(tmp->content, ">>"))
-        		//ms_redir(tmp, O_WRONLY | O_CREAT | O_APPEND, 0744, 1);
 			param = (t_dl_list *)param->next;
 		}
 		run_cmd(tmp->content);
@@ -157,7 +165,7 @@ int		is_sep(char *elem, int flag)
 		return (1);
 	if ((RD_IN == (flag & RD_IN)) && ft_strsame("<", elem))
 		return (1);
-	if ((RD_APP == (flag & RD_APP)) && ft_strsame("<<", elem))
+	if ((RD_APP == (flag & RD_APP)) && ft_strsame(">>", elem))
 		return (1);
 	if ((SEP == (flag & SEP)) && ft_strsame(";", elem))
 		return (1);
