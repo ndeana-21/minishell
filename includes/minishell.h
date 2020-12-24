@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:09:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/22 16:27:19 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/24 15:23:44 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,20 @@
 # include <unistd.h>
 # include <string.h>
 
-# define TRUE		1
-# define FALSE		0
-# define MS_ECHO	"echo"
-# define MS_CD		"cd"
-# define MS_PWD		"pwd"
-# define MS_EXPORT	"export"
-# define MS_UNSET	"unset"
-# define MS_ENV		"env"
-# define MS_EXIT	"exit"
-# define REDIR_OUT		1
-# define REDIR_APPEND	2
-# define REDIR_IN		3
-
+# define TRUE			1
+# define FALSE			0
+# define MS_ECHO		"echo"
+# define MS_CD			"cd"
+# define MS_PWD			"pwd"
+# define MS_EXPORT		"export"
+# define MS_UNSET		"unset"
+# define MS_ENV			"env"
+# define MS_EXIT		"exit"
+# define PIPE			000001
+# define RD_OUT			000010
+# define RD_IN			000100
+# define RD_APP			001000
+# define SEP			010000
 
 t_dl_list	*g_envlst;
 char		*g_name;

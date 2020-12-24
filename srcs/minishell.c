@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/23 20:40:57 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/24 15:23:47 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,17 @@ int		find_pipe(t_dl_list *param)
 	return (count);
 }
 
-int		is_sep(char *elem)
+int		is_sep(char *elem, int flag)
 {
-	if (ft_strsame("<", elem) || ft_strsame("<<", elem) ||
-		ft_strsame(">", elem) || ft_strsame("|", elem) ||
-		ft_strsame(";", elem))
+	if ((PIPE == (flag & PIPE)) && ft_strsame("|", elem))
+		return (1);
+	if ((RD_OUT == (flag & RD_OUT)) && ft_strsame(">", elem))
+		return (1);
+	if ((RD_IN == (flag & RD_IN)) && ft_strsame("<", elem))
+		return (1);
+	if ((RD_APP == (flag & RD_APP)) && ft_strsame("<<", elem))
+		return (1);
+	if ((SEP == (flag & SEP)) && ft_strsame(";", elem))
 		return (1);
 	return (0);
 }
@@ -140,7 +146,7 @@ void	minishell(char **line)
 			param = shell_branch_sep(param, pip);
 		}
 		else
-			if (!(is_sep(param->content)))
+			if (!(is_sep(param->content, SEP | PIPE | RD_IN | RD_OUT | RD_APP)))
 				run_cmd(param->content);
 		param = (t_dl_list *)param->next;
 	}
