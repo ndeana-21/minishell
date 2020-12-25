@@ -6,7 +6,7 @@
 /*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/25 00:30:26 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/25 23:13:29 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ t_dl_list	*shell_brach_red(t_dl_list *param, t_redir *redir)
 	{
 		while (param->next)
 		{	
-			if (ft_strsame(tmp->content, "<"))
+			if (ft_strsame(param->content, "<"))
        		{
 				ms_redir_do(param, redir);
 				redir->count -= 1;
 				redir->type = 1;
 			}
-    		if (ft_strsame(param->content, ">"))
+    		else if (ft_strsame(param->content, ">"))
 			{
         		ms_redir(param, redir);
 				redir->count -= 1;
