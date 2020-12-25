@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:29:42 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/25 22:31:51 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/26 00:43:43 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void		ms_exec(char **param);
 void		ms_unset(char **param);
 void		ms_export(char **param);
 void		ms_sep(t_dl_list *param);
-int			ms_pipe(t_dl_list *param, t_pipe *pip);
-void		ms_redir(t_dl_list *param, t_redir *redir);
+int			ms_pipe(t_dl_list **param, t_pprd *pip);
+t_dl_list	*shell_brach_red(t_dl_list *param, t_pprd *redir);
 
 void		set_signal(void);
 void		signal_handler(int signum);

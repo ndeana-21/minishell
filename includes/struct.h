@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 06:57:05 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/24 14:55:28 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/26 00:38:04 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,16 @@ typedef struct			s_env
 	char				*val;
 }						t_env;
 
-typedef struct			s_redir
+typedef struct			s_pprd
 {
-	int					fd;
+	int					fd_rd;
 	int					fd_in;
 	int					fd_out;
-	int					type;
-	int					count;
-	int					*status;
-}						t_redir;
-typedef struct			s_pipe
-{
-	int					fd[2][2];
+	int					fd_pipe[2][2];
 	int					pos;
 	pid_t				pid;
 	int					count;
 	int					status;
-}						t_pipe;
+}						t_pprd;
 
 #endif

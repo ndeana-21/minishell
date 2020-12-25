@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/25 22:24:57 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/25 23:48:38 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char		*ft_sep(char *c)
 static int		parsing_utilit_to_lst(char *line, t_dl_list **lst,
 								ssize_t *count_end, char *sep_res)
 {
-	if ((*sep_res == '-') || (*count_end <= 0))
+	if ((*sep_res == '-'))
 		return (0);
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
@@ -73,7 +73,7 @@ static ssize_t	parsing_utilit(char *line, t_dl_list **lst)
 			{
 				if (!(parsing_utilit_to_lst(line, lst, &count_end, sep_res)))
 				{
-					ft_putendl_fd(ERROR_SYNTAX, 2);
+					ft_puterr(ERROR_SYNTAX, NULL, NULL, 2);
 					*lst = ft_dl_lstclear(*lst, free);
 					return (-1);
 				}
