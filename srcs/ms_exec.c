@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:56:07 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/23 21:43:50 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/25 22:45:10 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void		ms_exec(char **param)
 		if (execve(path, param, create_env_exec()) != -1)
 			exit(EXIT_SUCCESS);
 		if (errno == 13 || errno == 8)
-			exit(ft_puterr(param[0], ": Permission denied", "", 126));
-		exit(ft_puterr(param[0], ": ", "command not found", 127));
+			exit(ft_puterr(param[0], ": Permission denied", NULL, 126));
+		exit(ft_puterr(param[0], ": command not found", NULL, 127));
 	}
 	waitpid(pid, &status, 0);
 	g_exit = status / 256;
@@ -58,7 +58,7 @@ char		*find_path(char *param)
 	char		**paths;
 	struct stat	s;
 
-	if (is_absolute_path(param))
+	if (is_absolute_path(param) || !(g_path) || !(*g_path))
 		return (ft_strdup(param));
 	paths = ft_split(g_path, ':');
 	i = -1;

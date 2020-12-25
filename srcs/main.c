@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:35:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/23 19:43:15 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/25 22:44:37 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ static void	init_env(char **env)
 		ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(data));
 		env++;
 	}
-	g_path = ((t_env *)(find_env("PATH")->content))->val;
+	if ((data = (t_env *)find_env("PATH")) &&
+		(data = (t_env *)((t_dl_list *)data)->content))
+		g_path = data->val;
 }
 
 void		deal_with_input(char **line)

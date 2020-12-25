@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/15 15:07:59 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/25 19:37:34 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,21 @@ static void	set_pwd(void)
 
 void		ms_cd_utilit(char *param)
 {
-	if (!(ft_strncmp(param, "~/", 2)) ||
-		((ft_strlen(param) == 1) && (param[0] == '~')))
+	if (*param == '~')
 	{
 		if (!(find_env("HOME")))
-			print_error(1, "cd: HOME not set");
+			ft_puterr("cd: HOME not set", NULL, NULL, EXIT_FAILURE);
 		else
 		{
-			chdir((char *)((t_env *)find_env("HOME")->content));
-			if (!(ft_strncmp(param, "~/", 2)))
+			chdir((((t_env *)(find_env("HOME")->content))->val));
+			if (param[1] == '/')
 				param += 2;
 			else
 				param++;
 		}
 	}
 	if ((ft_strlen(param) > 0) && (chdir(param) == -1))
-		ft_puterr("cd: ", strerror(errno), "", 1);
+		ft_puterr("cd: ", strerror(errno), NULL, 1);
 }
 
 void		ms_cd(char **param)
@@ -52,15 +51,11 @@ void		ms_cd(char **param)
 	g_exit = 0;
 	if (1 < ft_pointer_len((void **)param))
 	{
-		print_error(1, "cd: too many arguments");
-		g_exit = 1;
+		ft_puterr("cd: too many arguments", NULL, NULL, EXIT_FAILURE);
 		return ;
 	}
 	if (!(param[0]) && !(find_env("HOME")))
-	{
-		print_error(1, "cd: HOME not set");
-		g_exit = 1;
-	}
+		ft_puterr("cd: HOME not set", NULL, NULL, EXIT_FAILURE);
 	else if (!(param[0]))
 		chdir((((t_env *)(find_env("HOME")->content))->val));
 	else

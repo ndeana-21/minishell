@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:29:42 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/24 15:29:46 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/25 22:31:51 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ t_dl_list	*parsing(char *line);
 void		prompt(void);
 void		ms_dollar(char **str);
 char		find_quotes(char line, char flag);
+int			is_sep(char *elem, int flag);
 
-void        run_cmd(char *content);
+void		run_cmd(char *content);
 void		minishell(char **line);
 
 char		**create_env_exec(void);

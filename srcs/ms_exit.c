@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:57:42 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/22 00:33:54 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/25 19:46:57 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void			ms_exit(char **param)
 {
 	size_t	len;
 
-	len = ft_pointer_len((void **)param);
-	if (!(len))
+	if (!(len = ft_pointer_len((void **)param)))
 		ft_putstr_fd("exit\n", 1);
 	else if ((len == 1) && (ft_isdigitstr(param[0])))
 	{
@@ -44,15 +43,10 @@ void			ms_exit(char **param)
 	}
 	else if ((len > 1) && (ft_isdigitstr(param[0])))
 	{
-		ft_putendl_fd("minishell: exit: too many arguments", 1);
+		ft_puterr("exit: too many arguments", NULL, NULL, EXIT_FAILURE);
 		return ;
 	}
 	else
-	{
-		ft_putstr_fd("minishell: exit: ", 1);
-		ft_putstr_fd(param[0], 1);
-		ft_putstr_fd(": numeric argument required\n", 1);
-		exit(2);
-	}
+		ft_puterr("exit: ", param[0], ": numeric argument required", 2);
 	exit(g_exit);
 }

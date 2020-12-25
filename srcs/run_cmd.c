@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:06:32 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/21 17:08:56 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/25 22:29:07 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,37 +58,36 @@ static char		**prepere_cmd(char *content)
 
 	flag = 0;
 	size = 0;
-	count = 0;
+	count = -1;
 	if (!(cmd = ft_calloc(sizeof(char *), sizeof_content(content) + 2)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
-	while (content[count])
+	while (content[++count])
 	{
-		if (!flag)
-			if (ft_strchr(" ", content[count]))
-			{
-				if (!(cmd[size++] = ft_strncut(content, count)))
-					error_exit(EXIT_FAILURE, ERROR_MALLOC);
-				content = ft_strpass((content += count), " ");
-				count = -1;
-			}
+		if (!flag && ft_strchr(" ", content[count]))
+		{
+			if (!(cmd[size++] = ft_strncut(content, count)))
+				error_exit(EXIT_FAILURE, ERROR_MALLOC);
+			content = ft_strpass((content += count), " ");
+			count = -1;
+		}
 		if (flag_placer(&(content[count > 0 ? count : 0]), &flag))
 			count--;
-		count++;
 	}
-	if (*content)
-		if (!(cmd[size] = ft_strdup(content)))
-			error_exit(EXIT_FAILURE, ERROR_MALLOC);
+	if (*content && !(cmd[size] = ft_strdup(content)))
+		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	return (cmd);
 }
 
-static int		check_shell_cmd(char **cmd, char *cmd_check, void (func)(char **))
+static int		check_shell_cmd(char **cmd, char *cmd_check,
+								void (func)(char **))
 {
-	if (ft_strlen(cmd_check) == (size_t)ft_strcmp_reg(cmd[0], cmd_check))
-		{
-			func(&(cmd[1]));
-			ft_freestrs(cmd);
-			return (TRUE);
-		}
+	if (cmd && (ft_strlen(cmd_check) ==
+					(size_t)ft_strcmp_reg(cmd[0], cmd_check)))
+	{
+		func(&(cmd[1]));
+		ft_freestrs(cmd);
+		return (TRUE);
+	}
 	return (FALSE);
 }
 
@@ -117,4 +116,3 @@ void			run_cmd(char *content)
 		ms_exec(cmd);
 	ft_freestrs(cmd);
 }
-

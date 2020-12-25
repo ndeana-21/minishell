@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/22 23:56:28 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/25 22:32:56 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ void	prompt(void)
 	char *buf;
 
 	ft_putstr_fd("\033[34m", 1);
-	ft_putstr_fd(((t_env *)find_env("USER")->content)->val, 1);
+	if ((buf = (char *)find_env("USER")) &&
+		(buf = (char *)((t_dl_list *)buf)->content) &&
+		(buf = ((t_env *)buf)->val))
+		ft_putstr_fd(buf, 1);
+	else
+		ft_putstr_fd("user", 1);
 	ft_putstr_fd(" \033[32m", 1);
 	if (!(buf = getcwd(NULL, 0)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
@@ -51,8 +56,8 @@ void	signal_handler(int signum)
 	else if (signum == SIGINT)
 	{
 		ft_putstr_fd("\b\b  \b\b", 1);
-		// write(1, "\n", 1);
-		// prompt();
+		write(1, "\n", 1);
+		prompt();
 		g_exit = 1;
 	}
 	return ;
