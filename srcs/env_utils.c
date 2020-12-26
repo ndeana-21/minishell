@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:37:08 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/12 03:17:02 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/26 22:32:44 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void		replace_env(char *name, char *str)
 		return ;
 	}
 	ft_strdel(&(((t_env *)(buf->content))->val));
+	ft_strdel(&name);
 	((t_env *)(buf->content))->val = str;
 }
 

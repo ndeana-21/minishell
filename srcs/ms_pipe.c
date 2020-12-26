@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ms_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
 /*   Updated: 2020/12/26 17:18:51 by gselyse          ###   ########.fr       */
@@ -29,16 +29,16 @@ int		find_pipe(t_dl_list *param)
 int		ms_pipe(t_dl_list *param, t_pipe *pip)
 {
 	if (pip->count)
-		if (pipe(pip->fd_pipe[(pip->pos) % 2]) == -1)
+		if (pipe(pip->fd[(pip->pos) % 2]) == -1)
 			return (ft_puterr("minishell: ", NULL, strerror(errno), 1));
-	close(pip->fd_pipe[1 - (pip->pos) % 2][STDOUT_FILENO]);
+	close(pip->fd[1 - (pip->pos) % 2][STDOUT_FILENO]);
 	if (!(pip->pid = fork()))
 	{
-		dup2(pip->fd_pipe[1 - ((pip->pos) % 2)][STDIN_FILENO], STDIN_FILENO);
+		dup2(pip->fd[1 - ((pip->pos) % 2)][STDIN_FILENO], STDIN_FILENO);
 		if (pip->count)
-			dup2(pip->fd_pipe[(pip->pos) % 2][STDOUT_FILENO], STDOUT_FILENO);
-		*param = shell_brach_red(ft_dl_lstnnext(*param, 1), pip);
-		close(pip->fd_pipe[(pip->pos) % 2][STDOUT_FILENO]);
+			dup2(pip->fd[(pip->pos) % 2][STDOUT_FILENO], STDOUT_FILENO);
+		run_cmd((char *)ft_dl_lstnnext(param, 1)->content);
+		close(pip->fd[(pip->pos) % 2][STDOUT_FILENO]);
 		exit(g_exit);
 	}
 	else if (pip->pid == -1)
@@ -48,7 +48,7 @@ int		ms_pipe(t_dl_list *param, t_pipe *pip)
 		if (!(pip->count))
 			waitpid(pip->pid, &pip->status, 0);
 		g_exit = pip->status / 256;
-		close(pip->fd_pipe[1 - (pip->pos) % 2][STDIN_FILENO]);
+		close(pip->fd[1 - (pip->pos) % 2][STDIN_FILENO]);
 	}
 	return (0);
 }

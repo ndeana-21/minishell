@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:08:06 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/25 22:32:56 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/26 19:53:59 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	signal_handler(int signum)
 		signum = wait(&status);
 		g_exit = status / 256;
 		ft_putstr_fd("\b\b  \b\b", 1);
-		g_exit = 3;
+		g_exit = 131;
 		if (signum != -1)
 			ft_putstr_fd("Quit: 3\n", 1);
 	}
@@ -58,7 +58,7 @@ void	signal_handler(int signum)
 		ft_putstr_fd("\b\b  \b\b", 1);
 		write(1, "\n", 1);
 		prompt();
-		g_exit = 1;
+		g_exit = 130;
 	}
 	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:35:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/26 16:36:04 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/26 22:08:44 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	init_env(char **env)
 	t_env	*data;
 
 	g_envlst = NULL;
+	g_exit = 0;
 	if (!env)
 		return ;
 	while (*env)

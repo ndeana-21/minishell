@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:49 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/25 19:37:34 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 00:52:22 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	set_pwd(void)
 	if ((tmp = getcwd(NULL, 0)))
 	{
 		free(tmp);
-		replace_env("OLDPWD",
+		replace_env(ft_strdup("OLDPWD"),
 			ft_strdup((char *)(((t_env *)(find_env("PWD")->content))->val)));
-		replace_env("PWD", getcwd(NULL, 0));
+		replace_env(ft_strdup("PWD"), getcwd(NULL, 0));
 	}
 	else
 		chdir((char *)((t_env *)find_env("PWD")->content));
@@ -42,7 +42,14 @@ void		ms_cd_utilit(char *param)
 				param++;
 		}
 	}
-	if ((ft_strlen(param) > 0) && (chdir(param) == -1))
+	if (ft_strsame(param, "-"))
+	{
+		if (!(find_env("OLDPWD")))
+			ft_puterr("cd: OLDPWD not set", NULL, NULL, EXIT_FAILURE);
+		else
+			ft_putendl_fd(((t_env *)(find_env("OLDPWD")->content))->val, 1);
+	}
+	else if ((ft_strlen(param) > 0) && (chdir(param) == -1))
 		ft_puterr("cd: ", strerror(errno), NULL, 1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:06:32 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/25 22:29:07 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 02:05:46 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char		**prepere_cmd(char *content)
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	while (content[++count])
 	{
-		if (!flag && ft_strchr(" ", content[count]))
+		if (!flag && (' ' == content[count]))
 		{
 			if (!(cmd[size++] = ft_strncut(content, count)))
 				error_exit(EXIT_FAILURE, ERROR_MALLOC);
@@ -71,7 +71,7 @@ static char		**prepere_cmd(char *content)
 			count = -1;
 		}
 		if (flag_placer(&(content[count > 0 ? count : 0]), &flag))
-			count--;
+			count = count <= 0 ? -1 : count - 1;
 	}
 	if (*content && !(cmd[size] = ft_strdup(content)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);

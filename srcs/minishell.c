@@ -6,40 +6,27 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 02:19:30 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/26 19:25:10 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/27 00:50:50 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_dl_list	*shell_branch_sep(t_dl_list *param, t_pprd *pip)
+t_dl_list			*shell_brach_red(t_dl_list *param, t_redir *redir)
 {
 	t_dl_list *tmp;
 
 	tmp = param;
-	if (param->next && is_sep(((t_dl_list *)param->next)->content,
-		RD_OUT | RD_APP | RD_IN))
+	if (param->next && is_sep(((t_dl_list *)param->next)->content, 001110))
 	{
 		while (param->next)
 		{
 			if (ft_strsame(param->content, "<"))
-			{
-				redir->type = 1;
 				ms_redir_do(param, redir);
-				redir->count -= 1;
-			}
 			else if (ft_strsame(param->content, ">"))
-			{
-				redir->type = 2;
 				ms_redir(param, redir);
-				redir->count -= 1;
-			}
 			else if (ft_strsame(param->content, ">>"))
-			{
-				redir->type = 3;
 				ms_redir_add(param, redir);
-				redir->count -= 1;
-			}
 			if (is_sep(param->content, PIPE | SEP))
 				break ;
 			param = (t_dl_list *)param->next;
@@ -66,14 +53,14 @@ static t_dl_list	*shell_branch_sep(t_dl_list *param, t_pipe *pip)
 		{
 			pip->count -= 1;
 			pip->pos += 1;
-			ms_pipe(&param, pip);
+			ms_pipe(param, pip);
 		}
 		param = (t_dl_list *)param->next;
 	}
 	return (param);
 }
 
-int		is_sep(char *elem, int flag)
+int					is_sep(char *elem, int flag)
 {
 	if ((PIPE == (flag & PIPE)) && ft_strsame("|", elem))
 		return (1);
@@ -88,23 +75,22 @@ int		is_sep(char *elem, int flag)
 	return (0);
 }
 
-void		minishell_l(t_dl_list *param, t_pipe *pip, t_redir *redir)
+void				minishell_l(t_dl_list *param, t_pipe *pip, t_redir *redir)
 {
 	while (param)
 	{
 		if ((pip->count = find_pipe(param)))
 		{
-			pipe(pprd->fd_pipe[0]);
-			if (!(pprd->pid = fork()))
+			pipe(pip->fd[0]);
+			if (!(pip->pid = fork()))
 			{
 				dup2(pip->fd[0][STDOUT_FILENO], STDOUT_FILENO);
-				//run_cmd(param->content);
 				shell_brach_red(param, redir);
 				exit(g_exit);
 			}
-			if (pprd->pid == -1)
-				exit(ft_puterr(NULL, NULL, strerror(errno), 1));
-			param = shell_branch_sep(param, pprd);
+			if (pip->pid == -1)
+				exit(ft_puterr("minishell: ", NULL, strerror(errno), 1));
+			param = shell_branch_sep(param, pip);
 		}
 		else if (!(is_sep(param->content,
 				PIPE | SEP | RD_IN | RD_OUT | RD_APP)))
@@ -114,7 +100,7 @@ void		minishell_l(t_dl_list *param, t_pipe *pip, t_redir *redir)
 	}
 }
 
-void		minishell(char **line)
+void				minishell(char **line)
 {
 	t_dl_list	*param;
 	t_dl_list	*tmp;
@@ -124,7 +110,7 @@ void		minishell(char **line)
 	param = parsing(*line);
 	tmp = param;
 	ft_strdel(line);
-	if (!param)
+	if (!param || !(param->content) || !(((char *)(param->content))[0]))
 		return ;
 	redir = redir_init();
 	redir->fd_in = dup(0);
@@ -133,5 +119,6 @@ void		minishell(char **line)
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	minishell_l(param, pip, redir);
 	free(pip);
+	free(redir);
 	ft_dl_lstclear(tmp, free);
 }

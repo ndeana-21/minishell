@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:29:42 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/26 19:10:09 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/26 20:35:07 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@
 # define RD_APP			001000
 # define SEP			010000
 
-t_dl_list	*g_envlst;
-char		*g_name;
-char		*g_path;
-int			g_exit;
+t_dl_list		*g_envlst;
+char			*g_name;
+char			*g_path;
+unsigned int	g_exit;
 
 void		error_exit(size_t error_code, char *error_text);
 void		print_error(size_t error_code, char *error_text);
@@ -59,6 +59,9 @@ void		run_cmd(char *content);
 void		minishell(char **line);
 t_redir		*redir_init(void);
 t_pipe		*pipe_init(void);
+int			find_pipe(t_dl_list *param);
+void		ms_redir_add(t_dl_list *param, t_redir *redir);
+void		ms_redir_do(t_dl_list *param, t_redir *redir);
 
 char		**create_env_exec(void);
 void		free_env(void *env);
@@ -75,8 +78,8 @@ void		ms_exec(char **param);
 void		ms_unset(char **param);
 void		ms_export(char **param);
 void		ms_sep(t_dl_list *param);
-int			ms_pipe(t_dl_list **param, t_pprd *pip);
-t_dl_list	*shell_brach_red(t_dl_list *param, t_pprd *redir);
+int			ms_pipe(t_dl_list *param, t_pipe *pip);
+void		ms_redir(t_dl_list *param, t_redir *redir);
 
 void		set_signal(void);
 void		signal_handler(int signum);

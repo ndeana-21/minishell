@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/26 19:37:45 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 01:24:09 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char		*ft_sep(char *c)
 static int		parsing_utilit_to_lst(char *line, t_dl_list **lst,
 								ssize_t *count_end, char *sep_res)
 {
-	if ((*sep_res == '-'))
+	if ((*sep_res == '-') || (*count_end <= 0))
 		return (0);
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
@@ -73,7 +73,7 @@ static ssize_t	parsing_utilit(char *line, t_dl_list **lst)
 			{
 				if (!(parsing_utilit_to_lst(line, lst, &count_end, sep_res)))
 				{
-					ft_puterr(ERROR_SYNTAX, NULL, NULL, 2);
+					ft_puterr(ERROR_SYNTAX, NULL, NULL, EXIT_FAILURE);
 					*lst = ft_dl_lstclear(*lst, free);
 					return (-1);
 				}
@@ -101,7 +101,7 @@ t_dl_list		*parsing(char *line)
 	}
 	if (lst && is_sep((char *)lst->content, 011111) && !(*line))
 	{
-		ft_puterr(ERROR_SYNTAX, NULL, NULL, 2);
+		ft_puterr(ERROR_SYNTAX, NULL, NULL, EXIT_FAILURE);
 		lst = ft_dl_lstclear(lst, free);
 		return (lst);
 	}

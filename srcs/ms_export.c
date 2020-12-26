@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:21:47 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/18 15:56:44 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/26 22:28:10 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ void		ms_export(char **param)
 			ft_puterr("export: '", param[count], "' not a valid identifier", 1);
 			return ;
 		}
-		else if ((buf = create_env(param[count])))
-			if (!(ft_dl_lstadd_back(&g_envlst, ft_dl_lstnew(buf))))
-				error_exit(EXIT_FAILURE, ERROR_MALLOC);
+		if (!(buf = create_env(param[count])))
+			error_exit(EXIT_FAILURE, ERROR_MALLOC);
+		replace_env(buf->name, buf->val);
+		free(buf);
 	}
 }
