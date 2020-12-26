@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:29:42 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/26 00:43:43 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/26 19:10:09 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int			is_sep(char *elem, int flag);
 
 void		run_cmd(char *content);
 void		minishell(char **line);
+t_redir		*redir_init(void);
+t_pipe		*pipe_init(void);
 
 char		**create_env_exec(void);
 void		free_env(void *env);

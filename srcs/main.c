@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 03:35:29 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/25 22:44:37 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/26 16:36:04 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,6 @@ int			main(int argc, char **argv, char **env)
 	init_env(env);
 	set_signal();
 	line = NULL;
-	// if (argv[1][0] == '-' && argv[1][1] == 'c')
-	// {
-	// 	char *tmp = ft_strdup(argv[2]);
-	// 	ms_dollar(&tmp);
-	// 	minishell(&tmp);	
-	// }
-	// else
-	// {
 	while (TRUE)
 	{
 		if (!(line))
@@ -89,6 +81,5 @@ int			main(int argc, char **argv, char **env)
 			minishell(&line);
 		}
 	}
-	// }
 	exit(0);
 }

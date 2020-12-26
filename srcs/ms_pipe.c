@@ -6,13 +6,27 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 13:47:58 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/26 00:45:07 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/26 17:18:51 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ms_pipe(t_dl_list **param, t_pprd *pip)
+int		find_pipe(t_dl_list *param)
+{
+	int	count;
+
+	count = 0;
+	while (param->next && !(ft_strsame(";", param->content)))
+	{
+		if (ft_strsame("|", param->content))
+			count++;
+		param = (t_dl_list *)param->next;
+	}
+	return (count);
+}
+
+int		ms_pipe(t_dl_list *param, t_pipe *pip)
 {
 	if (pip->count)
 		if (pipe(pip->fd_pipe[(pip->pos) % 2]) == -1)
