@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:13:22 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/27 01:24:09 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 15:12:32 by gselyse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char		*ft_sep(char *c)
 static int		parsing_utilit_to_lst(char *line, t_dl_list **lst,
 								ssize_t *count_end, char *sep_res)
 {
-	if ((*sep_res == '-') || (*count_end <= 0))
+	if (*sep_res == '-')
 		return (0);
 	if (!ft_dl_lstadd_back(lst, ft_dl_lstnew(ft_strncut(line, *count_end))))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
