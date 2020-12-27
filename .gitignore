@@ -3,3 +3,6 @@ minishell
 *.a
 *.txt
 *test*
+.DS_Store
+.idea
+.vscode

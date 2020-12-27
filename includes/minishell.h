@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:29:42 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/26 20:35:07 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 14:01:53 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_pipe		*pipe_init(void);
 int			find_pipe(t_dl_list *param);
 void		ms_redir_add(t_dl_list *param, t_redir *redir);
 void		ms_redir_do(t_dl_list *param, t_redir *redir);
+char		**prepere_cmd(char *content);
 
 char		**create_env_exec(void);
 void		free_env(void *env);

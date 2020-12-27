@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:06:32 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/27 02:05:46 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 14:04:03 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static size_t	sizeof_content(char *content)
 	return (size);
 }
 
-static char		**prepere_cmd(char *content)
+char				**prepere_cmd(char *content)
 {
 	char	**cmd;
 	char	flag;
@@ -59,6 +59,7 @@ static char		**prepere_cmd(char *content)
 	flag = 0;
 	size = 0;
 	count = -1;
+	ft_strpass_rev(content, " ");
 	if (!(cmd = ft_calloc(sizeof(char *), sizeof_content(content) + 2)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	while (content[++count])
