@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:06:32 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/27 14:04:03 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 17:14:03 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static size_t	sizeof_content(char *content)
 
 	flag = 0;
 	size = 0;
+	ft_strpass_rev(content, " ");
 	while (*content)
 	{
 		if (!flag)
@@ -49,7 +50,7 @@ static size_t	sizeof_content(char *content)
 	return (size);
 }
 
-char				**prepere_cmd(char *content)
+char			**prepere_cmd(char *content)
 {
 	char	**cmd;
 	char	flag;
@@ -59,7 +60,6 @@ char				**prepere_cmd(char *content)
 	flag = 0;
 	size = 0;
 	count = -1;
-	ft_strpass_rev(content, " ");
 	if (!(cmd = ft_calloc(sizeof(char *), sizeof_content(content) + 2)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	while (content[++count])
@@ -92,28 +92,31 @@ static int		check_shell_cmd(char **cmd, char *cmd_check,
 	return (FALSE);
 }
 
-void			run_cmd(char *content)
+int				run_cmd(char *content)
 {
 	char **cmd;
 
+	if (!content || !*content)
+		return (ft_puterr(NULL, NULL, ERROR_SYNTAX, EXIT_FAILURE));
 	cmd = prepere_cmd(content);
 	if (!cmd || !*cmd || !**cmd)
-		ft_puterr(NULL, NULL, ERROR_SYNTAX, 127);
+		return (ft_puterr(NULL, NULL, ERROR_SYNTAX, EXIT_FAILURE));
 	if (check_shell_cmd(cmd, MS_CD, ms_cd))
-		return ;
+		return (0);
 	else if (check_shell_cmd(cmd, MS_ECHO, ms_echo))
-		return ;
+		return (0);
 	else if (check_shell_cmd(cmd, MS_PWD, ms_pwd))
-		return ;
+		return (0);
 	else if (check_shell_cmd(cmd, MS_UNSET, ms_unset))
-		return ;
+		return (0);
 	else if (check_shell_cmd(cmd, MS_ENV, ms_env))
-		return ;
+		return (0);
 	else if (check_shell_cmd(cmd, MS_EXPORT, ms_export))
-		return ;
+		return (0);
 	else if (check_shell_cmd(cmd, MS_EXIT, ms_exit))
-		return ;
+		return (0);
 	else
 		ms_exec(cmd);
 	ft_freestrs(cmd);
+	return (0);
 }

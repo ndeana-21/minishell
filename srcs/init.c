@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gselyse <gselyse@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 18:59:55 by gselyse           #+#    #+#             */
-/*   Updated: 2020/12/26 19:00:19 by gselyse          ###   ########.fr       */
+/*   Updated: 2020/12/27 16:21:57 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_redir	*redir_init(void)
 	if (!(redir = ft_calloc(sizeof(t_redir), 1)))
 		error_exit(EXIT_FAILURE, ERROR_MALLOC);
 	redir->count = 0;
-	redir->fd_in = STDIN_FILENO;
-	redir->fd_out = STDOUT_FILENO;
+	redir->fd_in = dup(STDIN_FILENO);
+	redir->fd_out = dup(STDOUT_FILENO);
 	redir->type = 0;
 	redir->fd = -1;
 	return (redir);

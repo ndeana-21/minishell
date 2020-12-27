@@ -6,7 +6,7 @@
 /*   By: ndeana <ndeana@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 18:02:00 by ndeana            #+#    #+#             */
-/*   Updated: 2020/12/13 01:36:57 by ndeana           ###   ########.fr       */
+/*   Updated: 2020/12/27 15:52:47 by ndeana           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define EXIT_FAILURE           1
 # define EXIT_SUCCESS           0
 
-# define ERROR_SYNTAX           "minishell: invalid syntax"
+# define ERROR_SYNTAX           "invalid syntax"
 # define ERROR_ENV              "minishell: have no env data"
 # define ERROR_PARAMS_LEAST     "minishell: not enough params"
 # define ERROR_PARAMS_MANY      "minishell: too many params"
